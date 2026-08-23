@@ -1,0 +1,168 @@
+
+
+
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.button {
+    cursor: pointer;
+    text-decoration: none;
+    color: #ffff;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #2a7a3b;
+    border: 2px solid white;
+    transition: all 0.45s;
+}
+
+.button:hover {
+    transform: rotate(360deg);
+    transform-origin: center center;
+    background-color: #ffff;
+    color: #2a7a3b;
+    border: 3px dotted #2a7a3b;
+}
+
+.button:hover .btn-svg {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(305deg) brightness(103%) contrast(103%);
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-footer {
+    background-color: #fff;
+    padding: 80px 0 30px;
+    border-top: 1px solid #f0f0f0;
+    font-family: "Josefin Sans", sans-serif;
+
+    .footer-top {
+        max-width: 1300px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding: 0 20px 60px;
+
+        @media (max-width: 992px) {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        @media (max-width: 576px) {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .footer-col {
+        h4 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: #1a1a1a;
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: -8px;
+                width: 30px;
+                height: 2px;
+                background-color: #2a7a3b; // Sənin yaşıl rəngin
+            }
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                margin-bottom: 12px;
+
+                a {
+                    text-decoration: none;
+                    color: #666;
+                    font-size: 15px;
+                    transition: all 0.3s ease;
+
+                    &:hover {
+                        color: #2a7a3b; // Hover rəngi
+                        padding-left: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    .brand-col {
+        .logo-placeholder {
+            font-size: 28px;
+            font-weight: 800;
+            color: #2a7a3b;
+            margin-bottom: 20px;
+        }
+
+        .brand-text {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            max-width: 300px;
+        }
+
+        .contact-info {
+
+            .phone,
+            .email {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 10px;
+                color: #333;
+                font-weight: 600;
+
+                svg {
+                    color: #d4a373;
+                }
+
+                // Qızılı-qəhvəyi ton şəkildəki kimi
+            }
+        }
+    }
+
+    .footer-bottom {
+        border-top: 1px solid #f0f0f0;
+        padding-top: 30px;
+
+        .bottom-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: #888;
+            font-size: 14px;
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+
+            .highlight {
+                color: #2a7a3b;
+                font-weight: 600;
+            }
+        }
+    }
+}

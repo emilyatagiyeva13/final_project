@@ -1,0 +1,91 @@
+.category-carousel-container {
+    padding: 50px 0;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    .category-swiper {
+        padding-bottom: 60px; // Pagination üçün
+
+        .swiper-pagination-bullet {
+            width: 12px;
+            height: 6px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            
+            &-active {
+                width: 30px;
+                background-color: #2a7a3b;
+            }
+        }
+    }
+}
+
+.category-card {
+    background: #ffffff;
+    border-radius: 24px;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 20px;
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+    // Yumşaq keçid üçün əsas sirr:
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        transform: translateY(-10px) scale(1.02); // Həm yuxarı, həm bir az qabağa
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        border-color: rgba(42, 122, 59, 0.3);
+
+        .icon-box {
+            background-color: #f0f9f2;
+            transform: rotate(-5deg);
+        }
+
+        .category-label {
+            background-color: #2a7a3b;
+            span { color: #fff; }
+        }
+    }
+
+    .icon-box {
+        width: 100px;
+        height: 100px;
+        background-color: #f9f9f9;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.4s ease;
+
+        img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+        }
+    }
+
+    .category-label {
+        width: 100%;
+        padding: 12px 0;
+        background-color: #f4f4f4; // Default zərif fon
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+
+        span {
+            font-family: "Josefin Sans", sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            color: #444;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+    }
+}

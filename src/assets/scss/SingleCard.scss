@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=Oswald:wght@400;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
+
+$green: #2a7a3b;
+$green-dark: #12411c;
+$mint-bright: #afffed;
+$dark-text: #1a1a1a;
+$border: #e8e4dc;
+$star-filled: #f5c518;
+$star-empty: #ddd;
+$muted: #999;
+$transition-main: all 0.4s ease;
+
+// Klassik kitab cildi tonları (#027A36 əsaslı)
+$leather-dark: #012e15;
+$leather: #024d23;
+$leather-light: #027a36;
+$gold: #c9a24b;
+$gold-bright: #e6c877;
+
+.book-card {
+    width: 300px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 1rem;
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid $border;
+    cursor: pointer;
+    transition: $transition-main;
+    overflow: hidden;
+    height: 100%;
+
+    &:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+
+        .book-card-image {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .book-card-line {
+            width: 50px;
+            opacity: 1;
+        }
+
+        .book-card-title {
+            color: $green;
+        }
+    }
+
+    // ADD TO CART BUTTON
+    .add-to-cart {
+        width: 200px;
+        margin-top: auto;
+        padding: 10px 0;
+
+        .button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            height: 50px;
+            border: 1px solid $gold;
+            cursor: pointer;
+            border-radius: 20px 4px 20px 4px;
+            background: linear-gradient(135deg, $leather-dark 0%, $leather 100%);
+            color: $gold;
+            font-family: 'Oswald', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+
+            transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+
+            transform: rotate(0deg) !important;
+
+            svg,
+            .icon-shop,
+            span {
+                transition: none !important;
+                transform: none !important;
+                animation: none !important;
+                display: inline-block;
+            }
+
+            .icon-shop {
+                font-size: 22px;
+                // Bəzən React Icons özü transform tətbiq edir, onu sıfırlayırıq
+                transform: translate(0, 0) rotate(0deg) !important;
+            }
+
+            box-shadow: 0 4px 12px rgba(1, 46, 21, 0.4);
+
+            &:hover {
+                background: linear-gradient(135deg, $leather 0%, $leather-light 100%);
+                border-color: $gold-bright;
+                box-shadow: 0 6px 18px rgba(2, 122, 54, 0.45);
+                color: $gold-bright;
+
+                // Hover zamanı fırlanmanı təkrar bloklayırıq
+                svg,
+                .icon-shop,
+                span {
+                    transform: rotate(0deg) !important;
+                    transition: none !important;
+                }
+            }
+
+            &:active {
+                // Fırlanmadan, sadəcə aşağı basılma effekti
+                transform: scale(0.96) rotate(0deg) !important;
+            }
+        }
+    }
+
+
+    // heart and qick view icon styles here!!!!!!!!!!!!!!!!
+
+    .view-heart-col {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        left: 245px;
+        gap: 3px;
+
+        .card-hover-heart {
+
+            width: 35px;
+            height: 35px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            color: $muted;
+            transition: 0.3s;
+            z-index: 5;
+            border: 1px solid rgb(206, 241, 206);
+
+            &:hover {
+                color: #012e15;
+                transform: scale(1.1);
+            }
+        }
+
+        .quick-view {
+            width: 35px;
+            height: 35px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            color: $muted;
+            transition: 0.3s;
+            z-index: 5;
+            border: 1px solid rgb(206, 241, 206);
+
+            &:hover {
+                color: #012e15;
+                transform: scale(1.1);
+            }
+        }
+    }
+
+    .book-card-image-wrapper {
+        margin-bottom: 1.2rem;
+    }
+
+    .book-card-image {
+        width: 130px;
+        height: 185px;
+        object-fit: cover;
+        border-radius: 4px 8px 8px 4px;
+        box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.1);
+        transition: 0.5s ease;
+    }
+
+    .book-card-stars {
+        display: flex;
+        gap: 3px;
+        margin-bottom: 8px;
+
+        .star {
+            font-size: 13px;
+            color: $star-empty;
+
+            &.filled {
+                color: $star-filled;
+            }
+        }
+
+        .book-card-rating {
+            font-family: 'Oswald', sans-serif;
+            font-size: 12px;
+            color: $muted;
+            margin-left: 5px;
+        }
+    }
+
+    .book-card-title {
+        font-family: 'Playfair Display', serif;
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+        margin: 5px 0;
+        transition: 0.3s;
+    }
+
+    .book-card-author {
+        font-family: 'Jim Nightshade', cursive;
+        font-size: 18px;
+        color: #666;
+    }
+
+    .book-card-line {
+        width: 0;
+        height: 2px;
+        background: $green;
+        margin: 8px 0;
+        opacity: 0;
+        transition: 0.4s;
+    }
+
+    .book-card-price {
+        font-family: 'Oswald', sans-serif;
+        font-size: 19px;
+        font-weight: 600;
+        color: $green-dark;
+    }
+}

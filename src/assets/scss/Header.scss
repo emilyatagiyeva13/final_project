@@ -1,0 +1,385 @@
+// ===========================
+// Variables
+// ===========================
+$green-primary: #2a7a3b;
+$green-dark: #1f5e2c;
+$text-dark: #1a1a1a;
+$text-muted: #6b7280;
+$border-color: #e5e7eb;
+$bg-light: #f3f4f6;
+$white: #ffffff;
+$toggler-color: #1f5e2c;
+
+$font-main: 'Segoe UI', sans-serif;
+
+$breakpoint-lg: 992px;
+$breakpoint-md: 768px;
+$breakpoint-sm: 576px;
+
+// ===========================
+// Mixins
+// ===========================
+@mixin flex($align: center, $justify: flex-start, $gap: 0) {
+    display: flex;
+    align-items: $align;
+    justify-content: $justify;
+
+    @if $gap !=0 {
+        gap: $gap;
+    }
+}
+
+@mixin responsive($bp) {
+    @media (max-width: $bp) {
+        @content;
+    }
+}
+
+// ===========================
+// Navbar
+// ===========================
+.navbar {
+    width: 100%;
+    background: $white;
+    border-bottom: 1px solid $border-color;
+    font-family: $font-main;
+    padding: 0;
+
+    // ── Top ──────────────────────────────
+    &__top {
+        @include flex(center, space-between, 2rem);
+        padding: 14px 40px;
+        border-bottom: 1px solid $border-color;
+
+        @include responsive($breakpoint-lg) {
+            padding: 12px 20px;
+            gap: 1rem;
+        }
+
+        @include responsive($breakpoint-md) {
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+    }
+
+    // ── Brand (Logo + Search) ─────────────
+    &__brand {
+        @include flex(center, flex-start, 1.5rem);
+        flex: 1;
+
+        @include responsive($breakpoint-sm) {
+            width: 100%;
+        }
+    }
+
+    &__logo {
+        height: 40px;
+        width: auto;
+        flex-shrink: 0;
+    }
+
+    // ── Search ────────────────────────────
+    &__search {
+        @include flex(center, flex-start);
+        flex: 1;
+        max-width: 600px;
+        background: $bg-light;
+        border-radius: 50px;
+        overflow: hidden;
+        border: 1.5px solid $border-color;
+        transition: border-color 0.2s;
+
+        &:focus-within {
+            border-color: $green-primary;
+        }
+
+        @include responsive($breakpoint-md) {
+            max-width: 100%;
+        }
+    }
+
+    &__search-select {
+        background: transparent;
+        border: none;
+        border-right: 1.5px solid $border-color;
+        padding: 10px 16px;
+        font-size: 15px;
+        color: $text-dark;
+        cursor: pointer;
+        outline: none;
+        appearance: auto;
+        white-space: nowrap;
+
+        @include responsive($breakpoint-sm) {
+            display: none;
+        }
+    }
+
+    &__search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 10px 16px;
+        font-size: 0.875rem;
+        color: $text-dark;
+        outline: none;
+
+        &::placeholder {
+            color: $text-muted;
+        }
+    }
+
+    &__search-btn {
+        @include flex(center, center, 0.4rem);
+        background: $green-primary;
+        color: $white;
+        border: none;
+        padding: 10px 22px;
+        font-size: 17px;
+        font-weight: 600;
+        cursor: pointer;
+        white-space: nowrap;
+        border-radius: 50px;
+        transition: background 0.2s;
+
+        &:hover {
+            background: $green-dark;
+        }
+
+        svg {
+            font-size: 1rem;
+        }
+
+        @include responsive($breakpoint-sm) {
+            padding: 10px 14px;
+
+            span {
+                display: none;
+            }
+        }
+    }
+
+    // ── Right Actions ─────────────────────
+    &__actions {
+        @include flex(center, flex-end, 1.5rem);
+        flex-shrink: 0;
+
+        @include responsive($breakpoint-md) {
+            gap: 1rem;
+        }
+    }
+
+    &__lang-currency {
+        @include flex(center, flex-start, 0.5rem);
+    }
+
+    &__btn {
+        background: transparent;
+        border: 1px solid $border-color;
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: $text-dark;
+        cursor: pointer;
+        transition: border-color 0.2s, color 0.2s;
+
+        &:hover {
+            border-color: $green-primary;
+            color: $green-primary;
+        }
+    }
+
+    &__icons {
+        @include flex(center, flex-start, 1.25rem);
+    }
+
+    &__icon {
+        position: relative;
+        color: $text-dark;
+        font-size: 1.6rem;
+        cursor: pointer;
+        transition: color 0.2s;
+
+        &:hover {
+            color: $green-primary;
+        }
+
+        &-badge {
+            @include flex(center, center);
+            position: absolute;
+            top: -6px;
+            right: -8px;
+            background: $green-primary;
+            color: $white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+        }
+    }
+
+    // ── Bottom ────────────────────────────
+    &__bottom {
+        @include flex(center, flex-start, 1rem);
+        padding: 0 40px;
+
+        @include responsive($breakpoint-lg) {
+            padding: 0 20px;
+        }
+
+        @include responsive($breakpoint-md) {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 10px 20px;
+            gap: 0;
+        }
+    }
+
+    &__bottom-right {
+        @include flex(center, space-between);
+        flex: 1;
+
+        @include responsive($breakpoint-md) {
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+        }
+    }
+
+    // ── Nav List ──────────────────────────
+    &__nav-list {
+        @include flex(center, flex-start);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    &__nav-item {
+        position: relative;
+
+        a,
+        span {
+            display: block;
+            padding: 16px 18px;
+            font-size: 18px;
+            font-weight: 500;
+            color: $text-dark;
+            text-decoration: none;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: color 0.2s;
+
+            &:hover {
+                color: $green-primary;
+            }
+
+            @include responsive($breakpoint-lg) {
+                padding: 14px 12px;
+                font-size: 0.875rem;
+            }
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: $green-primary;
+            transition: width 0.25s ease;
+        }
+
+        &:hover::after {
+            width: 70%;
+        }
+    }
+
+    // ── Helpline ──────────────────────────
+    &__helpline {
+        font-size: 14px;
+        color: $text-muted;
+        white-space: nowrap;
+
+        strong {
+            color: $text-dark;
+            font-weight: 700;
+        }
+
+        @include responsive($breakpoint-md) {
+            font-size: 0.8rem;
+            padding: 8px 0;
+        }
+    }
+
+    // ── toggler ─────────────────────────
+    .checkboxtoggler {
+        display: none;
+        flex-direction: column;
+        gap: 0.55em;
+        width: 2.2em;
+        cursor: pointer;
+        flex-shrink: 0;
+        padding: 12px 0;
+
+        @include responsive($breakpoint-md) {
+            display: flex;
+        }
+    }
+
+    .line-1,
+    .line-2,
+    .line-3 {
+        background: $toggler-color;
+        height: 0.25em;
+        border-radius: 10em;
+        transition: transform 500ms, opacity 500ms;
+    }
+
+    .line-1.open {
+        transform: rotate(45deg) translateY(0.55em) translateX(0.55em);
+    }
+
+    .line-2.open {
+        transform: rotate(-45deg) translateY(0) translateX(0.1em);
+    }
+
+    .line-3.open {
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+
+    // ── Nav Collapse (mobile) ─────────────
+    &__nav-collapse {
+        @include responsive($breakpoint-md) {
+            display: none;
+            width: 100%;
+
+            &--open {
+                display: block;
+            }
+
+            .navbar__nav-list {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .navbar__nav-item {
+                width: 100%;
+                border-bottom: 1px solid $border-color;
+
+                &::after {
+                    display: none;
+                }
+
+                a,
+                span {
+                    padding: 12px 0;
+                }
+            }
+        }
+    }
+}

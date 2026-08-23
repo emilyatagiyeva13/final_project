@@ -1,0 +1,85 @@
+.authors-section {
+    padding: 80px 0;
+    text-align: center;
+    background-color: #fff;
+
+    .section-title {
+        font-family: "Cormorant Garamond", serif; // Və ya istifadə etdiyiniz Serif şrifti
+        font-size: 42px;
+        font-weight: 500;
+        margin-bottom: 50px;
+        color: #1a1a1a;
+    }
+}
+
+.authors-carousel-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 50px;
+
+    .authors-swiper {
+        padding: 20px 0;
+
+        // Slayder oxlarını dizayn etmək üçün
+        .swiper-button-next, .swiper-button-prev {
+            color: #ccc;
+            &::after { font-size: 20px; }
+            &:hover { color: #2a7a3b; }
+        }
+    }
+}
+
+.author-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+
+    &:hover {
+        transform: translateY(-5px); // Çox xəfif yuxarı qalxma
+
+        .author-image-circle {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: #2a7a3b;
+        }
+
+        .author-name {
+            color: #2a7a3b;
+        }
+    }
+
+    .author-image-circle {
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid transparent;
+        margin-bottom: 20px;
+        transition: all 0.4s ease;
+        background-color: #f5f5f5; // Şəkil olmayanda görünən rəng
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(20%); // Müəllif fotolarına daha ciddi hava verir
+            transition: transform 0.5s ease;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #e0e0e0, #f5f5f5);
+        }
+    }
+
+    .author-name {
+        font-family: "Josefin Sans", sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        transition: color 0.3s ease;
+    }
+}

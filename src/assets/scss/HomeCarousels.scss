@@ -1,0 +1,511 @@
+// ─── SWIPER WRAPPER ───────────────────────────────────────────────────────────
+.mySwiper1 {
+    width: 100%;
+    height: 500px;
+    overflow: hidden;
+
+    .swiper-slide {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+        background-color: #fff;
+    }
+
+    .swiper-pagination {
+        .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            background-color: #999;
+            opacity: 1;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+
+            &:hover {
+                transform: scale(1.3);
+            }
+
+            &-active {
+                background-color: #2a7a3b;
+                border: 3px double white;
+                transform: scale(1.2);
+            }
+        }
+    }
+}
+
+
+// ─── DISCOVER BUTTON ──────────────────────────────────────────────────────────
+.discover-btn {
+    font-size: 14px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    padding: 0.7em 2em;
+    border: 1px solid #2a7a3b;
+    border-radius: 50px;
+    position: relative;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.1);
+    color: black;
+    text-decoration: none;
+    transition: 0.3s ease all;
+    z-index: 1;
+    cursor: pointer;
+    background: transparent;
+
+    &::before {
+        transition: 0.5s all ease;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        right: 50%;
+        bottom: 0;
+        opacity: 0;
+        content: '';
+        background-color: #0e2f15;
+        border-radius: 50px;
+        z-index: -1;
+    }
+
+    &:hover,
+    &:focus {
+        color: white;
+        letter-spacing: 3px;
+
+        &::before {
+            left: 0;
+            right: 0;
+            opacity: 1;
+        }
+    }
+
+    &:active {
+        transform: scale(0.9);
+    }
+}
+
+
+// ─── SLIDE 1 ──────────────────────────────────────────────────────────────────
+.slide-1 {
+    background-color: #D5E6EC;
+    height: 500px;
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    // Arxa fon üçün incə kağız toxuması effekti
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            radial-gradient(circle at 20% 80%, rgba(42, 122, 59, 0.06) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(255, 136, 6, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+        z-index: 0;
+    }
+
+    .h1-slider {
+        position: absolute;
+        top: 0px;
+        left: 690px;
+        z-index: 1;
+    }
+
+    .slider-books {
+        position: relative;
+        z-index: 2;
+
+        .h1-slider3-01,
+        .h1-slider3-02,
+        .h1-slider3-03 {
+            filter: drop-shadow(0px 20px 15px rgba(0, 0, 0, 0.3));
+            transform-origin: bottom center;
+        }
+
+        .h1-slider3-01 {
+            position: absolute;
+            bottom: 55px;
+            left: 1000px;
+            animation: floatBook1 4s ease-in-out infinite;
+        }
+
+        .h1-slider3-02 {
+            position: absolute;
+            bottom: 300px;
+            left: 1200px;
+            animation: floatBook2 5s ease-in-out infinite;
+        }
+
+        .h1-slider3-03 {
+            position: absolute;
+            bottom: 15px;
+            left: 800px;
+            animation: floatBook3 4.5s ease-in-out infinite;
+        }
+    }
+
+    .content {
+        position: relative;
+        z-index: 2;
+
+        h6 {
+            color: #2a7a3b;
+            font-family: "Josefin Sans", sans-serif;
+            letter-spacing: 3px;
+            animation: fadeSlideUp 0.6s ease forwards;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            word-break: break-word;
+            max-width: 440px;
+            line-height: 1.2;
+            font-weight: bolder;
+            font-size: 60px;
+            animation: fadeSlideUp 0.8s ease 0.15s forwards;
+            opacity: 0;
+        }
+
+        span {
+            font-family: "Josefin Sans", sans-serif;
+            animation: fadeSlideUp 0.8s ease 0.3s forwards;
+            opacity: 0;
+        }
+    }
+
+    .off-slider {
+        width: 200px;
+        height: 200px;
+        background-color: #FF8806;
+        color: #fff;
+        font-size: 25px;
+        font-weight: 700;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        line-height: 1.3;
+        position: absolute;
+        left: 600px;
+        top: 100px;
+        z-index: 3;
+
+        clip-path: polygon(50% 0%, 61% 15%, 79% 9%, 79% 27%,
+                97% 31%, 88% 46%, 100% 57%, 87% 65%,
+                92% 83%, 75% 83%, 69% 100%, 55% 91%,
+                40% 100%, 34% 83%, 17% 83%, 22% 65%,
+                0% 57%, 12% 46%, 3% 31%, 21% 27%,
+                21% 9%, 39% 15%);
+
+        animation: rotateStar 8s linear infinite;
+        transition: filter 0.3s ease;
+
+        &:hover {
+            filter: brightness(1.15) drop-shadow(0 0 12px rgba(255, 136, 6, 0.6));
+            animation-play-state: paused;
+        }
+    }
+}
+
+
+// ─── SLIDE 2 ──────────────────────────────────────────────────────────────────
+.slide-2 {
+    background-color: #D5ECDE;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            radial-gradient(circle at 70% 30%, rgba(207, 92, 114, 0.07) 0%, transparent 60%),
+            radial-gradient(circle at 10% 90%, rgba(42, 122, 59, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+    }
+
+    .content {
+        position: relative;
+        top: 100px;
+        z-index: 2;
+
+        h6,
+        span {
+            color: #CF5C72;
+            font-family: "Josefin Sans", sans-serif;
+            letter-spacing: 3px;
+        }
+
+        h6 {
+            animation: fadeSlideUp 0.6s ease forwards;
+        }
+
+        h1 {
+            text-transform: uppercase;
+            word-break: break-word;
+            max-width: 440px;
+            line-height: 1.2;
+            font-weight: bolder;
+            font-size: 50px;
+            animation: fadeSlideUp 0.8s ease 0.15s forwards;
+            opacity: 0;
+        }
+
+        span {
+            animation: fadeSlideUp 0.8s ease 0.3s forwards;
+            opacity: 0;
+        }
+    }
+
+    .slider-books {
+        z-index: 2;
+
+        .h1-slider-22 {
+            position: absolute;
+            top: 100px;
+            filter: drop-shadow(0px 25px 20px rgba(0, 0, 0, 0.25));
+            animation: bookRevealLeft 0.9s ease 0.2s both;
+        }
+
+        .h1-slider-21 {
+            position: relative;
+            left: 800px;
+            bottom: 300px;
+            filter: drop-shadow(0px 25px 20px rgba(0, 0, 0, 0.25));
+            animation: bookRevealRight 0.9s ease 0.4s both;
+        }
+    }
+}
+
+
+// ─── SLIDE 3 ──────────────────────────────────────────────────────────────────
+.slide-3 {
+    background-color: #A99CAD;
+    height: 600px; 
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+
+    &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+        pointer-events: none;
+    }
+
+    .content-box {
+        position: relative;
+        z-index: 10;
+        max-width: 550px;
+
+        h6 {
+            color: #2a7a3b;
+            font-family: "Josefin Sans", sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: clamp(32px, 5vw, 56px); // Responsive ölçü
+            font-family: 'Playfair Display', serif;
+            line-height: 1.1;
+            font-weight: 900;
+            margin-bottom: 25px;
+            text-shadow: 2px 4px 10px rgba(0,0,0,0.1);
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            margin-bottom: 35px;
+            font-family: "Josefin Sans", sans-serif;
+        }
+    }
+
+    // Əsas Şəkil
+    .main-slider-img {
+        position: absolute;
+        right: -50px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 650px;
+        z-index: 1;
+        filter: drop-shadow(-20px 30px 40px rgba(0,0,0,0.2));
+    }
+
+    // Endirim Etiketi
+    .off-slider {
+        width: 130px;
+        height: 130px;
+        background-color: #d93d3d;
+        color: #fff;
+        font-weight: 800;
+        position: absolute;
+        right: 420px;
+        top: 80px;
+        z-index: 20;
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: rotate(-15px);
+        animation: rotateFloat 6s ease-in-out infinite;
+
+        span {
+            font-size: 20px;
+            text-align: center;
+            line-height: 1;
+        }
+    }
+
+    // Üzən Elementlər üçün Animasiyalar
+    .floating-elements {
+        img {
+            position: absolute;
+            z-index: 5;
+            width: 150px;
+            filter: blur(1px) drop-shadow(10px 10px 20px rgba(0,0,0,0.2));
+            opacity: 0.8;
+        }
+
+        .book-1 { top: 10%; right: 10%; animation: float 4s ease-in-out infinite; }
+        .book-2 { bottom: 15%; right: 40%; animation: float 5s ease-in-out 1s infinite; width: 100px; }
+        .book-3 { top: 60%; right: 5%; animation: float 4.5s ease-in-out 0.5s infinite; }
+    }
+}
+
+// Button Stili (Digər slayderlərlə eyni saxlanıldı, rəng tənzimləndi)
+.discover-btn {
+    background: #2a7a3b;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 50px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    
+    &:hover {
+        background: #1e5a2b;
+        transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+}
+
+// Animasiyalar
+@keyframes rotateFloat {
+    0%, 100% { transform: rotate(-15deg) translateY(0); }
+    50% { transform: rotate(-10deg) translateY(-20px); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+// ─── KEYFRAMES ────────────────────────────────────────────────────────────────
+
+// Kitabların uçuşu — hər biri fərqli ritmdə, həm yuxarı-aşağı həm də həlif yan yırğalanma
+@keyframes floatBook1 {
+    0%, 100% {
+        transform: translateY(0px) rotate(-1deg);
+        filter: drop-shadow(0px 20px 15px rgba(0, 0, 0, 0.3));
+    }
+    33% {
+        transform: translateY(-12px) rotate(0.5deg);
+        filter: drop-shadow(0px 30px 20px rgba(0, 0, 0, 0.18));
+    }
+    66% {
+        transform: translateY(-5px) rotate(-1.5deg);
+        filter: drop-shadow(0px 25px 17px rgba(0, 0, 0, 0.24));
+    }
+}
+
+@keyframes floatBook2 {
+    0%, 100% {
+        transform: translateY(0px) rotate(1deg);
+        filter: drop-shadow(0px 20px 15px rgba(0, 0, 0, 0.3));
+    }
+    40% {
+        transform: translateY(-18px) rotate(-1deg);
+        filter: drop-shadow(0px 35px 22px rgba(0, 0, 0, 0.15));
+    }
+    75% {
+        transform: translateY(-8px) rotate(1.5deg);
+        filter: drop-shadow(0px 27px 18px rgba(0, 0, 0, 0.22));
+    }
+}
+
+@keyframes floatBook3 {
+    0%, 100% {
+        transform: translateY(0px) rotate(0.5deg);
+        filter: drop-shadow(0px 20px 15px rgba(0, 0, 0, 0.3));
+    }
+    50% {
+        transform: translateY(-10px) rotate(-0.8deg);
+        filter: drop-shadow(0px 28px 18px rgba(0, 0, 0, 0.2));
+    }
+}
+
+// Parıltı effektli fırlanma — daha yavaş, daha estetik
+@keyframes rotateStar {
+    0% {
+        transform: rotate(0deg) scale(1);
+    }
+    25% {
+        transform: rotate(90deg) scale(1.04);
+    }
+    50% {
+        transform: rotate(180deg) scale(1);
+    }
+    75% {
+        transform: rotate(270deg) scale(1.04);
+    }
+    100% {
+        transform: rotate(360deg) scale(1);
+    }
+}
+
+// Mətn aşağıdan yuxarı açılır
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+// Slide 2 kitab — soldan gəlir
+@keyframes bookRevealLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-60px) rotate(-5deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px) rotate(0deg);
+    }
+}
+
+// Slide 2 kitab — sağdan gəlir
+@keyframes bookRevealRight {
+    from {
+        opacity: 0;
+        transform: translateX(60px) rotate(5deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0px) rotate(0deg);
+    }
+}
