@@ -2,11 +2,14 @@ import { MdAddShoppingCart } from "react-icons/md"
 import shopNow from "../assets/Images/h1-banner02-1.jpg"
 import shopNow2 from "../assets/Images/h1-slider2.png"
 import "../assets/scss/ShopNowCards.scss"
+import { useNavigate } from "react-router-dom"
 const ShopNowCards = () => {
+    const navigate = useNavigate();
     return (
         <>
-            <div className="col-6 col-sm-4 col-md-4 col-lg-4">
-                <div className="shopcard">
+
+            <div className="col-12 col-md-4">
+                <div className="shopcard" data-aos="flip-up">
 
                     <img src={shopNow} alt="" className="background-img" />
                     <img src={shopNow2} alt="" className="book-img" width={100} />
@@ -23,7 +26,7 @@ const ShopNowCards = () => {
                     </div>
 
                     <div className="shop-now-btn">
-                        <button className="button">
+                        <button className="button" onClick={() => navigate(`/shop`)}>
                             <span>SHOP</span>
                             <MdAddShoppingCart className="icon-shop" />
                         </button>

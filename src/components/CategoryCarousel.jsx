@@ -23,23 +23,26 @@ const categories = [
 
 const CategoryCarousel = () => {
     return (
+        
         <div className="category-carousel-container">
+          <h1 className="text-center">TOP CATEGORIES FOR YOU</h1>
+            
             <Swiper
-                slidesPerView={3}
+                slidesPerView={4}
                 spaceBetween={30}
                 freeMode={true}
                 pagination={{ clickable: true }}
                 modules={[FreeMode, Pagination]}
                 className="category-swiper"
             >
-                {categories.map((cat) => (
-                    <SwiperSlide key={cat.id}>
-                        <div className="category-card">
+                {categories.map((i) => (
+                    <SwiperSlide key={i.id}>
+                        <div className="category-card my-4">
                             <div className="icon-box">
-                                <img src={cat.icon} alt={cat.name} />
+                                <img src={i.icon} alt={i.name} />
                             </div>
                             <div className="category-label">
-                                <span>{cat.name}</span>
+                                <span>{i.name}</span>
                             </div>
                         </div>
                     </SwiperSlide>

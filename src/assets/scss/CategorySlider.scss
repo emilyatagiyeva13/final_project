@@ -1,10 +1,10 @@
 .category-carousel-container {
-    padding: 50px 0;
-    max-width: 1000px;
+    padding: 80px 0;
+    // max-width: 100px;
     margin: 0 auto;
 
     .category-swiper {
-        padding-bottom: 60px; // Pagination üçün
+        padding-bottom: 60px; 
 
         .swiper-pagination-bullet {
             width: 12px;
@@ -31,7 +31,6 @@
     padding: 30px 20px;
     border: 1px solid #f0f0f0;
     cursor: pointer;
-    // Yumşaq keçid üçün əsas sirr:
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -72,7 +71,7 @@
     .category-label {
         width: 100%;
         padding: 12px 0;
-        background-color: #f4f4f4; // Default zərif fon
+        background-color: #f4f4f4; 
         border-radius: 12px;
         display: flex;
         align-items: center;

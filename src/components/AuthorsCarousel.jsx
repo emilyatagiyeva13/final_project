@@ -17,12 +17,15 @@ const authors = [
     { id: 3, name: "George R.R. Martin", img: georgeImg },
     { id: 4, name: "J.K. Rowling", img: rowlingImg },
     { id: 5, name: "William Shakespeare", img: shakesImg },
+    { id: 5, name: "William Shakespeare", img: shakesImg },
+    { id: 5, name: "William Shakespeare", img: shakesImg },
+    { id: 5, name: "William Shakespeare", img: shakesImg },
 ];
 
 const AuthorsCarousel = () => {
     return (
         <section className="authors-section">
-            <h2 className="section-title">Featured authors</h2>
+            <h1 className="text-center">Featured authors</h1>
 
             <div className="authors-carousel-wrapper">
                 <Swiper
@@ -39,7 +42,7 @@ const AuthorsCarousel = () => {
                 >
                     {authors.map((author) => (
                         <SwiperSlide key={author.id}>
-                            <div className="author-card">
+                            <div className="author-card my-3">
                                 <div className="author-image-circle">
                                     {author.img ? (
                                         <img src={author.img} alt={author.name} />

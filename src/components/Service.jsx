@@ -8,25 +8,25 @@ const features = [
         id: 1,
         title: "FAST DELIVERY",
         desc: "Free standard delivery",
-        icon: <TbTruckDelivery size={40} strokeWidth={1.5} />
+        icon: <TbTruckDelivery size={30} strokeWidth={1.5} />
     },
     {
         id: 2,
         title: "BEST PRICES & OFFERS",
         desc: "Multiple gift options available",
-        icon: <GoGift size={40} strokeWidth={1.5} />
+        icon: <GoGift size={30} strokeWidth={1.5} />
     },
     {
         id: 3,
         title: "GREAT DAILY DEAL",
         desc: "Orders $50 or more",
-        icon: <BsTruck size={40} strokeWidth={1.5} />
+        icon: <BsTruck size={30} strokeWidth={1.5} />
     },
     {
         id: 4,
         title: "CLICK & COLLECT",
         desc: "Check your local stores now",
-        icon: <PiBooks size={40} strokeWidth={1.5} />
+        icon: <PiBooks size={30} strokeWidth={1.5} />
     }
 ];
 
