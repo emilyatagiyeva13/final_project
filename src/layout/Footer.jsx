@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom"
 import "../assets/scss/Footer.scss"
+import { category } from "../data/category"
 const Footer = () => {
   return (
     <>
@@ -35,19 +37,23 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Kateqoriyalar */}
+          {/* CATEGORIYALAR */}
           <div className="footer-col">
-            <h4>Category</h4>
+            <h4>Categories</h4>
+
             <ul>
-              <li><a href="#">Action Books</a></li>
-              <li><a href="#">Comedy</a></li>
-              <li><a href="#">Drama</a></li>
-              <li><a href="#">Horror</a></li>
-              <li><a href="#">Kids Books</a></li>
+              {category.map((e) => (
+
+                <li key={e.id}>
+                  <Link to={`/shop?category=${e.category}`}>{e.category}</Link>
+                </li>
+              
+
+              ))}
             </ul>
           </div>
 
-          {/* Faydalı Linklər */}
+
           <div className="footer-col">
             <h4>Useful links</h4>
             <ul>

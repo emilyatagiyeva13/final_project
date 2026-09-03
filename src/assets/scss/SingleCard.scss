@@ -90,7 +90,6 @@ $gold-bright: #e6c877;
 
             .icon-shop {
                 font-size: 22px;
-                // Bəzən React Icons özü transform tətbiq edir, onu sıfırlayırıq
                 transform: translate(0, 0) rotate(0deg) !important;
             }
 
@@ -102,7 +101,6 @@ $gold-bright: #e6c877;
                 box-shadow: 0 6px 18px rgba(2, 122, 54, 0.45);
                 color: $gold-bright;
 
-                // Hover zamanı fırlanmanı təkrar bloklayırıq
                 svg,
                 .icon-shop,
                 span {
@@ -112,14 +110,12 @@ $gold-bright: #e6c877;
             }
 
             &:active {
-                // Fırlanmadan, sadəcə aşağı basılma effekti
                 transform: scale(0.96) rotate(0deg) !important;
             }
         }
     }
 
-
-    // heart and qick view icon styles here!!!!!!!!!!!!!!!!
+    // heart and quick view icon styles
 
     .view-heart-col {
         display: flex;
@@ -129,7 +125,6 @@ $gold-bright: #e6c877;
         gap: 3px;
 
         .card-hover-heart {
-
             width: 35px;
             height: 35px;
             background: #fff;
@@ -234,5 +229,93 @@ $gold-bright: #e6c877;
         font-size: 19px;
         font-weight: 600;
         color: $green-dark;
+    }
+
+
+
+
+
+    // LIST VIEW ************************************
+    &.book-card-list {
+        width: 100%;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 30px;
+        padding: 1.5rem;
+        margin-bottom: 20px;
+
+        .book-card-image-wrapper {
+            margin-bottom: 0;
+            flex-shrink: 0;
+        }
+
+        .book-card-image {
+            width: 180px;
+            height: 260px;
+        }
+
+        .book-card-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex: 1;
+            gap: 6px;
+        }
+
+        .book-card-stars {
+            margin-bottom: 4px;
+        }
+
+        .book-card-title {
+            text-align: left;
+            font-size: 28px;
+            margin: 4px 0;
+        }
+
+        .book-card-author {
+            margin-bottom: 8px;
+            text-decoration: underline;
+        }
+
+        .book-card-description {
+            font-family: 'Oswald', sans-serif;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #555;
+            margin: 8px 0 12px;
+
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .book-card-line {
+            display: none;
+        }
+
+        .book-card-price {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .view-heart-col {
+            position: static;
+            flex-direction: row;
+            margin-left: auto;
+            order: 2;
+        }
+
+        .add-to-cart {
+            width: auto;
+            margin: 0;
+            order: 3;
+
+            .button {
+                width: 200px;
+                padding: 0 24px;
+            }
+        }
     }
 }
