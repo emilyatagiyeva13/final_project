@@ -5,6 +5,8 @@ import { booksData } from "../data/data"
 import { Link } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
 import { useState } from "react"
+// import { Pagination } from "react-bootstrap"
+// import usePagination from "../components/hooks/usePagination"
 
 const Product = () => {
 
@@ -15,6 +17,7 @@ const Product = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isAuthorsOpen, setIsAuthorsOpen] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
+  // const { currentPage, totalPages, booksData, goToPage } = usePagination(booksData, 10)
 
   return (
     <>
@@ -131,6 +134,10 @@ const Product = () => {
               </div>
             ))}
           </div>
+          {/* <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={goToPage} /> */}
         </div>
 
       </section>

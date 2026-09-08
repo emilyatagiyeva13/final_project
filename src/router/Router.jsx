@@ -7,6 +7,7 @@ import About from "../pages/About"
 import Product from "../pages/Product"
 import Wishlist from "../pages/Wishlist"
 import Basket from "../pages/Basket"
+import FAQ from "../pages/FAQ"
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
           <Route path="/shop" element={<Product />}></Route>
           <Route path="/wishlist" element={<Wishlist />}></Route>
           <Route path="/basket" element={<Basket />}></Route>
+          <Route path="/faqs" element={<FAQ />}></Route>
 
 
 

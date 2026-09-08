@@ -1,0 +1,30 @@
+.pagination {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 40px 0;
+
+  &__btn {
+    padding: 8px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:hover:not(:disabled) {
+      border-color: #2a7a3b;
+    }
+
+    &.active {
+      background: #2a7a3b;
+      color: #fff;
+      border-color: #2a7a3b;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}
