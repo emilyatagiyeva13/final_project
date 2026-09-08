@@ -11,15 +11,13 @@ const Header = () => {
         <>
             <nav className="navbar">
 
-                {/* ── TOP NAVBAR ── */}
-                <div className="navbar__top container-fluid">
+                <div className="navbar-top container-fluid">
 
-                    {/* Logo + Search */}
-                    <div className="navbar__brand">
-                        <img src={logo} alt="Bokifa" className="navbar__logo" />
+                    <div className="navbar-brand">
+                        <img src={logo} alt="Bokifa" className="navbar-logo" />
 
-                        <div className="navbar__search">
-                            <select className="navbar__search-select">
+                        <div className="navbar-search">
+                            <select className="navbar-search-select">
                                 <option>All</option>
                                 <option>Books</option>
                                 <option>Fiction</option>
@@ -30,42 +28,47 @@ const Header = () => {
                             <input
                                 type="text"
                                 placeholder="Search products..."
-                                className="navbar__search-input"
+                                className="navbar-search-input"
                             />
-                            <button className="navbar__search-btn">
+                            <button className="navbar-search-btn">
                                 <CiSearch className="fs-4" />
                                 <span>Search</span>
                             </button>
                         </div>
                     </div>
 
-                    {/* Right Actions */}
-                    <div className="navbar__actions">
-                        <div className="navbar__lang-currency">
-                            <button className="navbar__btn">ENG ▾</button>
-                            <button className="navbar__btn">USD ▾</button>
+                    <div className="navbar-actions">
+                        <div className="navbar-lang-currency d-flex align-items-center">
+                            <button className="navbar-btn">ENG ▾</button>
+                            <label className="switch">
+                                <span className="sun" />
+                                <span className="moon" />
+                                <input type="checkbox" className="input" />
+                                <span className="slider" />
+                            </label>
+
+
+
                         </div>
 
-                        <div className="navbar__icons">
-                            <div className="navbar__icon">
+                        <div className="navbar-icons">
+                            <div className="navbar-icon">
                                 <CiUser />
                             </div>
-                            <div className="navbar__icon">
+                            <div className="navbar-icon">
                                 <CiHeart />
-                                <span className="navbar__icon-badge">4</span>
+                                <span className="navbar-icon-badge">4</span>
                             </div>
-                            <div className="navbar__icon">
+                            <div className="navbar-icon">
                                 <CiShoppingBasket />
-                                <span className="navbar__icon-badge">0</span>
+                                <span className="navbar-icon-badge">0</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* ── BOTTOM NAVBAR ── */}
-                <div className="navbar__bottom container-fluid">
+                <div className="navbar-bottom container-fluid">
 
-                    {/* TOGGLER */}
                     <div
                         className="checkboxtoggler"
                         onClick={() => setMenuOpen(!menuOpen)}
@@ -76,26 +79,25 @@ const Header = () => {
                         <div className={`line-3 ${menuOpen ? "open" : ""}`} />
                     </div>
 
-                    {/* Nav + Helpline */}
-                    <div className="navbar__bottom-right">
-                        <div className={`navbar__nav-collapse${menuOpen ? " navbar__nav-collapse--open" : ""}`}>
-                            <ul className="navbar__nav-list">
-                                <NavLink to="/" className="navbar__nav-item nav-link"><span>Home</span></NavLink>
-                                <NavLink to="/shop" className="navbar__nav-item nav-link"><span>Shop</span></NavLink>
-                                <NavLink className="navbar__nav-item nav-link"><span>Blogs</span></NavLink>
-                                <NavLink to="/aboutus" className="navbar__nav-item nav-link"><span>About Us</span></NavLink>
-                                <NavLink to="/contact" className="navbar__nav-item nav-link"><span>Contact</span></NavLink>
-                                <NavLink to="/faqs" className="navbar__nav-item nav-link"><span>FAQs</span></NavLink>
+                    <div className="navbar-bottom-right">
+                        <div className={`navbar-nav-collapse${menuOpen ? " navbar-nav-collapse--open" : ""}`}>
+                            <ul className="navbar-nav-list">
+                                <NavLink to="/" className="navbar-nav-item nav-link"><span>Home</span></NavLink>
+                                <NavLink to="/shop" className="navbar-nav-item nav-link"><span>Shop</span></NavLink>
+                                <NavLink to="/blog" className="navbar-nav-item nav-link"><span>Blogs</span></NavLink>
+                                <NavLink to="/aboutus" className="navbar-nav-item nav-link"><span>About Us</span></NavLink>
+                                <NavLink to="/contact" className="navbar-nav-item nav-link"><span>Contact</span></NavLink>
+                                <NavLink to="/faqs" className="navbar-nav-item nav-link"><span>FAQs</span></NavLink>
                             </ul>
                         </div>
 
-                        <div className="navbar__helpline">
+                        <div className="navbar-helpline">
                             Need help? Call Us: <strong>+84 2500 888 33</strong>
                         </div>
                     </div>
 
                 </div>
-            </nav>
+            </nav >
 
             <div className="hero" />
         </>

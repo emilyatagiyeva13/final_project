@@ -1,0 +1,23 @@
+.hero-box {
+    
+    img {
+        position: relative;
+    }
+
+    .blog-hero-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        opacity: 94%;
+    }
+
+    .content {
+        position: absolute;
+        top:300px;
+        left:650px;
+        color:white;
+        .nav-link:hover {
+            color: #027A36;
+        }    
+    }
+}

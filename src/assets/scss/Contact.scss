@@ -1,6 +1,6 @@
 .left-side {
     padding: 60px 40px;
-    max-width: 1200px; // Ümumi mərkəzləşdirmə üçün
+    max-width: 1200px;
     margin: 0 auto;
 
     h1 {
@@ -12,7 +12,7 @@
         text-align: center;
     }
 
-    > span {
+    >span {
         font-size: 16px;
         color: #666;
         line-height: 1.6;
@@ -28,7 +28,7 @@
         flex-direction: column;
         gap: 25px;
         width: 100%;
-        align-items: center; // Bütün inputları mərkəzə yığır
+        align-items: center;
     }
 
     .subject-input,
@@ -38,7 +38,7 @@
         flex-direction: column;
         gap: 10px;
         width: 100%;
-        max-width: 800px; // Formun çox yayılmaması üçün
+        max-width: 800px;
 
         span {
             font-family: 'Oswald', sans-serif;
@@ -64,8 +64,8 @@
         &:focus {
             border-color: #2A7A3B;
             background-color: #fff;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            transform: translateY(-5px); // Scale əvəzinə daha yumşaq hərəkət
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            transform: translateY(-5px);
         }
     }
 
@@ -96,38 +96,43 @@
                 &:focus {
                     border-color: #2A7A3B;
                     background-color: #fff;
-                    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
                     transform: translateY(-5px);
                 }
             }
         }
     }
 
-    .discover-now-btn {
-        margin-top: 20px;
-        
-        .discover-btn {
-            min-width: 220px;
-            height: 55px;
-            font-family: 'Oswald', sans-serif;
-            font-size: 14px;
-            letter-spacing: 2px;
+    .discover-btn {
+        background: #2a7a3b;
+        color: white;
+        border: none;
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 15px;
+        cursor: pointer;
+
+
+        &:hover {
+            background: #1e5a2b;
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        span:nth-of-type(2) {
+            font-size: 20px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 12px;
-            border-radius: 50px;
-            transition: all 0.4s ease;
-            overflow: hidden; // After effektinin kənara çıxmaması üçün
-
-            span {
-                transition: transform 0.3s ease;
-            }
-
-            &:hover span {
-                transform: translateX(5px);
-                color: #fff;
-            }
         }
+
+
     }
+
+
 }

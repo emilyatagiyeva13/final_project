@@ -46,7 +46,7 @@ $breakpoint-sm: 576px;
     padding: 0;
 
     // ── Top ──────────────────────────────
-    &__top {
+    &-top {
         @include flex(center, space-between, 2rem);
         padding: 14px 40px;
         border-bottom: 1px solid $border-color;
@@ -63,7 +63,7 @@ $breakpoint-sm: 576px;
     }
 
     // ── Brand (Logo + Search) ─────────────
-    &__brand {
+    &-brand {
         @include flex(center, flex-start, 1.5rem);
         flex: 1;
 
@@ -72,14 +72,14 @@ $breakpoint-sm: 576px;
         }
     }
 
-    &__logo {
+    &-logo {
         height: 40px;
         width: auto;
         flex-shrink: 0;
     }
 
     // ── Search ────────────────────────────
-    &__search {
+    &-search {
         @include flex(center, flex-start);
         flex: 1;
         max-width: 600px;
@@ -98,7 +98,7 @@ $breakpoint-sm: 576px;
         }
     }
 
-    &__search-select {
+    &-search-select {
         background: transparent;
         border: none;
         border-right: 1.5px solid $border-color;
@@ -115,7 +115,7 @@ $breakpoint-sm: 576px;
         }
     }
 
-    &__search-input {
+    &-search-input {
         flex: 1;
         border: none;
         background: transparent;
@@ -129,7 +129,7 @@ $breakpoint-sm: 576px;
         }
     }
 
-    &__search-btn {
+    &-search-btn {
         @include flex(center, center, 0.4rem);
         background: $green-primary;
         color: $white;
@@ -160,20 +160,124 @@ $breakpoint-sm: 576px;
     }
 
     // ── Right Actions ─────────────────────
-    &__actions {
+    &-actions {
         @include flex(center, flex-end, 1.5rem);
         flex-shrink: 0;
 
         @include responsive($breakpoint-md) {
             gap: 1rem;
         }
+
+        .switch {
+            font-size: 17px;
+            position: relative;
+            display: inline-block;
+            width: 64px;
+            height: 34px;
+
+            input {
+                opacity: 0;
+                width: 0;
+                height: 0;
+
+                &:focus {
+                    &+.slider {
+                        box-shadow: 0 0 1px #183153;
+                    }
+                }
+
+                &:checked {
+                    &+.slider {
+                        background-color: #183153;
+
+                        &:before {
+                            transform: translateX(30px);
+                        }
+                    }
+                }
+            }
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #73C0FC;
+            transition: .4s;
+            border-radius: 30px;
+
+            &:before {
+                position: absolute;
+                content: "";
+                height: 30px;
+                width: 30px;
+                border-radius: 20px;
+                left: 2px;
+                bottom: 2px;
+                z-index: 2;
+                background-color: #e8e8e8;
+                transition: .4s;
+            }
+        }
+
+        .sun {
+            svg {
+                position: absolute;
+                top: 6px;
+                left: 36px;
+                z-index: 1;
+                width: 24px;
+                height: 24px;
+                animation: rotate 15s linear infinite;
+            }
+        }
+
+        .moon {
+            svg {
+                fill: #73C0FC;
+                position: absolute;
+                top: 5px;
+                left: 5px;
+                z-index: 1;
+                width: 24px;
+                height: 24px;
+                animation: tilt 5s linear infinite;
+            }
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes tilt {
+            0% {
+                transform: rotate(0deg);
+            }
+            25% {
+                transform: rotate(-10deg);
+            }
+            75% {
+                transform: rotate(10deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
     }
 
-    &__lang-currency {
+    &-lang-currency {
         @include flex(center, flex-start, 0.5rem);
     }
 
-    &__btn {
+    &-btn {
         background: transparent;
         border: 1px solid $border-color;
         border-radius: 6px;
@@ -190,11 +294,11 @@ $breakpoint-sm: 576px;
         }
     }
 
-    &__icons {
+    &-icons {
         @include flex(center, flex-start, 1.25rem);
     }
 
-    &__icon {
+    &-icon {
         position: relative;
         color: $text-dark;
         font-size: 1.6rem;
@@ -221,7 +325,7 @@ $breakpoint-sm: 576px;
     }
 
     // ── Bottom ────────────────────────────
-    &__bottom {
+    &-bottom {
         @include flex(center, flex-start, 1rem);
         padding: 0 40px;
 
@@ -237,7 +341,7 @@ $breakpoint-sm: 576px;
         }
     }
 
-    &__bottom-right {
+    &-bottom-right {
         @include flex(center, space-between);
         flex: 1;
 
@@ -249,14 +353,14 @@ $breakpoint-sm: 576px;
     }
 
     // ── Nav List ──────────────────────────
-    &__nav-list {
+    &-nav-list {
         @include flex(center, flex-start);
         list-style: none;
         margin: 0;
         padding: 0;
     }
 
-    &__nav-item {
+    &-nav-item {
         position: relative;
 
         a,
@@ -299,7 +403,7 @@ $breakpoint-sm: 576px;
     }
 
     // ── Helpline ──────────────────────────
-    &__helpline {
+    &-helpline {
         font-size: 14px;
         color: $text-muted;
         white-space: nowrap;
@@ -353,7 +457,7 @@ $breakpoint-sm: 576px;
     }
 
     // ── Nav Collapse (mobile) ─────────────
-    &__nav-collapse {
+    &-nav-collapse {
         @include responsive($breakpoint-md) {
             display: none;
             width: 100%;

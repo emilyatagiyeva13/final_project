@@ -8,6 +8,7 @@ import Product from "../pages/Product"
 import Wishlist from "../pages/Wishlist"
 import Basket from "../pages/Basket"
 import FAQ from "../pages/FAQ"
+import Blog from "../pages/Blog"
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
           <Route path="/wishlist" element={<Wishlist />}></Route>
           <Route path="/basket" element={<Basket />}></Route>
           <Route path="/faqs" element={<FAQ />}></Route>
+          <Route path="/blog" element={<Blog />}></Route>
 
 
 
