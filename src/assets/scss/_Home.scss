@@ -1,12 +1,10 @@
-section .container{
+section .container {
     max-width: 1450px;
 }
 
 h1 {
     font-family: "Josefin Sans", sans-serif;
-    ;
 }
-
 
 .top-fav-thriller {
     position: relative;
@@ -14,25 +12,41 @@ h1 {
     min-height: 520px;
     border-radius: 10px;
 
+    // Dark modda şəkil üzərinə yüngül qara overlay — mətnin oxunaqlılığı üçün
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: transparent;
+        z-index: 2;
+        transition: background 0.3s ease;
+        pointer-events: none;
+    }
+
+    :root[data-theme="dark"] & {
+        &::before {
+            background: rgba(0, 0, 0, 0.35);
+        }
+    }
+
     .thriller-content {
         h1 {
             font-family: italic;
-            ;
             font-weight: bold;
         }
 
         span {
-            color: hsl(132, 36%, 86%);
+            color: var(--hero-accent, hsl(132, 36%, 86%));
         }
 
         .discover-btn {
-            background: #2a7a3b;
-            color: white;
+            background: var(--green-primary);
+            color: var(--white);
             border: none;
             padding: 12px 28px;
             border-radius: 50px;
             font-weight: 700;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, background-color 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -41,7 +55,7 @@ h1 {
             cursor: pointer;
 
             &:hover {
-                background: #1e5a2b;
+                background: var(--green-dark);
                 transform: scale(1.05);
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             }
@@ -55,11 +69,10 @@ h1 {
 
         position: absolute;
         left: 30px;
-        color: white;
-        font-family: 'Segoe UI',
-        sans-serif;
+        color: white; // şəkil üzərində sabit ağ saxlanılır — theme-dən asılı deyil
+        font-family: 'Segoe UI', sans-serif;
         top: 100px;
-        z-index: 3;
+        z-index: 3; // overlay-dən (z-index: 2) üstə çıxsın
     }
 
     .thriller-img {
@@ -85,7 +98,7 @@ h1 {
     }
 }
 
-.top-fav-thriller.container{
+.top-fav-thriller.container {
     max-width: 1450px;
 }
 
@@ -94,5 +107,3 @@ h1 {
         transform: scale(1.18) rotate(20deg);
     }
 }
-
-

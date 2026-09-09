@@ -1,12 +1,12 @@
 import { useState } from "react"
 import { CiHeart, CiShoppingBasket, CiUser, CiSearch } from "react-icons/ci"
 import logo from "../assets/Images/logo-bokifa.svg"
-import "../assets/scss/Header.scss"
+import "../assets/scss/_Header.scss"
 import { NavLink } from "react-router-dom"
+import ThemeToggle from "../components/ThemeToggle"
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false)
-
     return (
         <>
             <nav className="navbar">
@@ -39,13 +39,8 @@ const Header = () => {
 
                     <div className="navbar-actions">
                         <div className="navbar-lang-currency d-flex align-items-center">
-                            <button className="navbar-btn">ENG ▾</button>
-                            <label className="switch">
-                                <span className="sun" />
-                                <span className="moon" />
-                                <input type="checkbox" className="input" />
-                                <span className="slider" />
-                            </label>
+                            <div className="lang-button"></div>
+                            <ThemeToggle/>
 
 
 

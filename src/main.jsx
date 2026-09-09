@@ -5,10 +5,14 @@ import "../node_modules/bootstrap/dist/js/bootstrap.bundle.js"
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import "../src/assets/scss/index.scss"
 import './assets/scss/index.scss';
+import { ThemeProvider } from './context/ThemeContext.jsx'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Router />
+    <ThemeProvider>
+      <Router />
+
+    </ThemeProvider>
   </StrictMode>,
 )

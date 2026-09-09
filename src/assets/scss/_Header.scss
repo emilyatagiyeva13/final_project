@@ -1,15 +1,39 @@
 // ===========================
-// Variables
+// Theme Variables (CSS custom properties)
 // ===========================
-$green-primary: #2a7a3b;
-$green-dark: #1f5e2c;
-$text-dark: #1a1a1a;
-$text-muted: #6b7280;
-$border-color: #e5e7eb;
-$bg-light: #f3f4f6;
-$white: #ffffff;
-$toggler-color: #1f5e2c;
+:root[data-theme="light"] {
+    --navbar-bg: #ffffff;
+    --green-primary: #2a7a3b;
+    --green-dark: #1f5e2c;
+    --text-dark: #1a1a1a;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --bg-light: #f3f4f6;
+    --white: #ffffff;
+    --toggler-color: #1f5e2c;
+    --slider-knob: #e8e8e8;
+    --sun-color: #f5a623;
+    --moon-color: #cbd5e1;
+}
 
+:root[data-theme="dark"] {
+    --navbar-bg: #14181c;
+    --green-primary: #3fae56;
+    --green-dark: #2f8a41;
+    --text-dark: #f0f0f0;
+    --text-muted: #9ca3af;
+    --border-color: #2c3238;
+    --bg-light: #1e2328;
+    --white: #1e2328;
+    --toggler-color: #3fae56;
+    --slider-knob: #0f1215;
+    --sun-color: #f5a623;
+    --moon-color: #ffffff;
+}
+
+// ===========================
+// Non-color SCSS Variables
+// ===========================
 $font-main: 'Segoe UI', sans-serif;
 
 $breakpoint-lg: 992px;
@@ -40,16 +64,17 @@ $breakpoint-sm: 576px;
 // ===========================
 .navbar {
     width: 100%;
-    background: $white;
-    border-bottom: 1px solid $border-color;
+    background: var(--navbar-bg);
+    border-bottom: 1px solid var(--border-color);
     font-family: $font-main;
     padding: 0;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
     // ── Top ──────────────────────────────
     &-top {
         @include flex(center, space-between, 2rem);
         padding: 14px 40px;
-        border-bottom: 1px solid $border-color;
+        border-bottom: 1px solid var(--border-color);
 
         @include responsive($breakpoint-lg) {
             padding: 12px 20px;
@@ -83,14 +108,14 @@ $breakpoint-sm: 576px;
         @include flex(center, flex-start);
         flex: 1;
         max-width: 600px;
-        background: $bg-light;
+        background: var(--bg-light);
         border-radius: 50px;
         overflow: hidden;
-        border: 1.5px solid $border-color;
-        transition: border-color 0.2s;
+        border: 1.5px solid var(--border-color);
+        transition: border-color 0.2s, background-color 0.3s ease;
 
         &:focus-within {
-            border-color: $green-primary;
+            border-color: var(--green-primary);
         }
 
         @include responsive($breakpoint-md) {
@@ -101,10 +126,10 @@ $breakpoint-sm: 576px;
     &-search-select {
         background: transparent;
         border: none;
-        border-right: 1.5px solid $border-color;
+        border-right: 1.5px solid var(--border-color);
         padding: 10px 16px;
         font-size: 15px;
-        color: $text-dark;
+        color: var(--text-dark);
         cursor: pointer;
         outline: none;
         appearance: auto;
@@ -121,18 +146,18 @@ $breakpoint-sm: 576px;
         background: transparent;
         padding: 10px 16px;
         font-size: 0.875rem;
-        color: $text-dark;
+        color: var(--text-dark);
         outline: none;
 
         &::placeholder {
-            color: $text-muted;
+            color: var(--text-muted);
         }
     }
 
     &-search-btn {
         @include flex(center, center, 0.4rem);
-        background: $green-primary;
-        color: $white;
+        background: var(--green-primary);
+        color: var(--white);
         border: none;
         padding: 10px 22px;
         font-size: 17px;
@@ -143,7 +168,7 @@ $breakpoint-sm: 576px;
         transition: background 0.2s;
 
         &:hover {
-            background: $green-dark;
+            background: var(--green-dark);
         }
 
         svg {
@@ -188,7 +213,7 @@ $breakpoint-sm: 576px;
 
                 &:checked {
                     &+.slider {
-                        background-color: #183153;
+                        background-color: var(--green-primary);
 
                         &:before {
                             transform: translateX(30px);
@@ -205,7 +230,7 @@ $breakpoint-sm: 576px;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #73C0FC;
+            background-color: var(--green-primary);
             transition: .4s;
             border-radius: 30px;
 
@@ -218,13 +243,15 @@ $breakpoint-sm: 576px;
                 left: 2px;
                 bottom: 2px;
                 z-index: 2;
-                background-color: #e8e8e8;
+                background-color: var(--slider-knob);
                 transition: .4s;
             }
         }
 
         .sun {
             svg {
+                fill: var(--sun-color);
+                color: var(--sun-color);
                 position: absolute;
                 top: 6px;
                 left: 36px;
@@ -237,7 +264,8 @@ $breakpoint-sm: 576px;
 
         .moon {
             svg {
-                fill: #73C0FC;
+                fill: var(--moon-color);
+                color: var(--moon-color);
                 position: absolute;
                 top: 5px;
                 left: 5px;
@@ -279,18 +307,18 @@ $breakpoint-sm: 576px;
 
     &-btn {
         background: transparent;
-        border: 1px solid $border-color;
+        border: 1px solid var(--border-color);
         border-radius: 6px;
         padding: 5px 10px;
         font-size: 0.8rem;
         font-weight: 600;
-        color: $text-dark;
+        color: var(--text-dark);
         cursor: pointer;
         transition: border-color 0.2s, color 0.2s;
 
         &:hover {
-            border-color: $green-primary;
-            color: $green-primary;
+            border-color: var(--green-primary);
+            color: var(--green-primary);
         }
     }
 
@@ -300,13 +328,13 @@ $breakpoint-sm: 576px;
 
     &-icon {
         position: relative;
-        color: $text-dark;
+        color: var(--text-dark);
         font-size: 1.6rem;
         cursor: pointer;
         transition: color 0.2s;
 
         &:hover {
-            color: $green-primary;
+            color: var(--green-primary);
         }
 
         &-badge {
@@ -314,8 +342,8 @@ $breakpoint-sm: 576px;
             position: absolute;
             top: -6px;
             right: -8px;
-            background: $green-primary;
-            color: $white;
+            background: var(--green-primary);
+            color: var(--white);
             font-size: 0.65rem;
             font-weight: 700;
             width: 18px;
@@ -369,14 +397,14 @@ $breakpoint-sm: 576px;
             padding: 16px 18px;
             font-size: 18px;
             font-weight: 500;
-            color: $text-dark;
+            color: var(--text-dark);
             text-decoration: none;
             cursor: pointer;
             white-space: nowrap;
             transition: color 0.2s;
 
             &:hover {
-                color: $green-primary;
+                color: var(--green-primary);
             }
 
             @include responsive($breakpoint-lg) {
@@ -393,7 +421,7 @@ $breakpoint-sm: 576px;
             transform: translateX(-50%);
             width: 0;
             height: 2px;
-            background: $green-primary;
+            background: var(--green-primary);
             transition: width 0.25s ease;
         }
 
@@ -405,11 +433,11 @@ $breakpoint-sm: 576px;
     // ── Helpline ──────────────────────────
     &-helpline {
         font-size: 14px;
-        color: $text-muted;
+        color: var(--text-muted);
         white-space: nowrap;
 
         strong {
-            color: $text-dark;
+            color: var(--text-dark);
             font-weight: 700;
         }
 
@@ -437,10 +465,10 @@ $breakpoint-sm: 576px;
     .line-1,
     .line-2,
     .line-3 {
-        background: $toggler-color;
+        background: var(--toggler-color);
         height: 0.25em;
         border-radius: 10em;
-        transition: transform 500ms, opacity 500ms;
+        transition: transform 500ms, opacity 500ms, background-color 0.3s ease;
     }
 
     .line-1.open {
@@ -473,7 +501,7 @@ $breakpoint-sm: 576px;
 
             .navbar__nav-item {
                 width: 100%;
-                border-bottom: 1px solid $border-color;
+                border-bottom: 1px solid var(--border-color);
 
                 &::after {
                     display: none;

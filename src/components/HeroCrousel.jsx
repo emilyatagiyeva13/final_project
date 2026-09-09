@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import '../assets/scss/HomeCarousels.scss';
+import '../assets/scss/_HomeCarousels.scss';
 import h1sliderbg from "../assets/Images/h1-sliderbg1.png";
 import h1sliderbg3 from "../assets/Images/h1-slider3-3.svg"
 import h1slider3 from "../assets/Images/h1-slider3.png";
