@@ -1,10 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=Oswald:wght@400;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap');
 
+// ─── THEME VARIABLES (Həmçinin əvvəlki dəyişənlərlə uyğunlaşdırıldı) ──────────
+:root[data-theme="light"] {
+    --card-bg: #ffffff;
+    --card-border: #e8e4dc;
+    --card-text: #1a1a1a;
+    --card-author: #666;
+    --card-desc: #555;
+    --card-icon-bg: #ffffff;
+    --card-icon-color: #999;
+    --card-icon-border: rgb(206, 241, 206);
+    --card-icon-hover: #012e15;
+}
+
+:root[data-theme="dark"] {
+    --card-bg: #14181c;
+    --card-border: #2c3238;
+    --card-text: #f0f0f0;
+    --card-author: #a0a0a0;
+    --card-desc: #b0b0b0;
+    --card-icon-bg: #1e2328;
+    --card-icon-color: #9ca3af;
+    --card-icon-border: #2c3238;
+    --card-icon-hover: #3fae56;
+}
+
 $green: #2a7a3b;
 $green-dark: #12411c;
 $mint-bright: #afffed;
-$dark-text: #1a1a1a;
-$border: #e8e4dc;
 $star-filled: #f5c518;
 $star-empty: #ddd;
 $muted: #999;
@@ -25,16 +48,16 @@ $gold-bright: #e6c877;
     align-items: center;
     padding: 1.5rem 1rem;
     border-radius: 20px;
-    background: #ffffff;
-    border: 1px solid $border;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
     cursor: pointer;
-    transition: $transition-main;
+    transition: $transition-main, background-color 0.4s ease, border-color 0.4s ease;
     overflow: hidden;
     height: 100%;
 
     &:hover {
         transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 
         .book-card-image {
             transform: scale(1.05) rotate(-2deg);
@@ -46,7 +69,7 @@ $gold-bright: #e6c877;
         }
 
         .book-card-title {
-            color: $green;
+            color: var(--green-primary, $green);
         }
     }
 
@@ -76,7 +99,6 @@ $gold-bright: #e6c877;
             text-transform: uppercase;
 
             transition: background 0.3s ease, box-shadow 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
-
             transform: rotate(0deg) !important;
 
             svg,
@@ -116,7 +138,6 @@ $gold-bright: #e6c877;
     }
 
     // heart and quick view icon styles
-
     .view-heart-col {
         display: flex;
         flex-direction: column;
@@ -124,42 +145,23 @@ $gold-bright: #e6c877;
         left: 245px;
         gap: 3px;
 
-        .card-hover-heart {
-            width: 35px;
-            height: 35px;
-            background: #fff;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            color: $muted;
-            transition: 0.3s;
-            z-index: 5;
-            border: 1px solid rgb(206, 241, 206);
-
-            &:hover {
-                color: #012e15;
-                transform: scale(1.1);
-            }
-        }
-
+        .card-hover-heart,
         .quick-view {
             width: 35px;
             height: 35px;
-            background: #fff;
+            background: var(--card-icon-bg);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-            color: $muted;
-            transition: 0.3s;
+            color: var(--card-icon-color);
+            transition: 0.3s, background-color 0.4s ease, color 0.4s ease;
             z-index: 5;
-            border: 1px solid rgb(206, 241, 206);
+            border: 1px solid var(--card-icon-border);
 
             &:hover {
-                color: #012e15;
+                color: var(--card-icon-hover);
                 transform: scale(1.1);
             }
         }
@@ -174,7 +176,7 @@ $gold-bright: #e6c877;
         height: 185px;
         object-fit: cover;
         border-radius: 4px 8px 8px 4px;
-        box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.1);
+        box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.15);
         transition: 0.5s ease;
     }
 
@@ -195,7 +197,7 @@ $gold-bright: #e6c877;
         .book-card-rating {
             font-family: 'Oswald', sans-serif;
             font-size: 12px;
-            color: $muted;
+            color: var(--card-author);
             margin-left: 5px;
         }
     }
@@ -206,13 +208,15 @@ $gold-bright: #e6c877;
         font-weight: 700;
         text-align: center;
         margin: 5px 0;
-        transition: 0.3s;
+        color: var(--card-text);
+        transition: 0.3s, color 0.4s ease;
     }
 
     .book-card-author {
         font-family: 'Jim Nightshade', cursive;
         font-size: 18px;
-        color: #666;
+        color: var(--card-author);
+        transition: color 0.4s ease;
     }
 
     .book-card-line {
@@ -228,12 +232,8 @@ $gold-bright: #e6c877;
         font-family: 'Oswald', sans-serif;
         font-size: 19px;
         font-weight: 600;
-        color: $green-dark;
+        color: var(--green, #2a7a3b);
     }
-
-
-
-
 
     // LIST VIEW ************************************
     &.book-card-list {
@@ -282,8 +282,9 @@ $gold-bright: #e6c877;
             font-family: 'Oswald', sans-serif;
             font-size: 15px;
             line-height: 1.6;
-            color: #555;
+            color: var(--card-desc);
             margin: 8px 0 12px;
+            transition: color 0.4s ease;
 
             display: -webkit-box;
             -webkit-line-clamp: 2;

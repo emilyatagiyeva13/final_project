@@ -1,25 +1,53 @@
+// ─── THEME VARIABLES (Form / Left Side üçün) ──────────────────────────────
+:root[data-theme="light"] {
+    --form-bg: transparent;
+    --form-title: #1a1a1a;
+    --form-subtitle: #666666;
+    --form-label: #111111;
+    --form-input-bg: #f8f8f8;
+    --form-input-border: transparent;
+    --form-input-text: #333333;
+    --form-input-focus-bg: #ffffff;
+}
+
+:root[data-theme="dark"] {
+    --form-bg: transparent;
+    --form-title: #f0f0f0;
+    --form-subtitle: #9ca3af;
+    --form-label: #f0f0f0;
+    --form-input-bg: #14181c;
+    --form-input-border: #2c3238;
+    --form-input-text: #f0f0f0;
+    --form-input-focus-bg: #1e2328;
+}
+
+// ─── LEFT SIDE / FORM STYLES ───────────────────────────────────────────────
 .left-side {
     padding: 60px 40px;
     max-width: 1200px;
     margin: 0 auto;
+    background-color: var(--form-bg);
+    transition: background-color 0.4s ease;
 
     h1 {
         font-size: 48px;
         font-weight: 700;
         font-family: 'Playfair Display', serif;
-        color: #1a1a1a;
+        color: var(--form-title);
         margin-bottom: 15px;
         text-align: center;
+        transition: color 0.4s ease;
     }
 
     >span {
         font-size: 16px;
-        color: #666;
+        color: var(--form-subtitle);
         line-height: 1.6;
         display: block;
         text-align: center;
         max-width: 600px;
         margin: 0 auto;
+        transition: color 0.4s ease;
     }
 
     .subject-name-mail {
@@ -45,25 +73,27 @@
             font-size: 13px;
             font-weight: 600;
             letter-spacing: 0.1em;
-            color: #111;
+            color: var(--form-label);
             text-transform: uppercase;
+            transition: color 0.4s ease;
         }
     }
 
     .textarea-input {
         width: 100%;
-        background-color: #f8f8f8;
-        border: 1px solid transparent;
+        background-color: var(--form-input-bg);
+        border: 1px solid var(--form-input-border);
+        color: var(--form-input-text);
         border-radius: 12px;
         padding: 20px;
         font-size: 15px;
         resize: none;
         outline: none;
-        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
 
         &:focus {
             border-color: #2A7A3B;
-            background-color: #fff;
+            background-color: var(--form-input-focus-bg);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
             transform: translateY(-5px);
         }
@@ -84,18 +114,19 @@
             flex: 1;
 
             input {
-                background-color: #f8f8f8;
-                border: 1px solid transparent;
+                background-color: var(--form-input-bg);
+                border: 1px solid var(--form-input-border);
+                color: var(--form-input-text);
                 border-radius: 50px;
                 padding: 16px 24px;
                 font-size: 15px;
                 outline: none;
                 width: 100%;
-                transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+                transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease;
 
                 &:focus {
                     border-color: #2A7A3B;
-                    background-color: #fff;
+                    background-color: var(--form-input-focus-bg);
                     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
                     transform: translateY(-5px);
                 }
@@ -118,7 +149,6 @@
         font-size: 15px;
         cursor: pointer;
 
-
         &:hover {
             background: #1e5a2b;
             transform: scale(1.05);
@@ -130,9 +160,5 @@
             display: flex;
             align-items: center;
         }
-
-
     }
-
-
 }

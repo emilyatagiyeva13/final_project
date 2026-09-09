@@ -1,5 +1,5 @@
 import SingleCard from "../components/SingleCard"
-import "../assets/scss/_Home.scss"
+import "../assets/scss/Home.scss"
 import topFavThriller from "../assets/Images/h1-banner01-1.jpg"
 import topFavThriller2 from "../assets/Images/h3-banner-6.png"
 import { IoIosArrowForward } from "react-icons/io"

@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { CiHeart, CiShoppingBasket, CiUser, CiSearch } from "react-icons/ci"
 import logo from "../assets/Images/logo-bokifa.svg"
-import "../assets/scss/_Header.scss"
+import "../assets/scss/Header.scss"
 import { NavLink } from "react-router-dom"
 import ThemeToggle from "../components/ThemeToggle"
 

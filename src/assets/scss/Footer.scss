@@ -1,7 +1,39 @@
+// ─── THEME VARIABLES (Footer və Düymələr üçün) ─────────────────────────────
+:root[data-theme="light"] {
+    --footer-bg: #ffffff;
+    --footer-border: #f0f0f0;
+    --footer-title: #1a1a1a;
+    --footer-text: #666666;
+    --footer-link-color: #666666;
+    --footer-link-hover: #2a7a3b;
+    --footer-contact-color: #333333;
+    --footer-bottom-text: #888888;
+    
+    --social-btn-bg: #2a7a3b;
+    --social-btn-color: #ffffff;
+    --social-btn-border: #ffffff;
+    --social-btn-hover-bg: #ffffff;
+    --social-btn-hover-color: #2a7a3b;
+}
 
+:root[data-theme="dark"] {
+    --footer-bg: #14181c;
+    --footer-border: #2c3238;
+    --footer-title: #f0f0f0;
+    --footer-text: #a0a0a0;
+    --footer-link-color: #9ca3af;
+    --footer-link-hover: #3fae56;
+    --footer-contact-color: #e0e0e0;
+    --footer-bottom-text: #9ca3af;
+    
+    --social-btn-bg: #1e2328;
+    --social-btn-color: #3fae56;
+    --social-btn-border: #2c3238;
+    --social-btn-hover-bg: #3fae56;
+    --social-btn-hover-color: #ffffff;
+}
 
-
-
+// ─── SOCIAL BUTTONS ─────────────────────────────────────────────────────────
 .button-container {
     display: flex;
     justify-content: center;
@@ -12,21 +44,21 @@
 .button {
     cursor: pointer;
     text-decoration: none;
-    color: #ffff;
+    color: var(--social-btn-color);
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #2a7a3b;
-    border: 2px solid white;
-    transition: all 0.45s;
+    background-color: var(--social-btn-bg);
+    border: 2px solid var(--social-btn-border);
+    transition: all 0.45s, background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
 .button:hover {
     transform: rotate(360deg);
     transform-origin: center center;
-    background-color: #ffff;
-    color: #2a7a3b;
-    border: 3px dotted #2a7a3b;
+    background-color: var(--social-btn-hover-bg);
+    color: var(--social-btn-hover-color);
+    border: 3px dotted var(--green-primary, #2a7a3b);
 }
 
 .button:hover .btn-svg {
@@ -39,11 +71,13 @@
     align-items: center;
 }
 
+// ─── MAIN FOOTER ────────────────────────────────────────────────────────────
 .main-footer {
-    background-color: #fff;
+    background-color: var(--footer-bg);
     padding: 80px 0 30px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--footer-border);
     font-family: "Josefin Sans", sans-serif;
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 
     .footer-top {
         max-width: 1300px;
@@ -67,8 +101,9 @@
             font-size: 20px;
             font-weight: 600;
             margin-bottom: 25px;
-            color: #1a1a1a;
+            color: var(--footer-title);
             position: relative;
+            transition: color 0.4s ease;
 
             &::after {
                 content: '';
@@ -77,7 +112,7 @@
                 bottom: -8px;
                 width: 30px;
                 height: 2px;
-                background-color: #2a7a3b; // Sənin yaşıl rəngin
+                background-color: var(--green-primary, #2a7a3b);
             }
         }
 
@@ -91,12 +126,12 @@
 
                 a {
                     text-decoration: none;
-                    color: #666;
+                    color: var(--footer-link-color);
                     font-size: 15px;
-                    transition: all 0.3s ease;
+                    transition: all 0.3s ease, color 0.4s ease;
 
                     &:hover {
-                        color: #2a7a3b; // Hover rəngi
+                        color: var(--green-primary, #2a7a3b);
                         padding-left: 5px;
                     }
                 }
@@ -108,40 +143,40 @@
         .logo-placeholder {
             font-size: 28px;
             font-weight: 800;
-            color: #2a7a3b;
+            color: var(--green-primary, #2a7a3b);
             margin-bottom: 20px;
         }
 
         .brand-text {
-            color: #666;
+            color: var(--footer-text);
             line-height: 1.6;
             margin-bottom: 25px;
             max-width: 300px;
+            transition: color 0.4s ease;
         }
 
         .contact-info {
-
             .phone,
             .email {
                 display: flex;
                 align-items: center;
                 gap: 10px;
                 margin-bottom: 10px;
-                color: #333;
+                color: var(--footer-contact-color);
                 font-weight: 600;
+                transition: color 0.4s ease;
 
                 svg {
                     color: #d4a373;
                 }
-
-                // Qızılı-qəhvəyi ton şəkildəki kimi
             }
         }
     }
 
     .footer-bottom {
-        border-top: 1px solid #f0f0f0;
+        border-top: 1px solid var(--footer-border);
         padding-top: 30px;
+        transition: border-color 0.4s ease;
 
         .bottom-content {
             max-width: 1300px;
@@ -150,8 +185,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 20px;
-            color: #888;
+            color: var(--footer-bottom-text);
             font-size: 14px;
+            transition: color 0.4s ease;
 
             @media (max-width: 768px) {
                 flex-direction: column;
@@ -160,7 +196,7 @@
             }
 
             .highlight {
-                color: #2a7a3b;
+                color: var(--green-primary, #2a7a3b);
                 font-weight: 600;
             }
         }

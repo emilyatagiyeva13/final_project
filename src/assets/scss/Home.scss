@@ -1,3 +1,53 @@
+// ===========================
+// Theme Variables (CSS custom properties)
+// ===========================
+
+:root[data-theme="light"] {
+    // Navbar / Ümumi
+    --navbar-bg: #ffffff;
+    --green-primary: #2a7a3b;
+    --green-dark: #1f5e2c;
+    --text-dark: #1a1a1a;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+    --bg-light: #f3f4f6;
+    --white: #ffffff;
+    --toggler-color: #1f5e2c;
+    --slider-knob: #e8e8e8;
+    --sun-color: #f5a623;
+    --moon-color: #cbd5e1;
+
+    // Hero / Top-fav-thriller bölməsi
+    --hero-accent: hsl(132, 36%, 86%);
+    --thriller-bg: #ffffff;
+    --thriller-text: #ffffff; // Şəkil üzərindəki sabit mətn
+}
+
+:root[data-theme="dark"] {
+    // Navbar / Ümumi
+    --navbar-bg: #14181c;
+    --green-primary: #3fae56;
+    --green-dark: #2f8a41;
+    --text-dark: #f0f0f0;
+    --text-muted: #9ca3af;
+    --border-color: #2c3238;
+    --bg-light: #1e2328;
+    --white: #1e2328;
+    --toggler-color: #3fae56;
+    --slider-knob: #0f1215;
+    --sun-color: #f5a623;
+    --moon-color: #ffffff;
+
+    // Hero / Top-fav-thriller bölməsi
+    --hero-accent: hsl(132, 40%, 70%);
+    --thriller-bg: #14181c;
+    --thriller-text: #ffffff;
+}
+
+// ===========================
+// Home.scss — qalan kod
+// ===========================
+
 section .container {
     max-width: 1450px;
 }
@@ -11,6 +61,8 @@ h1 {
     overflow: hidden;
     min-height: 520px;
     border-radius: 10px;
+    background-color: var(--thriller-bg);
+    transition: background-color 0.3s ease;
 
     // Dark modda şəkil üzərinə yüngül qara overlay — mətnin oxunaqlılığı üçün
     &::before {
@@ -25,18 +77,26 @@ h1 {
 
     :root[data-theme="dark"] & {
         &::before {
-            background: rgba(0, 0, 0, 0.35);
+            background: rgba(0, 0, 0, 0.45); // Dark rejimdə bir az daha yaxşı kontrast üçün tündləşdirildi
         }
     }
 
     .thriller-content {
+        position: absolute;
+        left: 30px;
+        top: 100px;
+        z-index: 3; // overlay-dən (z-index: 2) üstə çıxsın
+        color: var(--thriller-text);
+        font-family: 'Segoe UI', sans-serif;
+
         h1 {
-            font-family: italic;
+            font-style: italic; // "font-family: italic;" səhvi düzəldildi (font-style olmalıdır)
             font-weight: bold;
+            color: var(--thriller-text);
         }
 
         span {
-            color: var(--hero-accent, hsl(132, 36%, 86%));
+            color: var(--hero-accent);
         }
 
         .discover-btn {
@@ -66,13 +126,6 @@ h1 {
                 align-items: center;
             }
         }
-
-        position: absolute;
-        left: 30px;
-        color: white; // şəkil üzərində sabit ağ saxlanılır — theme-dən asılı deyil
-        font-family: 'Segoe UI', sans-serif;
-        top: 100px;
-        z-index: 3; // overlay-dən (z-index: 2) üstə çıxsın
     }
 
     .thriller-img {

@@ -1,9 +1,29 @@
+// ─── THEME VARIABLES (Shop Card üçün) ──────────────────────────────────────
+:root[data-theme="light"] {
+    --shopcard-overlay-dark: rgba(5, 30, 10, 0.85);
+    --shopcard-overlay-mid: rgba(5, 30, 10, 0.5);
+    --shopcard-overlay-light: rgba(5, 30, 10, 0.1);
+    --shopcard-category: #a8e6b8;
+    --shopcard-btn-bg: #ffffff;
+    --shopcard-btn-color: #12411c;
+    --shopcard-btn-hover-bg: #12411c;
+    --shopcard-btn-hover-color: #ffffff;
+}
+
+:root[data-theme="dark"] {
+    --shopcard-overlay-dark: rgba(0, 0, 0, 0.9);
+    --shopcard-overlay-mid: rgba(0, 0, 0, 0.6);
+    --shopcard-overlay-light: rgba(0, 0, 0, 0.2);
+    --shopcard-category: #3fae56;
+    --shopcard-btn-bg: #1e2328;
+    --shopcard-btn-color: #3fae56;
+    --shopcard-btn-hover-bg: #3fae56;
+    --shopcard-btn-hover-color: #ffffff;
+}
+
 $card-radius: 20px;
 $dark-green: #12411c;
 $light-green: #a8e6b8;
-$overlay-dark: rgba(5, 30, 10, 0.85);
-$overlay-mid: rgba(5, 30, 10, 0.5);
-$overlay-light: rgba(5, 30, 10, 0.1);
 
 .shopcard {
     position: relative;
@@ -18,11 +38,12 @@ $overlay-light: rgba(5, 30, 10, 0.1);
         inset: 0;
         border-radius: $card-radius;
         background: linear-gradient(to right,
-                $overlay-dark 0%,
-                $overlay-mid 50%,
-                $overlay-light 100%);
+                var(--shopcard-overlay-dark) 0%,
+                var(--shopcard-overlay-mid) 50%,
+                var(--shopcard-overlay-light) 100%);
         pointer-events: none;
         z-index: 1;
+        transition: background 0.4s ease;
     }
 
     .background-img {
@@ -73,8 +94,9 @@ $overlay-light: rgba(5, 30, 10, 0.1);
             font-weight: 600;
             letter-spacing: 3px;
             text-transform: uppercase;
-            color: $light-green;
+            color: var(--shopcard-category);
             margin-bottom: 8px;
+            transition: color 0.4s ease;
         }
 
         .title {
@@ -102,10 +124,10 @@ $overlay-light: rgba(5, 30, 10, 0.1);
         .button {
             height: 38px;
             width: 110px;
-            background-color: white;
-            color: $dark-green;
+            background-color: var(--shopcard-btn-bg);
+            color: var(--shopcard-btn-color);
             border: 2px solid transparent;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
             border-radius: 50px;
             display: flex;
             justify-content: center;
@@ -128,8 +150,8 @@ $overlay-light: rgba(5, 30, 10, 0.1);
             }
 
             &:hover {
-                background-color: $dark-green;
-                color: #fff;
+                background-color: var(--shopcard-btn-hover-bg);
+                color: var(--shopcard-btn-hover-color);
             }
 
             &:active {

@@ -1,11 +1,30 @@
+// ─── THEME VARIABLES (Xüsusiyyətlər bölməsi üçün) ───────────────────────────
+:root[data-theme="light"] {
+    --feat-bg: #ffffff;
+    --feat-title: #000000;
+    --feat-desc: #888888;
+    --feat-icon: #333333;
+    --feat-hover-color: #800020;
+}
+
+:root[data-theme="dark"] {
+    --feat-bg: #14181c;
+    --feat-title: #f0f0f0;
+    --feat-desc: #9ca3af;
+    --feat-icon: #e0e0e0;
+    --feat-hover-color: #3fae56; // Tünd rejimdə uyğun yaşıl və ya qırmızı/burgundy saxlaya bilərsən
+}
+
+// ─── FEATURES SECTION ───────────────────────────────────────────────────────
 .features-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     padding: 60px 20px;
-    max-width: 1300px;
+    max-width: 100%;
     margin: 0 auto;
-    background-color: #fff;
+    background-color: var(--feat-bg);
+    transition: background-color 0.4s ease;
 
     @media (max-width: 992px) {
         grid-template-columns: repeat(2, 1fr);
@@ -29,15 +48,15 @@
         transform: translateY(-5px);
         
         .feature-icon-wrapper {
-            color: #800020; // Sənin sevdiyin burgundy tonu
+            color: var(--feat-hover-color); 
             transform: scale(1.1);
         }
     }
 
     .feature-icon-wrapper {
         margin-bottom: 20px;
-        color: #333; // Default olaraq tünd boz/qara
-        transition: all 0.3s ease;
+        color: var(--feat-icon); 
+        transition: all 0.3s ease, color 0.4s ease;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -49,16 +68,18 @@
             font-size: 14px;
             font-weight: 700;
             letter-spacing: 1.5px;
-            color: #000;
+            color: var(--feat-title);
             margin-bottom: 8px;
             text-transform: uppercase;
+            transition: color 0.4s ease;
         }
 
         .feature-desc {
             font-size: 13px;
-            color: #888;
+            color: var(--feat-desc);
             margin: 0;
             font-weight: 400;
+            transition: color 0.4s ease;
         }
     }
 }

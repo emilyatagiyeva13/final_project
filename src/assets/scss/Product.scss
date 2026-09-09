@@ -1,4 +1,26 @@
+// ─── THEME VARIABLES (Mağaza və Filter Səhifəsi üçün) ──────────────────────
+:root[data-theme="light"] {
+    --shop-bg: #ffffff;
+    --shop-text: #333333;
+    --shop-muted: #777777;
+    --shop-border: #eee;
+    --shop-card-bg: #ffffff;
+    --shop-dropdown-bg: #ffffff;
+    --shop-hover-bg: rgba(42, 122, 59, 0.08);
+}
+
+:root[data-theme="dark"] {
+    --shop-bg: #0f1215;
+    --shop-text: #f0f0f0;
+    --shop-muted: #9ca3af;
+    --shop-border: #2c3238;
+    --shop-card-bg: #14181c;
+    --shop-dropdown-bg: #1e2328;
+    --shop-hover-bg: rgba(63, 174, 86, 0.15);
+}
+
 $green: #2A7A3B;
+$dark-green-darkmode: #3fae56;
 $font-main: 'Inter', sans-serif;
 $font-serif: 'Playfair Display', serif;
 $text-color: #333;
@@ -14,9 +36,10 @@ $spacing: 20px;
 
     .breadcrumb {
         font-size: 14px;
-        color: $muted-color;
+        color: var(--shop-muted);
         margin-bottom: $spacing;
         letter-spacing: 1px;
+        transition: color 0.4s ease;
 
         a {
             text-decoration: none;
@@ -24,7 +47,7 @@ $spacing: 20px;
             transition: color 0.3s;
 
             &:hover {
-                color: #000;
+                color: var(--shop-text);
             }
         }
 
@@ -34,6 +57,7 @@ $spacing: 20px;
 
         .current {
             font-weight: 500;
+            color: var(--shop-text);
         }
     }
 
@@ -42,42 +66,43 @@ $spacing: 20px;
         font-size: 60px;
         font-weight: 400;
         margin-bottom: $spacing;
-        color: $text-color;
+        color: var(--shop-text);
         line-height: 1.2;
+        transition: color 0.4s ease;
     }
 
     .description {
         font-size: 1.1rem;
         line-height: 1.6;
-        color: lighten($text-color, 10%);
+        color: var(--shop-muted);
         max-width: 650px;
         margin: 0 auto;
+        transition: color 0.4s ease;
     }
 }
 
-
-
-
-
 .filter-card {
-    border: 1.5px solid $green;
+    border: 1.5px solid var(--shop-border);
     border-radius: 12px;
     padding: 17px 20px;
+    background-color: var(--shop-card-bg);
+    transition: background-color 0.4s ease, border-color 0.4s ease;
 
     .filter-card-title {
         font-size: 16px;
         font-weight: 500;
-        padding-bottom: 10px;
         margin-bottom: 15px;
-        border-bottom: 0.5px solid $green;
+        border-bottom: 0.5px solid var(--shop-border);
         padding: 4px;
-
+        color: var(--shop-text);
+        transition: color 0.4s ease, border-color 0.4s ease;
 
         button {
             transition: transform 0.3s ease;
             font-weight: bold;
-            background-color: white;
-            border: 1px solid white;
+            background-color: var(--shop-card-bg);
+            border: 1px solid var(--shop-border);
+            color: var(--shop-text);
 
             &.open {
                 transform: rotate(180deg);
@@ -97,10 +122,7 @@ $spacing: 20px;
             opacity: 1;
         }
     }
-
-
 }
-
 
 .collapse-wrapper {
     display: grid;
@@ -117,12 +139,9 @@ $spacing: 20px;
     }
 }
 
-
-// DOWNBAR IS HERE BABY
-
-
-
 .main-shop {
+    background-color: var(--shop-bg);
+    transition: background-color 0.4s ease;
 
     .sorting {
         display: flex;
@@ -140,18 +159,19 @@ $spacing: 20px;
             .list-books {
                 width: 35px;
                 height: 35px;
-                background: #fff;
+                background: var(--shop-card-bg);
                 border-radius: 50%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-                transition: 0.3s;
+                transition: 0.3s, background-color 0.4s ease, border-color 0.4s ease;
                 z-index: 5;
-                border: 1px solid rgb(206, 241, 206);
+                border: 1px solid var(--shop-border);
+                color: var(--shop-text);
 
                 &:hover {
-                    color: #012e15;
+                    color: $green;
                     transform: scale(1.1);
                 }
 
@@ -161,11 +181,7 @@ $spacing: 20px;
                     border-color: $green;
                 }
             }
-
-
         }
-
-        // DROPDOWN IS HERE
 
         .dropdown {
             position: relative;
@@ -175,15 +191,15 @@ $spacing: 20px;
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                color: $text-color;
-                background-color: #fff;
+                color: var(--shop-text);
+                background-color: var(--shop-card-bg);
                 padding: 10px 16px;
                 font-size: 14px;
                 font-weight: 500;
-                border: 1.5px solid $green;
+                border: 1.5px solid var(--shop-border);
                 border-radius: 8px;
                 cursor: pointer;
-                transition: all 0.3s ease;
+                transition: all 0.3s ease, background-color 0.4s ease, color 0.4s ease;
 
                 .dropdown-arrow {
                     font-size: 14px;
@@ -197,7 +213,6 @@ $spacing: 20px;
                 right: 0;
                 z-index: 999;
                 padding-top: 8px;
-
                 max-height: 0;
                 opacity: 0;
                 transform: translateY(-8px);
@@ -205,20 +220,22 @@ $spacing: 20px;
                 transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
 
                 .dropdown-inner {
-                    background-color: #fff;
+                    background-color: var(--shop-dropdown-bg);
                     min-width: 220px;
                     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-                    border: 1px solid #eee;
+                    border: 1px solid var(--shop-border);
                     border-radius: 10px;
                     overflow: hidden;
+                    transition: background-color 0.4s ease, border-color 0.4s ease;
 
                     ul {
                         margin: 0;
                         padding: 6px;
+                        list-style: none;
                     }
 
                     li {
-                        color: $text-color;
+                        color: var(--shop-text);
                         padding: 7px 14px;
                         font-weight: 500;
                         font-size: 16px;
@@ -227,7 +244,7 @@ $spacing: 20px;
                         transition: background-color 0.2s ease, color 0.2s ease;
 
                         &:hover {
-                            background-color: rgba($green, 0.08);
+                            background-color: var(--shop-hover-bg);
                             color: $green;
                         }
                     }
@@ -243,8 +260,8 @@ $spacing: 20px;
                 }
 
                 .dropbtn {
-                    border-color: darken($green, 5%);
-                    background-color: rgba($green, 0.04);
+                    border-color: $green;
+                    background-color: var(--shop-hover-bg);
 
                     .dropdown-arrow {
                         transform: rotate(180deg);
@@ -255,15 +272,14 @@ $spacing: 20px;
     }
 
     .product-box {
-        width: 100%; // cardların da eyni enə uyğun olması üçün
-
+        width: 100%;
     }
 }
 
 .count {
     margin-left: auto;
     font-size: 13px;
-    color: #888;
+    color: var(--shop-muted);
 }
 
 .category,
@@ -276,13 +292,11 @@ $spacing: 20px;
         cursor: pointer;
         user-select: none;
         font-size: 14px;
-        color: #333;
+        color: var(--shop-text);
         gap: 10px;
         width: 300px;
         padding: 5px 0;
         transition: color 0.3s;
-
-
 
         &:hover {
             color: $green;
@@ -290,26 +304,25 @@ $spacing: 20px;
 
         input[type="checkbox"] {
             display: none;
-
         }
 
         .checkmark {
             width: 20px;
             height: 20px;
-            border: 2px solid $green;
+            border: 2px solid var(--shop-border);
             border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
-            transition: background 0.25s, transform 0.3s;
+            background-color: var(--shop-card-bg);
+            transition: background 0.25s, transform 0.3s, border-color 0.4s ease;
 
             &::before {
                 content: "\2713";
                 font-size: 13px;
                 color: transparent;
                 transition: color 0.3s;
-
             }
         }
 
@@ -324,8 +337,8 @@ $spacing: 20px;
         }
 
         &:hover .checkmark {
-            border-color: darken($green, 10%);
-            background-color: rgba($green, 0.08);
+            border-color: $green;
+            background-color: var(--shop-hover-bg);
         }
     }
 }

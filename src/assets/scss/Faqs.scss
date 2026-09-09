@@ -1,4 +1,5 @@
-:root {
+// ─── THEME VARIABLES (FAQ / Accordion üçün) ────────────────────────────────
+:root[data-theme="light"] {
     --faq-bg: #ffffff;
     --faq-border: #e9ecef;
     --faq-border-hover: #cbd5e1;
@@ -6,12 +7,25 @@
     --faq-text-muted: #64748b;
     --faq-accent: #027a36;
     --faq-accent-bg: #f0f6ff;
+    --faq-icon-bg: #f1f5f9;
     --faq-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
     --faq-shadow-active: 0 10px 25px -5px rgba(59, 130, 246, 0.1);
-    --faq-radius: 14px;
-    --faq-transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+:root[data-theme="dark"] {
+    --faq-bg: #14181c;
+    --faq-border: #2c3238;
+    --faq-border-hover: #3fae56;
+    --faq-text-main: #f0f0f0;
+    --faq-text-muted: #9ca3af;
+    --faq-accent: #3fae56;
+    --faq-accent-bg: rgba(63, 174, 86, 0.15);
+    --faq-icon-bg: #1e2328;
+    --faq-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+    --faq-shadow-active: 0 10px 25px -5px rgba(63, 174, 86, 0.2);
+}
+
+// ─── FAQ STYLES ─────────────────────────────────────────────────────────────
 .faq-status {
     display: flex;
     justify-content: center;
@@ -19,6 +33,7 @@
     min-height: 200px;
     font-size: 1.1rem;
     color: var(--faq-text-muted);
+    transition: color 0.4s ease;
 }
 
 .accordion {
@@ -36,11 +51,13 @@
             color: var(--faq-text-main);
             letter-spacing: -0.025em;
             margin-bottom: 8px;
+            transition: color 0.4s ease;
         }
 
         p {
             font-size: 1.05rem;
             color: var(--faq-text-muted);
+            transition: color 0.4s ease;
         }
     }
 
@@ -56,7 +73,7 @@
         border-radius: var(--faq-radius);
         box-shadow: var(--faq-shadow);
         overflow: hidden;
-        transition: var(--faq-transition);
+        transition: var(--faq-transition), background-color 0.4s ease, border-color 0.4s ease;
         margin-top: 10px;
 
         &:hover {
@@ -65,7 +82,7 @@
         }
 
         &.is-open {
-            border-color: rgba(59, 130, 246, 0.4);
+            border-color: rgba(63, 174, 86, 0.4);
             box-shadow: var(--faq-shadow-active);
             background: var(--faq-bg);
         }
@@ -85,7 +102,7 @@
         color: var(--faq-text-main);
         text-align: left;
         cursor: pointer;
-        transition: var(--faq-transition);
+        transition: var(--faq-transition), color 0.4s ease;
 
         &:hover {
             color: var(--faq-accent);
@@ -104,7 +121,7 @@
         width: 28px;
         height: 28px;
         border-radius: 50%;
-        background: #f1f5f9;
+        background: var(--faq-icon-bg);
         color: var(--faq-text-main);
         font-size: 1.25rem;
         font-weight: 400;
@@ -137,7 +154,7 @@
             color: var(--faq-text-muted);
             font-size: 0.975rem;
             line-height: 1.65;
-            transition: opacity 0.3s ease, padding 0.35s ease;
+            transition: opacity 0.3s ease, padding 0.35s ease, color 0.4s ease;
         }
 
         &.open .accordion-content-inner {

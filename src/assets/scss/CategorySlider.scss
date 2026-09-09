@@ -1,7 +1,35 @@
+// ─── THEME VARIABLES (Kateqoriya bölməsi üçün) ────────────────────────────────
+:root[data-theme="light"] {
+    --cat-bg: #ffffff;
+    --cat-border: #f0f0f0;
+    --cat-hover-border: rgba(42, 122, 59, 0.3);
+    --cat-icon-bg: #f9f9f9;
+    --cat-icon-hover-bg: #f0f9f2;
+    --cat-label-bg: #f4f4f4;
+    --cat-label-color: #444;
+    --cat-label-hover-bg: #2a7a3b;
+    --cat-label-hover-color: #fff;
+    --cat-pagination-bg: #ccc;
+}
+
+:root[data-theme="dark"] {
+    --cat-bg: #14181c;
+    --cat-border: #2c3238;
+    --cat-hover-border: rgba(63, 174, 86, 0.4);
+    --cat-icon-bg: #1e2328;
+    --cat-icon-hover-bg: #1b2e20;
+    --cat-label-bg: #1e2328;
+    --cat-label-color: #f0f0f0;
+    --cat-label-hover-bg: #3fae56;
+    --cat-label-hover-color: #ffffff;
+    --cat-pagination-bg: #4a5568;
+}
+
+// ─── CATEGORY CAROUSEL & CARDS ──────────────────────────────────────────────
 .category-carousel-container {
     padding: 80px 0;
-    // max-width: 100px;
     margin: 0 auto;
+    transition: background-color 0.4s ease;
 
     .category-swiper {
         padding-bottom: 60px; 
@@ -10,18 +38,20 @@
             width: 12px;
             height: 6px;
             border-radius: 4px;
+            background-color: var(--cat-pagination-bg);
+            opacity: 1;
             transition: all 0.3s ease;
             
             &-active {
                 width: 30px;
-                background-color: #2a7a3b;
+                background-color: var(--green-primary, #2a7a3b);
             }
         }
     }
 }
 
 .category-card {
-    background: #ffffff;
+    background: var(--cat-bg);
     border-radius: 24px;
     height: 280px;
     display: flex;
@@ -29,37 +59,39 @@
     align-items: center;
     justify-content: space-between;
     padding: 30px 20px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--cat-border);
     cursor: pointer;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease, border-color 0.4s ease;
     position: relative;
     overflow: hidden;
 
     &:hover {
         transform: translateY(-10px) scale(1.02); // Həm yuxarı, həm bir az qabağa
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-        border-color: rgba(42, 122, 59, 0.3);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        border-color: var(--cat-hover-border);
 
         .icon-box {
-            background-color: #f0f9f2;
+            background-color: var(--cat-icon-hover-bg);
             transform: rotate(-5deg);
         }
 
         .category-label {
-            background-color: #2a7a3b;
-            span { color: #fff; }
+            background-color: var(--cat-label-hover-bg);
+            span { 
+                color: var(--cat-label-hover-color); 
+            }
         }
     }
 
     .icon-box {
         width: 100px;
         height: 100px;
-        background-color: #f9f9f9;
+        background-color: var(--cat-icon-bg);
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.4s ease;
+        transition: all 0.4s ease, background-color 0.4s ease;
 
         img {
             width: 50px;
@@ -71,20 +103,21 @@
     .category-label {
         width: 100%;
         padding: 12px 0;
-        background-color: #f4f4f4; 
+        background-color: var(--cat-label-bg); 
         border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: all 0.3s ease;
+        transition: all 0.3s ease, background-color 0.4s ease;
 
         span {
             font-family: "Josefin Sans", sans-serif;
             font-weight: 700;
             font-size: 14px;
-            color: #444;
+            color: var(--cat-label-color);
             letter-spacing: 0.8px;
             text-transform: uppercase;
+            transition: color 0.3s ease;
         }
     }
 }
