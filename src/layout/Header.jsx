@@ -48,7 +48,7 @@ const Header = () => {
 
                         <div className="navbar-icons">
                             <div className="navbar-icon">
-                                <CiUser />
+                                <NavLink to="/login"><CiUser /></NavLink>
                             </div>
                             <div className="navbar-icon">
                                 <CiHeart />
