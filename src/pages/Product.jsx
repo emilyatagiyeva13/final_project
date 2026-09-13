@@ -5,6 +5,7 @@ import { supabase } from "../supabaseClient"
 import { Link } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
 import { useState, useEffect } from "react"
+import Loader from "../components/Loader"
 // import { Pagination } from "react-bootstrap"
 // import usePagination from "../components/hooks/usePagination"
 
@@ -66,7 +67,7 @@ const Product = () => {
   }, {});
 
   if (loading) {
-    return <p className="text-center py-5">Yüklənir...</p>;
+    return <Loader/>;
   }
 
   return (

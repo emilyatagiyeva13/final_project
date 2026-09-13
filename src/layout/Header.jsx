@@ -4,6 +4,7 @@ import logo from "../assets/Images/logo-bokifa.svg"
 import "../assets/scss/Header.scss"
 import { NavLink } from "react-router-dom"
 import ThemeToggle from "../components/ThemeToggle"
+import LanguageSwitchButton from "../components/LangButton"
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -38,18 +39,19 @@ const Header = () => {
                     </div>
 
                     <div className="navbar-actions">
+                        <div className="navbar-icon">
+                            <LanguageSwitchButton />
+                        </div>
                         <div className="navbar-lang-currency d-flex align-items-center">
                             <div className="lang-button"></div>
                             <ThemeToggle />
-
-
-
                         </div>
-
                         <div className="navbar-icons d-flex">
+
                             <div className="navbar-icon">
                                 <NavLink to="/login" className="nav-link"><CiUser /></NavLink>
                             </div>
+
                             <div className="navbar-icon">
                                 <NavLink to="/wishlist" className="nav-link"><CiHeart /></NavLink>
                                 <span className="navbar-icon-badge">4</span>
