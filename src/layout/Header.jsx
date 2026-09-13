@@ -46,9 +46,9 @@ const Header = () => {
 
                         </div>
 
-                        <div className="navbar-icons">
+                        <div className="navbar-icons d-flex">
                             <div className="navbar-icon">
-                                <NavLink to="/login"><CiUser /></NavLink>
+                                <NavLink to="/login" className="nav-link"><CiUser /></NavLink>
                             </div>
                             <div className="navbar-icon">
                                 <CiHeart />

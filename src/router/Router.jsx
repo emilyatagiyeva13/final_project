@@ -9,7 +9,8 @@ import Wishlist from "../pages/Wishlist"
 import Basket from "../pages/Basket"
 import FAQ from "../pages/FAQ"
 import Blog from "../pages/Blog"
-import Login from "../pages/Login"
+import Login from "../pages/auth/Login"
+
 
 const Router = () => {
   return (
