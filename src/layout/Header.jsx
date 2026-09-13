@@ -40,7 +40,7 @@ const Header = () => {
                     <div className="navbar-actions">
                         <div className="navbar-lang-currency d-flex align-items-center">
                             <div className="lang-button"></div>
-                            <ThemeToggle/>
+                            <ThemeToggle />
 
 
 
@@ -51,11 +51,12 @@ const Header = () => {
                                 <NavLink to="/login" className="nav-link"><CiUser /></NavLink>
                             </div>
                             <div className="navbar-icon">
-                                <CiHeart />
+                                <NavLink to="/wishlist" className="nav-link"><CiHeart /></NavLink>
                                 <span className="navbar-icon-badge">4</span>
                             </div>
                             <div className="navbar-icon">
-                                <CiShoppingBasket />
+
+                                <NavLink to="/basket" className="nav-link"><CiShoppingBasket /> </NavLink>
                                 <span className="navbar-icon-badge">0</span>
                             </div>
                         </div>

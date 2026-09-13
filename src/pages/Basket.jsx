@@ -1,13 +1,8 @@
 
 const Basket = () => {
-    return (
-       <>
-       <h1>s</h1>
-       
-       
-       
-       </>
-    )
+  return (
+    <div>Basket</div>
+  )
 }
 
-export default Basket;
+export default Basket

@@ -1,41 +1,90 @@
 import { CiBoxList, CiGrid41 } from "react-icons/ci"
 import "../assets/scss/Product.scss"
 import SingleCard from "../components/SingleCard"
-import { booksData } from "../data/data"
+import { supabase } from "../supabaseClient"
 import { Link } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 // import { Pagination } from "react-bootstrap"
 // import usePagination from "../components/hooks/usePagination"
 
 const Product = () => {
-
-  const authorCounts = booksData.reduce((acs, book) => {
-    acs[book.author] = (acs[book.author] || 0) + 1;
-    return acs;
-  }, {});
+  const [booksData, setBooksData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isAuthorsOpen, setIsAuthorsOpen] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
   // const { currentPage, totalPages, booksData, goToPage } = usePagination(booksData, 10)
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      
+      const { data, error } = await supabase
+        .from("products")
+        .select(`
+          id,
+          slug,
+          title_az,
+          description_az,
+          price,
+          stock,
+          image_url,
+          rating,
+          categories ( name_az ),
+          authors ( name )
+        `)
+        .eq("is_active", true);
+        
+
+      if (error) {
+        console.error("Products fetch error:", error);
+        
+      } else {
+        // author/category-ni flat sahə kimi çıxarırıq ki, aşağıdakı filterlər işləsin
+        const formatted = data.map((book) => ({
+          ...book,
+          category: book.categories?.name_az,
+          author: book.authors?.name,
+        }));
+        console.log("Product IDs:", formatted.map(b => b.id));
+        setBooksData(formatted);
+      }
+      setLoading(false);
+    };
+
+    fetchProducts();
+  }, []);
+
+  const authorCounts = booksData.reduce((acs, book) => {
+    acs[book.author] = (acs[book.author] || 0) + 1;
+    return acs;
+  }, {});
+
+  const categoryCounts = booksData.reduce((acs, book) => {
+    acs[book.category] = (acs[book.category] || 0) + 1;
+    return acs;
+  }, {});
+
+  if (loading) {
+    return <p className="text-center py-5">Yüklənir...</p>;
+  }
+
   return (
     <>
-      <section class="book-header">
-        <nav class="breadcrumb d-flex justify-content-center">
+      <section className="book-header">
+        <nav className="breadcrumb d-flex justify-content-center">
           <Link to={`/`}>Home</Link>
           <span>&gt;</span>
           <span>Shop</span>
         </nav>
 
-        <h1 class="title">All Books</h1>
+        <h1 className="title">All Books</h1>
 
-        <p class="description">
+        <p className="description">
           Discover your favorite book: you will find a wide range of selected books from bestseller
-          to newcomer, children’s book to crime novel or thriller to science fiction novel.
+          to newcomer, children's book to crime novel or thriller to science fiction novel.
         </p>
       </section>
-
 
       <section className="d-flex gap-3 p-3">
         <div className="filter-box d-flex flex-column gap-3">
@@ -53,13 +102,13 @@ const Product = () => {
               </div>
 
               <ul className={`list-unstyled filter-list ${isCategoryOpen ? "open" : ""}`}>
-                {booksData.map((i) => (
-                  <li key={i.category}>
+                {Object.entries(categoryCounts).map(([category, count]) => (
+                  <li key={category}>
                     <label className="custom-checkbox">
                       <input type="checkbox" />
                       <span className="checkmark" />
-                      <span>{i.category}</span>
-                      <span className="count">{i.stock}</span>
+                      <span>{category}</span>
+                      <span className="count">{count}</span>
                     </label>
                   </li>
                 ))}
@@ -79,7 +128,6 @@ const Product = () => {
                 </button>
               </div>
               <ul className={`list-unstyled filter-list ${isAuthorsOpen ? "open" : ""}`}>
-
                 {Object.entries(authorCounts).map(([author, count]) => (
                   <li key={author}>
                     <label className="custom-checkbox">
@@ -96,8 +144,6 @@ const Product = () => {
 
         </div>
 
-        {/* database elave edende duzelt */}
-
         <div className="main-shop d-flex flex-column align-items-center">
 
           <div className="sorting ">
@@ -108,7 +154,7 @@ const Product = () => {
                 onClick={() => setViewMode("list")}><CiBoxList /></button>
             </div>
 
-            <p className="results-count">Showing 1-12 of 42 results</p>
+            <p className="results-count">Showing 1-{booksData.length} of {booksData.length} results</p>
 
             <div className="dropdown">
               <button className="dropbtn">
@@ -129,8 +175,11 @@ const Product = () => {
 
           <div className="product-box row my-3">
             {booksData.map((i) => (
-              <div className={viewMode === "grid" ? "col-6 col-md-4 col-lg-4 my-2" : "col-12 my-2"} >
-                <SingleCard {...i} key={i.id} viewMode={viewMode} />
+              <div
+                key={i.id}
+                className={viewMode === "grid" ? "col-6 col-md-4 col-lg-4 my-2" : "col-12 my-2"}
+              >
+                <SingleCard {...i} viewMode={viewMode} />
               </div>
             ))}
           </div>
@@ -138,11 +187,14 @@ const Product = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={goToPage} /> */}
+            
         </div>
 
       </section>
+      
     </>
   )
 }
+
 
 export default Product

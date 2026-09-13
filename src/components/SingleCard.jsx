@@ -3,7 +3,7 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FaRegHeart, FaStar } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 
-const SingleCard = ({ image, title, author, price, rating = 0, description, viewMode = "grid" }) => {
+const SingleCard = ({ image_url, title_az, author, price, rating = 0, description_az, viewMode = "grid" }) => {
     const fullStars = Math.round(rating);
 
     return (
@@ -19,7 +19,7 @@ const SingleCard = ({ image, title, author, price, rating = 0, description, view
             </div>
 
             <div className="book-card-image-wrapper">
-                <img src={image} alt={title} className="book-card-image" />
+                <img src={image_url} alt={title_az} className="book-card-image" />
             </div>
 
             <div className="book-card-info">
@@ -33,15 +33,12 @@ const SingleCard = ({ image, title, author, price, rating = 0, description, view
                     <span className="book-card-rating">({rating})</span>
                 </div>
 
-                <h3 className="book-card-title">{title}</h3>
+                <h3 className="book-card-title">{title_az}</h3>
 
                 <div className="book-card-author">{author}</div>
 
-
-                {/* LIST rejiminde description gorsenecek */}
-
-                {viewMode === "list"  && (
-                    <p className="book-card-description">{description}</p>
+                {viewMode === "list" && (
+                    <p className="book-card-description">{description_az}</p>
                 )}
 
                 <div className="book-card-line"></div>

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react"
 import SingleCard from "../components/SingleCard"
 import "../assets/scss/Home.scss"
 import topFavThriller from "../assets/Images/h1-banner01-1.jpg"
@@ -9,19 +10,67 @@ import CategoryCarousel from "../components/CategoryCarousel"
 import AuthorsCarousel from "../components/AuthorsCarousel"
 import ServiceFeatures from "../components/Service"
 import { useNavigate } from "react-router-dom"
-import { booksData } from "../data/data"
+import { supabase } from "../supabaseClient"
 import { Swiper, SwiperSlide } from 'swiper/react';
+import Loader from "../components/Loader"
 
 import { Pagination } from "react-bootstrap"
 // import UpcomingBooks from "../components/Picksforu"
 
 const Home = () => {
   const navigate = useNavigate();
+  const [booksData, setBooksData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data, error } = await supabase
+        .from("products")
+        .select(`
+          id,
+          slug,
+          title_az,
+          description_az,
+          price,
+          stock,
+          image_url,
+          rating,
+          sold_count,
+          is_weekly_highlight,
+          created_at,
+          categories ( name_az ),
+          authors ( name )
+        `)
+        .eq("is_active", true);
+
+      if (error) {
+        console.error("Products fetch error:", error);
+      } else {
+        const formatted = data.map((book) => ({
+          ...book,
+          category: book.categories?.name_az,
+          author: book.authors?.name,
+        }));
+        setBooksData(formatted);
+      }
+      setLoading(false);
+    };
+
+    fetchProducts();
+  }, []);
+
+  // this week's highlight
+  const weeklyHighlights = booksData.filter((book) => book.is_weekly_highlight);
 
   // current best selling books
-  const currentBestSeller = [...booksData].sort((a, b) => b.soldCount - a.soldCount);
-  const newArrivals = [...booksData].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+  const currentBestSeller = [...booksData].sort((a, b) => (b.sold_count ?? 0) - (a.sold_count ?? 0));
 
+  // new arrivals
+  const newArrivals = [...booksData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+  if (loading) {
+    return <Loader/>;
+  }
 
   return (
     <>
@@ -38,15 +87,6 @@ const Home = () => {
 
           <div className="row g-3 single-card my-2">
 
-
-
-            {/* {
-              booksData.filter((book) => book.isWeeklyHighlight).map((book) => (
-                <SingleCard key={book.id} {...book} />
-              ))
-            } */}
-
-
             <Swiper
               slidesPerView={4.3}
               spaceBetween={10}
@@ -61,20 +101,12 @@ const Home = () => {
                 1440: { slidesPerView: 5, spaceBetween: 200 },
               }}
             >
-              {booksData.map((book) => (
-                <SwiperSlide >
-                  <SingleCard key={book.id} {...book} />
+              {weeklyHighlights.map((book) => (
+                <SwiperSlide key={book.id}>
+                  <SingleCard {...book} />
                 </SwiperSlide>
               ))}
             </Swiper>
-
-
-
-            {/* {
-              booksData.filter((book) => book.isWeeklyHighlight).map((book) => (
-                <SingleCard key={book.id} title={book.title} id={book.id} price={book.price} />
-              ))
-            } */}
 
           </div>
 
@@ -93,15 +125,6 @@ const Home = () => {
 
           <div className="row g-3 single-card my-2">
 
-
-
-            {/* {
-              booksData.filter((book) => book.isWeeklyHighlight).map((book) => (
-                <SingleCard key={book.id} {...book} />
-              ))
-            } */}
-
-
             <Swiper
               slidesPerView={4.3}
               spaceBetween={10}
@@ -117,19 +140,11 @@ const Home = () => {
               }}
             >
               {currentBestSeller.map((book) => (
-                <SwiperSlide >
-                  <SingleCard key={book.id} {...book} />
+                <SwiperSlide key={book.id}>
+                  <SingleCard {...book} />
                 </SwiperSlide>
               ))}
             </Swiper>
-
-
-
-            {/* {
-              booksData.filter((book) => book.isWeeklyHighlight).map((book) => (
-                <SingleCard key={book.id} title={book.title} id={book.id} price={book.price} />
-              ))
-            } */}
 
           </div>
 
@@ -167,15 +182,6 @@ const Home = () => {
 
           <div className="row g-3 single-card my-2">
 
-
-
-            {/* {
-              booksData.filter((book) => book.isWeeklyHighlight).map((book) => (
-                <SingleCard key={book.id} {...book} />
-              ))
-            } */}
-
-
             <Swiper
               slidesPerView={4.3}
               spaceBetween={10}
@@ -191,19 +197,11 @@ const Home = () => {
               }}
             >
               {newArrivals.map((book) => (
-                <SwiperSlide >
-                  <SingleCard key={book.id} {...book} />
+                <SwiperSlide key={book.id}>
+                  <SingleCard {...book} />
                 </SwiperSlide>
               ))}
             </Swiper>
-
-
-
-            {/* {
-              booksData.filter((book) => book.isWeeklyHighlight).map((book) => (
-                <SingleCard key={book.id} title={book.title} id={book.id} price={book.price} />
-              ))
-            } */}
 
           </div>
 
