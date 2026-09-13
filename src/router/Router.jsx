@@ -10,6 +10,7 @@ import Basket from "../pages/Basket"
 import FAQ from "../pages/FAQ"
 import Blog from "../pages/Blog"
 import Login from "../pages/auth/Login"
+import SignUp from "../pages/auth/SignUp"
 
 
 const Router = () => {
@@ -31,6 +32,7 @@ const Router = () => {
           <Route path="/faqs" element={<FAQ />}></Route>
           <Route path="/blog" element={<Blog />}></Route>
           <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
 
 
 

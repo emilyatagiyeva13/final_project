@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 // import { logIn } from "./authStorage";
 import "../../assets/scss/Login.scss";
-import { NavLink } from "react-router-dom"
-
+import { NavLink } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const Login = () => {
+  const [pageLoading, setPageLoading] = useState(true); 
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPageLoading(false);
+    }, 1200); 
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -23,6 +32,10 @@ const Login = () => {
     //   setError(err.message);
     // }
   };
+
+  if (pageLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="login-page">
@@ -62,7 +75,7 @@ const Login = () => {
           </label>
 
           <label className="form-field">
-            <span>Şifrə</span>
+            <span>Password</span>
             <div className="password-field">
               <input
                 type={showPassword ? "text" : "password"}
