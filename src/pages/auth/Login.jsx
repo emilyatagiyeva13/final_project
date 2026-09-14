@@ -1,19 +1,21 @@
 import { useState, useEffect } from "react";
-// import { logIn } from "./authStorage";
+import { supabase } from "../../supabaseClient.js"; // öz yolunla uyğunlaşdır
 import "../../assets/scss/Login.scss";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 
 const Login = () => {
-  const [pageLoading, setPageLoading] = useState(true); 
+  const [pageLoading, setPageLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setPageLoading(false);
-    }, 1200); 
+    }, 1200);
 
     return () => clearTimeout(timer);
   }, []);
@@ -23,14 +25,24 @@ const Login = () => {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // try {
-    //   const user = logIn(form);
-    //   if (onLoginSuccess) onLoginSuccess(user);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
+    setSubmitting(true);
+    setError("");
+
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+
+    navigate("/"); // və ya "/admin", məntiqinə görə
   };
 
   if (pageLoading) {

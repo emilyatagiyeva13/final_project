@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
-// import { signUp } from "./authStorage";
+import { supabase } from "../../supabaseClient.js"; // öz yolunla uyğunlaşdır
 import "../../assets/scss/SignUp.scss";
-import { NavLink } from "react-router-dom";
-import Loader from "../../components/Loader"; 
+import { NavLink, useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const SignUp = () => {
   const [pageLoading, setPageLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -23,14 +25,27 @@ const SignUp = () => {
     setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // try {
-    //   const user = signUp(form);
-    //   if (onSignUpSuccess) onSignUpSuccess(user);
-    // } catch (err) {
-    //   setError(err.message);
-    // }
+    setSubmitting(true);
+    setError("");
+
+    const { data, error } = await supabase.auth.signUp({
+      email: form.email,
+      password: form.password,
+      options: {
+        data: { name: form.name }, // istəsən auth.users metadata-ya adı da yazır
+      },
+    });
+
+    setSubmitting(false);
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+
+    navigate("/"); // və ya istədiyin səhifə
   };
 
   if (pageLoading) {
