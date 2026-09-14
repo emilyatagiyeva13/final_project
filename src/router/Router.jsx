@@ -11,9 +11,24 @@ import FAQ from "../pages/FAQ"
 import Blog from "../pages/Blog"
 import Login from "../pages/auth/Login"
 import SignUp from "../pages/auth/SignUp"
+import { useAuthStore } from "../store/authStore"
+import { useEffect } from "react"
+import ProtectedRoute from "../components/ProtectedRoute"
+import Dashboard from "../pages/admin/dashboard"
+import ProductsPage from "../components/dashboard/ProductsPage"
+// import AdminLayout from "../pages/admin/AdminLayout"
+// import ProductsPage from "../pages/admin/ProductsPage"
+// import CategoriesPage from "../pages/admin/CategoriesPage"
+// import AuthorsPage from "../pages/admin/AuthorsPage"
+
+
 
 
 const Router = () => {
+
+  useEffect(() => {
+    useAuthStore.getState().init();
+  }, []);
   return (
     <>
 
@@ -33,6 +48,18 @@ const Router = () => {
           <Route path="/blog" element={<Blog />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requiredRole="admin">
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="products" element={<ProductsPage />} />
+            
+          </Route>
 
 
 

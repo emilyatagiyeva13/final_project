@@ -1,7 +1,7 @@
 import { CiBoxList, CiGrid41 } from "react-icons/ci"
 import "../assets/scss/Product.scss"
 import SingleCard from "../components/SingleCard"
-import { supabase } from "../supabaseClient"
+import { supabase } from "../supabaseClient.js"
 import { Link } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
 import { useState, useEffect } from "react"
