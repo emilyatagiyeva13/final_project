@@ -16,6 +16,7 @@ import { useEffect } from "react"
 import ProtectedRoute from "../components/ProtectedRoute"
 import Dashboard from "../pages/admin/dashboard"
 import ProductsPage from "../components/dashboard/ProductsPage"
+import ScrollToTop from "../components/ScrollToTop"
 // import AdminLayout from "../pages/admin/AdminLayout"
 // import ProductsPage from "../pages/admin/ProductsPage"
 // import CategoriesPage from "../pages/admin/CategoriesPage"
@@ -33,6 +34,7 @@ const Router = () => {
     <>
 
       <BrowserRouter>
+        <ScrollToTop />
 
         <Header />
 
@@ -58,7 +60,7 @@ const Router = () => {
             }
           >
             <Route path="products" element={<ProductsPage />} />
-            
+
           </Route>
 
 
