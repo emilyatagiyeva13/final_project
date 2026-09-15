@@ -2,7 +2,7 @@ import { CiBoxList, CiGrid41 } from "react-icons/ci"
 import "../assets/scss/Product.scss"
 import SingleCard from "../components/SingleCard"
 import { supabase } from "../supabaseClient.js"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
 import { useState, useEffect } from "react"
 import Loader from "../components/Loader"
@@ -15,11 +15,18 @@ const Product = () => {
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isAuthorsOpen, setIsAuthorsOpen] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const categoryParam = searchParams.get("category");
+  const [selectedCategories, setSelectedCategories] = useState(
+    categoryParam ? [categoryParam] : []
+  );
+  const [selectedAuthors, setSelectedAuthors] = useState([]);
   // const { currentPage, totalPages, booksData, goToPage } = usePagination(booksData, 10)
 
   useEffect(() => {
     const fetchProducts = async () => {
-      
+
       const { data, error } = await supabase
         .from("products")
         .select(`
@@ -31,20 +38,21 @@ const Product = () => {
           stock,
           image_url,
           rating,
-          categories ( name_az ),
+          categories ( slug, name_az ),
           authors ( name )
         `)
         .eq("is_active", true);
-        
+
 
       if (error) {
         console.error("Products fetch error:", error);
-        
+
       } else {
         // author/category-ni flat sahə kimi çıxarırıq ki, aşağıdakı filterlər işləsin
         const formatted = data.map((book) => ({
           ...book,
           category: book.categories?.name_az,
+          categorySlug: book.categories?.slug,
           author: book.authors?.name,
         }));
         console.log("Product IDs:", formatted.map(b => b.id));
@@ -56,15 +64,57 @@ const Product = () => {
     fetchProducts();
   }, []);
 
+  // URL-dəki category dəyişərsə (məs. carousel-dən yenidən klik) filtri sinxronlaşdır
+  useEffect(() => {
+    setSelectedCategories(categoryParam ? [categoryParam] : []);
+  }, [categoryParam]);
+
+  const toggleCategory = (slug) => {
+    setSelectedCategories((prev) => {
+      const next = prev.includes(slug)
+        ? prev.filter((s) => s !== slug)
+        : [...prev, slug];
+
+      if (next.length === 0) {
+        searchParams.delete("category");
+      } else {
+        searchParams.set("category", next[next.length - 1]);
+      }
+      setSearchParams(searchParams);
+
+      return next;
+    });
+  };
+
+  const toggleAuthor = (author) => {
+    setSelectedAuthors((prev) =>
+      prev.includes(author)
+        ? prev.filter((a) => a !== author)
+        : [...prev, author]
+    );
+  };
+
   const authorCounts = booksData.reduce((acs, book) => {
     acs[book.author] = (acs[book.author] || 0) + 1;
     return acs;
   }, {});
 
   const categoryCounts = booksData.reduce((acs, book) => {
-    acs[book.category] = (acs[book.category] || 0) + 1;
+    if (!book.categorySlug) return acs;
+    if (!acs[book.categorySlug]) {
+      acs[book.categorySlug] = { name: book.category, count: 0 };
+    }
+    acs[book.categorySlug].count += 1;
     return acs;
   }, {});
+
+  const filteredBooks = booksData.filter((book) => {
+    const matchesCategory =
+      selectedCategories.length === 0 || selectedCategories.includes(book.categorySlug);
+    const matchesAuthor =
+      selectedAuthors.length === 0 || selectedAuthors.includes(book.author);
+    return matchesCategory && matchesAuthor;
+  });
 
   if (loading) {
     return <Loader/>;
@@ -103,12 +153,16 @@ const Product = () => {
               </div>
 
               <ul className={`list-unstyled filter-list ${isCategoryOpen ? "open" : ""}`}>
-                {Object.entries(categoryCounts).map(([category, count]) => (
-                  <li key={category}>
+                {Object.entries(categoryCounts).map(([slug, { name, count }]) => (
+                  <li key={slug}>
                     <label className="custom-checkbox">
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(slug)}
+                        onChange={() => toggleCategory(slug)}
+                      />
                       <span className="checkmark" />
-                      <span>{category}</span>
+                      <span>{name}</span>
                       <span className="count">{count}</span>
                     </label>
                   </li>
@@ -132,7 +186,11 @@ const Product = () => {
                 {Object.entries(authorCounts).map(([author, count]) => (
                   <li key={author}>
                     <label className="custom-checkbox">
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        checked={selectedAuthors.includes(author)}
+                        onChange={() => toggleAuthor(author)}
+                      />
                       <span className="checkmark" />
                       <span>{author}</span>
                       <span className="count">{count}</span>
@@ -155,7 +213,7 @@ const Product = () => {
                 onClick={() => setViewMode("list")}><CiBoxList /></button>
             </div>
 
-            <p className="results-count">Showing 1-{booksData.length} of {booksData.length} results</p>
+            <p className="results-count">Showing 1-{filteredBooks.length} of {filteredBooks.length} results</p>
 
             <div className="dropdown">
               <button className="dropbtn">
@@ -175,7 +233,7 @@ const Product = () => {
           </div>
 
           <div className="product-box row my-3">
-            {booksData.map((i) => (
+            {filteredBooks.map((i) => (
               <div
                 key={i.id}
                 className={viewMode === "grid" ? "col-6 col-md-4 col-lg-4 my-2" : "col-12 my-2"}
@@ -188,11 +246,11 @@ const Product = () => {
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={goToPage} /> */}
-            
+
         </div>
 
       </section>
-      
+
     </>
   )
 }

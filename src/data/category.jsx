@@ -1,9 +1,9 @@
-import cat1 from "../assets/Images/categories_icons/home_icon.png"
+import cat1 from "../assets/Images/categories_icons/family.png"
 import cat2 from "../assets/Images/categories_icons/fantasy.png"
-import cat3 from "../assets/Images/categories_icons/biography_icon.png"
-import cat4 from "../assets/Images/categories_icons/history_icon.png"
-import cat5 from "../assets/Images/categories_icons/kids_icon.png"
-import cat6 from "../assets/Images/categories_icons/romance_icon.png"
+import cat3 from "../assets/Images/categories_icons/biography.png"
+import cat4 from "../assets/Images/categories_icons/history.png"
+import cat5 from "../assets/Images/categories_icons/kids.png"
+import cat6 from "../assets/Images/categories_icons/romance.png"
 import cat7 from "../assets/Images/categories_icons/detective.png"
 
 export const category = [

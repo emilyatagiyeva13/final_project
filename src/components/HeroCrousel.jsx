@@ -23,18 +23,18 @@ export default function HomeCarousels() {
     const [slideKeys, setSlideKeys] = useState([0, 0, 0]);
 
     useEffect(() => {
-        Aos.init({
-            duration: 900,
-            easing: 'ease-out-cubic',
-            once: false,
-            offset: 0,
-        });
-    }, []);
+    Aos.init({
+        duration: 900,
+        easing: 'ease-out-cubic',
+        once: true,   // dəyişdi: false → true
+        offset: 0,
+    });
+}, []);
 
     useEffect(() => {
 
         // aos-un her slide ucun yeniden ise dusmesi ucun bu kodu yazariq hansi ki keyler ile bir-bir onlari refresh edib aoslar ise dusecek
-        Aos.refreshHard();
+        Aos.refresh();
     }, [slideKeys]);
 
 
@@ -274,28 +274,7 @@ export default function HomeCarousels() {
             </Swiper>
 
 
-            {/* SWIPER-2 */}
 
-            {/* <div className="marquee-wrapper">
-                <div className="marquee-track">
-                    {[...marqueeItems, ...marqueeItems].map((item, index) => (
-                        <div
-                            key={index}
-                            className="marquee-content"
-                            style={{ animationPlayState: isPaused ? 'paused' : 'running' }}
-                        >
-                            <span
-                                className="marquee-item"
-                                onMouseEnter={() => setIsPaused(true)}
-                                onMouseLeave={() => setIsPaused(false)}
-                            >
-                                <span className="marquee-number">{item.number}</span>
-                                <span className="marquee-text">{item.text}</span>
-                            </span>
-                        </div>
-                    ))}
-                </div>
-            </div> */}
 
 
 

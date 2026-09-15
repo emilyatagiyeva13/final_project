@@ -160,3 +160,9 @@ h1 {
         transform: scale(1.18) rotate(20deg);
     }
 }
+
+@media (max-width: 1024px) {
+    .top-fav-thriller {
+        display: none !important;
+    }
+}

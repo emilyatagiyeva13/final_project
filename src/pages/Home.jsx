@@ -13,9 +13,8 @@ import { useNavigate } from "react-router-dom"
 import { supabase } from "../supabaseClient"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Loader from "../components/Loader"
-
 import { Pagination } from "react-bootstrap"
-// import UpcomingBooks from "../components/Picksforu"
+import { FreeMode } from "swiper/modules"
 
 const Home = () => {
   const navigate = useNavigate();
@@ -59,17 +58,17 @@ const Home = () => {
     fetchProducts();
   }, []);
 
-  // this week's highlight
+  // this week's highlight section
   const weeklyHighlights = booksData.filter((book) => book.is_weekly_highlight);
 
-  // current best selling books
+  // current best selling books section
   const currentBestSeller = [...booksData].sort((a, b) => (b.sold_count ?? 0) - (a.sold_count ?? 0));
 
-  // new arrivals
+  // new arrivals section
   const newArrivals = [...booksData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   return (
@@ -91,14 +90,15 @@ const Home = () => {
               slidesPerView={4.3}
               spaceBetween={10}
               pagination={{ clickable: true }}
-              modules={[Pagination]}
-              className="mySwiper"
+              modules={[Pagination, FreeMode]}
+              freeMode={true}
+              className="mySwiper category-swiper"
               breakpoints={{
                 320: { slidesPerView: 1, spaceBetween: 15 },
                 576: { slidesPerView: 2, spaceBetween: 20 },
                 992: { slidesPerView: 3, spaceBetween: 25 },
                 1200: { slidesPerView: 4, spaceBetween: 20 },
-                1440: { slidesPerView: 5, spaceBetween: 200 },
+                1440: { slidesPerView: 4, spaceBetween: 20 },
               }}
             >
               {weeklyHighlights.map((book) => (
@@ -129,14 +129,15 @@ const Home = () => {
               slidesPerView={4.3}
               spaceBetween={10}
               pagination={{ clickable: true }}
-              modules={[Pagination]}
-              className="mySwiper"
+              modules={[Pagination, FreeMode]}
+              freeMode={true}
+              className="mySwiper category-swiper"
               breakpoints={{
                 320: { slidesPerView: 1, spaceBetween: 15 },
                 576: { slidesPerView: 2, spaceBetween: 20 },
                 992: { slidesPerView: 3, spaceBetween: 25 },
                 1200: { slidesPerView: 4, spaceBetween: 20 },
-                1440: { slidesPerView: 5, spaceBetween: 200 },
+                1440: { slidesPerView: 4, spaceBetween: 20 },
               }}
             >
               {currentBestSeller.map((book) => (
@@ -155,24 +156,19 @@ const Home = () => {
 
 
 
-      <section className="top-fav-thriller container p-5 ">
-        <div className="thriller-content container d-flex flex-column my-5">
-          <h1>TOP FAVOURITE <br /> THRILLER STORIES </h1>
+      <section className="top-fav-thriller container p-5">
+        <div className="thriller-content d-flex flex-column my-5">
+          <h1>TOP FAVOURITE <br /> THRILLER STORIES</h1>
           <span>Find our take on the best books of all time.</span>
           <div className="btn-wrapper my-3">
             <button className="discover-btn" onClick={() => navigate(`/shop`)}>
-              <span>DISCOVER NOW</span> <span ><IoIosArrowForward />
-              </span>
+              <span>DISCOVER NOW</span>
+              <span><IoIosArrowForward /></span>
             </button>
           </div>
-
         </div>
-        <img src={topFavThriller} alt="" className="thriller-img" />
-
-        <img src={topFavThriller2} alt="" className="thriller-img-2" />
-
-
-
+        <img src={topFavThriller} alt="Thriller Book 1" className="thriller-img" />
+        <img src={topFavThriller2} alt="Thriller Book 2" className="thriller-img-2" />
       </section>
 
       <section>
@@ -186,14 +182,15 @@ const Home = () => {
               slidesPerView={4.3}
               spaceBetween={10}
               pagination={{ clickable: true }}
-              modules={[Pagination]}
-              className="mySwiper"
+              modules={[Pagination, FreeMode]}
+              freeMode={true}
+              className="mySwiper category-swiper"
               breakpoints={{
                 320: { slidesPerView: 1, spaceBetween: 15 },
                 576: { slidesPerView: 2, spaceBetween: 20 },
                 992: { slidesPerView: 3, spaceBetween: 25 },
                 1200: { slidesPerView: 4, spaceBetween: 20 },
-                1440: { slidesPerView: 5, spaceBetween: 200 },
+                1440: { slidesPerView: 4, spaceBetween: 20 },
               }}
             >
               {newArrivals.map((book) => (

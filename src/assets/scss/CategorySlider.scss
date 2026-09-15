@@ -121,3 +121,96 @@
         }
     }
 }
+
+// ─── RESPONSIVE (KATEQORIYA KARUSELI) ───────────────────────────────────────
+
+@media (max-width: 1200px) {
+    .category-carousel-container {
+        padding: 60px 0;
+        
+        .category-card {
+            height: 260px;
+            padding: 25px 15px;
+
+            .icon-box {
+                width: 85px;
+                height: 85px;
+
+                img {
+                    width: 42px;
+                    height: 42px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .category-carousel-container {
+        padding: 50px 0;
+
+        h1 {
+            font-size: 28px !important;
+            margin-bottom: 20px;
+        }
+
+        .category-card {
+            height: 240px;
+            border-radius: 20px;
+
+            .icon-box {
+                width: 75px;
+                height: 75px;
+
+                img {
+                    width: 36px;
+                    height: 36px;
+                }
+            }
+
+            .category-label {
+                padding: 10px 0;
+                
+                span {
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .category-carousel-container {
+        padding: 40px 15px;
+
+        h1 {
+            font-size: 24px !important;
+        }
+
+        .category-card {
+            height: 220px;
+            padding: 20px 10px;
+            border-radius: 16px;
+
+            .icon-box {
+                width: 65px;
+                height: 65px;
+
+                img {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+
+            .category-label {
+                padding: 8px 0;
+                border-radius: 10px;
+
+                span {
+                    font-size: 12px;
+                    letter-spacing: 0.5px;
+                }
+            }
+        }
+    }
+}
