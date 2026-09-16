@@ -2,7 +2,7 @@ import { MdAddShoppingCart } from "react-icons/md"
 import "../assets/scss/ShopNowCards.scss"
 import { useNavigate } from "react-router-dom"
 
-const ShopNowCards = ({ bannerImg, bookImg, category, title, slug }) => {
+const ShopNowCards = ({ bannerImg, bookImg, category, title, id }) => {
     const navigate = useNavigate();
     return (
         <div className="col-12 col-md-4">
@@ -17,7 +17,7 @@ const ShopNowCards = ({ bannerImg, bookImg, category, title, slug }) => {
                 </div>
 
                 <div className="shop-now-btn">
-                    <button className="button" onClick={() => navigate(`/shop/${slug}`)}>
+                    <button className="button" onClick={() => navigate(`/shop/${id}`)}>
                         <span>SHOP</span>
                         <MdAddShoppingCart className="icon-shop" />
                     </button>

@@ -12,6 +12,7 @@ import Loader from "../components/Loader"
 const Product = () => {
   const [booksData, setBooksData] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
+  const [allAuthors, setAllAuthors] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isAuthorsOpen, setIsAuthorsOpen] = useState(true);
@@ -22,13 +23,21 @@ const Product = () => {
   const [selectedCategories, setSelectedCategories] = useState(
     categoryParam ? categoryParam.split(",") : []
   );
-  const [selectedAuthors, setSelectedAuthors] = useState([]);
+
+  const authorParam = searchParams.get("author");
+  const [selectedAuthors, setSelectedAuthors] = useState(
+    authorParam ? authorParam.split(",") : []
+  );
   // const { currentPage, totalPages, booksData, goToPage } = usePagination(booksData, 10)
 
   useEffect(() => {
     const fetchProducts = async () => {
 
-      const [{ data, error }, { data: categoriesData, error: categoriesError }] = await Promise.all([
+      const [
+        { data, error },
+        { data: categoriesData, error: categoriesError },
+        { data: authorsData, error: authorsError },
+      ] = await Promise.all([
         supabase
           .from("products")
           .select(`
@@ -41,13 +50,17 @@ const Product = () => {
             image_url,
             rating,
             categories ( slug, name_az,name_en ),
-            authors ( name )
+            authors ( name, slug )
           `)
           .eq("is_active", true),
         supabase
           .from("categories")
-          .select("slug, name_az,name_en")
-          .order("name_az,name_en"),
+          .select("slug, name_az, name_en")
+          .order("name_az"),
+        supabase
+          .from("authors")
+          .select("slug, name")
+          .order("name"),
       ]);
 
       if (error) {
@@ -58,6 +71,7 @@ const Product = () => {
           category: book.categories?.name_az,
           categorySlug: book.categories?.slug,
           author: book.authors?.name,
+          authorSlug: book.authors?.slug,
         }));
         setBooksData(formatted);
       }
@@ -66,6 +80,12 @@ const Product = () => {
         console.error("Categories fetch error:", categoriesError);
       } else {
         setAllCategories(categoriesData);
+      }
+
+      if (authorsError) {
+        console.error("Authors fetch error:", authorsError);
+      } else {
+        setAllAuthors(authorsData);
       }
 
       setLoading(false);
@@ -78,6 +98,11 @@ const Product = () => {
   useEffect(() => {
     setSelectedCategories(categoryParam ? categoryParam.split(",") : []);
   }, [categoryParam]);
+
+  // URL-dəki author dəyişərsə (məs. AuthorsCarousel-dən klik) filtri sinxronlaşdır
+  useEffect(() => {
+    setSelectedAuthors(authorParam ? authorParam.split(",") : []);
+  }, [authorParam]);
 
   const toggleCategory = (slug) => {
     setSelectedCategories((prev) => {
@@ -96,18 +121,29 @@ const Product = () => {
     });
   };
 
-  const toggleAuthor = (author) => {
-    setSelectedAuthors((prev) =>
-      prev.includes(author)
-        ? prev.filter((a) => a !== author)
-        : [...prev, author]
-    );
+  const toggleAuthor = (authorSlug) => {
+    setSelectedAuthors((prev) => {
+      const next = prev.includes(authorSlug)
+        ? prev.filter((a) => a !== authorSlug)
+        : [...prev, authorSlug];
+
+      if (next.length === 0) {
+        searchParams.delete("author");
+      } else {
+        searchParams.set("author", next.join(","));
+      }
+      setSearchParams(searchParams);
+
+      return next;
+    });
   };
 
-  const authorCounts = booksData.reduce((acs, book) => {
-    acs[book.author] = (acs[book.author] || 0) + 1;
-    return acs;
-  }, {});
+  // authors cədvəlindən qururuq ki, məhsulu olmayanlar da (0 ilə) görünsün
+  const authorList = allAuthors.map((author) => ({
+    slug: author.slug,
+    name: author.name,
+    count: booksData.filter((b) => b.authorSlug === author.slug).length,
+  }));
 
   // categories cədvəlindən qururuq ki, məhsulu olmayanlar da (0 ilə) görünsün
   const categoryList = allCategories.map((cat) => ({
@@ -120,7 +156,7 @@ const Product = () => {
     const matchesCategory =
       selectedCategories.length === 0 || selectedCategories.includes(book.categorySlug);
     const matchesAuthor =
-      selectedAuthors.length === 0 || selectedAuthors.includes(book.author);
+      selectedAuthors.length === 0 || selectedAuthors.includes(book.authorSlug);
     return matchesCategory && matchesAuthor;
   });
 
@@ -191,16 +227,16 @@ const Product = () => {
                 </button>
               </div>
               <ul className={`list-unstyled filter-list ${isAuthorsOpen ? "open" : ""}`}>
-                {Object.entries(authorCounts).map(([author, count]) => (
-                  <li key={author}>
+                {authorList.map(({ slug, name, count }) => (
+                  <li key={slug}>
                     <label className="custom-checkbox">
                       <input
                         type="checkbox"
-                        checked={selectedAuthors.includes(author)}
-                        onChange={() => toggleAuthor(author)}
+                        checked={selectedAuthors.includes(slug)}
+                        onChange={() => toggleAuthor(slug)}
                       />
                       <span className="checkmark" />
-                      <span>{author}</span>
+                      <span>{name}</span>
                       <span className="count">{count}</span>
                     </label>
                   </li>

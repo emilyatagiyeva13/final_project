@@ -1,4 +1,38 @@
 // ─── THEME VARIABLES (Shop Card üçün) ──────────────────────────────────────
+:root {
+    --shopcard-overlay-dark: rgba(5, 30, 10, 0.85);
+    --shopcard-overlay-mid: rgba(5, 30, 10, 0.5);
+    --shopcard-overlay-light: rgba(5, 30, 10, 0.1);
+    --shopcard-category: #a8e6b8;
+    --shopcard-btn-bg: #ffffff;
+    --shopcard-btn-color: #12411c;
+    --shopcard-btn-hover-bg: #12411c;
+    --shopcard-btn-hover-color: #ffffff;
+    --shopcard-title-color: #ffffff;
+    --shopcard-title-hover: #cdeedb;
+    --shopcard-book-shadow: rgba(0, 0, 0, 0.6);
+    --shopcard-btn-shadow: rgba(0, 0, 0, 0.3);
+}
+
+// Sistem tənzimləməsinə görə (əl ilə seçilmiş data-theme yoxdursa)
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --shopcard-overlay-dark: rgba(0, 0, 0, 0.92);
+        --shopcard-overlay-mid: rgba(0, 0, 0, 0.62);
+        --shopcard-overlay-light: rgba(0, 0, 0, 0.22);
+        --shopcard-category: #4fc26a;
+        --shopcard-btn-bg: #1e2328;
+        --shopcard-btn-color: #4fc26a;
+        --shopcard-btn-hover-bg: #4fc26a;
+        --shopcard-btn-hover-color: #0c1a10;
+        --shopcard-title-color: #f2fbf5;
+        --shopcard-title-hover: #9fe0b3;
+        --shopcard-book-shadow: rgba(0, 0, 0, 0.75);
+        --shopcard-btn-shadow: rgba(0, 0, 0, 0.5);
+    }
+}
+
+// Əl ilə seçilmiş tema (istifadəçinin tema düyməsi)
 :root[data-theme="light"] {
     --shopcard-overlay-dark: rgba(5, 30, 10, 0.85);
     --shopcard-overlay-mid: rgba(5, 30, 10, 0.5);
@@ -8,17 +42,25 @@
     --shopcard-btn-color: #12411c;
     --shopcard-btn-hover-bg: #12411c;
     --shopcard-btn-hover-color: #ffffff;
+    --shopcard-title-color: #ffffff;
+    --shopcard-title-hover: #cdeedb;
+    --shopcard-book-shadow: rgba(0, 0, 0, 0.6);
+    --shopcard-btn-shadow: rgba(0, 0, 0, 0.3);
 }
 
 :root[data-theme="dark"] {
-    --shopcard-overlay-dark: rgba(0, 0, 0, 0.9);
-    --shopcard-overlay-mid: rgba(0, 0, 0, 0.6);
-    --shopcard-overlay-light: rgba(0, 0, 0, 0.2);
-    --shopcard-category: #3fae56;
+    --shopcard-overlay-dark: rgba(0, 0, 0, 0.92);
+    --shopcard-overlay-mid: rgba(0, 0, 0, 0.62);
+    --shopcard-overlay-light: rgba(0, 0, 0, 0.22);
+    --shopcard-category: #4fc26a;
     --shopcard-btn-bg: #1e2328;
-    --shopcard-btn-color: #3fae56;
-    --shopcard-btn-hover-bg: #3fae56;
-    --shopcard-btn-hover-color: #ffffff;
+    --shopcard-btn-color: #4fc26a;
+    --shopcard-btn-hover-bg: #4fc26a;
+    --shopcard-btn-hover-color: #0c1a10;
+    --shopcard-title-color: #f2fbf5;
+    --shopcard-title-hover: #9fe0b3;
+    --shopcard-book-shadow: rgba(0, 0, 0, 0.75);
+    --shopcard-btn-shadow: rgba(0, 0, 0, 0.5);
 }
 
 $card-radius: 20px;
@@ -67,7 +109,7 @@ $light-green: #a8e6b8;
         width: 130px;
         transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
         z-index: 2;
-        filter: drop-shadow(8px 12px 24px rgba(0, 0, 0, 0.6));
+        filter: drop-shadow(8px 12px 24px var(--shopcard-book-shadow));
         border-radius: 4px;
         pointer-events: none;
     }
@@ -104,14 +146,14 @@ $light-green: #a8e6b8;
             font-size: 28px;
             font-weight: 900;
             line-height: 1.1;
-            color: #fff;
-            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+            color: var(--shopcard-title-color);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
             transition: color 0.3s ease;
             margin-bottom: 20px;
         }
 
         .title:hover {
-            color: #badac1;
+            color: var(--shopcard-title-hover);
         }
     }
 
@@ -134,7 +176,7 @@ $light-green: #a8e6b8;
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px var(--shopcard-btn-shadow);
 
             span {
                 font-family: "Josefin Sans", sans-serif;

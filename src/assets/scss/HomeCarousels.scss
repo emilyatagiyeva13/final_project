@@ -1,15 +1,12 @@
-// ─── CSS VARIABLES (THEMES) ───────────────────────────────────────────────────
 :root {
     --bg-slider: #fff;
     --text-primary: #000;
     --text-muted: #555;
     
-    // Slide 1
     --slide1-bg: #D5E6EC;
     --slide1-h6: #2a7a3b;
     --slide1-h1: #000;
     
-    // Slide 2
     --slide2-bg: #D5ECDE;
     --slide2-h6: #CF5C72;
     --slide2-h1: #000;
@@ -18,14 +15,9 @@
     --slide3-h1: #000;
     --slide3-p: #000;
     
-    // Buttons & Accents
     --btn-bg: #2a7a3b;
     --btn-hover: #1e5a2b;
     --btn-text: #fff;
-    
-    // Marquee
-    --marquee-text: #222;
-    --marquee-hover: #027A36;
 }
 
 [data-theme="dark"] {
@@ -33,37 +25,28 @@
     --text-primary: #f0f0f0;
     --text-muted: #aaa;
     
-    // Slide 1 (Dark Mode)
     --slide1-bg: #111d23;
     --slide1-h6: #43b55c;
     --slide1-h1: #f0f0f0;
     
-    // Slide 2 (Dark Mode)
     --slide2-bg: #112317;
     --slide2-h6: #e87b91;
     --slide2-h1: #f0f0f0;
     
-    // Slide 3 (Dark Mode)
     --slide3-bg: #231627;
     --slide3-h1: #f0f0f0;
     --slide3-p: #cccccc;
     
-    // Buttons & Accents
     --btn-bg: #349649;
     --btn-hover: #2a7a3b;
     --btn-text: #fff;
-    
-    // Marquee
-    --marquee-text: #ddd;
-    --marquee-hover: #43b55c;
+
 }
 
-// Bütün elementlərə yumşaq mövzu keçidi veririk
 body, .mySwiper1, .slide-1, .slide-2, .slide-3, .discover-btn, .marquee-text {
     transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
-// ─── SWIPER WRAPPER ───────────────────────────────────────────────────────────
 .mySwiper1 {
     width: 100%;
     height: 500px;
@@ -155,7 +138,7 @@ body, .mySwiper1, .slide-1, .slide-2, .slide-3, .discover-btn, .marquee-text {
     .h1-slider {
         position: absolute;
         top: 0px;
-        left: 690px;
+        left: 740px;
         z-index: 1;
     }
 
@@ -173,21 +156,21 @@ body, .mySwiper1, .slide-1, .slide-2, .slide-3, .discover-btn, .marquee-text {
         .h1-slider3-01 {
             position: absolute;
             bottom: 55px;
-            left: 1100px;
+            left: 1200px;
             animation: floatBook1 4s ease-in-out infinite;
         }
 
         .h1-slider3-02 {
             position: absolute;
             bottom: 300px;
-            left: 1300px;
+            left: 1400px;
             animation: floatBook2 5s ease-in-out infinite;
         }
 
         .h1-slider3-03 {
             position: absolute;
             bottom: 15px;
-            left: 920px;
+            left: 1000px;
             animation: floatBook3 4.5s ease-in-out infinite;
         }
     }
@@ -527,19 +510,16 @@ body, .mySwiper1, .slide-1, .slide-2, .slide-3, .discover-btn, .marquee-text {
         padding: 40px 0;
 
         .h1-slider {
-            left: 480px;
-            width: 550px;
+            display: none;
         }
 
         .slider-books {
-            .h1-slider3-01 { left: 760px; width: 140px; }
-            .h1-slider3-02 { left: 900px; width: 80px; }
-            .h1-slider3-03 { left: 640px; width: 110px; }
+            display: none;
         }
 
         .off-slider-wrapper {
-            left: 420px;
-            top: 60px;
+            left: 520px;
+            top: 200px;
             width: 150px;
             height: 150px;
         }
@@ -636,11 +616,11 @@ body, .mySwiper1, .slide-1, .slide-2, .slide-3, .discover-btn, .marquee-text {
         .off-slider-wrapper {
             display: block !important;
             position: absolute;
-            top: 15px;
-            right: 15px;
+            top: 200px;
+            right: 25px;
             left: auto;
-            width: 90px;
-            height: 90px;
+            width: 190px;
+            height: 190px;
             z-index: 10;
             opacity: 0.9;
             transform: scale(0.85);

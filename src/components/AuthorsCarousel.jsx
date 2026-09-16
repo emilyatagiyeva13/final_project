@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import 'swiper/css';
@@ -9,6 +10,7 @@ import { supabase } from "../supabaseClient";
 const AuthorsCarousel = () => {
     const [authors, setAuthors] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAuthors = async () => {
@@ -30,6 +32,10 @@ const AuthorsCarousel = () => {
 
     if (loading) return null;
 
+    const handleAuthorClick = (slug) => {
+        navigate(`/shop?author=${slug}`);
+    };
+
     return (
         <section className="authors-section">
             <h1 className="text-center">Featured authors</h1>
@@ -49,7 +55,17 @@ const AuthorsCarousel = () => {
                 >
                     {authors.map((author) => (
                         <SwiperSlide key={author.id}>
-                            <div className="author-card my-3">
+                            <div
+                                className="author-card my-3"
+                                onClick={() => handleAuthorClick(author.slug)}
+                                role="button"
+                                tabIndex={0}
+                                onKeyDown={(e) => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        handleAuthorClick(author.slug);
+                                    }
+                                }}
+                            >
                                 <div className="author-image-circle">
                                     {author.img_url ? (
                                         <img src={author.img_url} alt={author.name} />
