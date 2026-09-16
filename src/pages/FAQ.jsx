@@ -2,15 +2,48 @@ import { useEffect, useState } from "react";
 import "../assets/scss/Faqs.scss";
 import Loader from "../components/Loader";
 import AccordionSection from "../components/Accordion";
-import { helpFaqs, ordersFaqs, shippingFaqs } from "../data/faqs";
+import { supabase } from "../supabaseClient.js";
 
 const FAQ = () => {
     const [loading, setLoading] = useState(true);
     const [openId, setOpenId] = useState(null);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
-        const timer = setTimeout(() => setLoading(false), 800);
-        return () => clearTimeout(timer);
+        const fetchFaqs = async () => {
+            const { data, error } = await supabase
+                .from("faq_categories")
+                .select(`
+                    id,
+                    slug,
+                    title,
+                    description,
+                    sort_order,
+                    faqs (
+                        id,
+                        question,
+                        answer,
+                        sort_order
+                    )
+                `)
+                .order("sort_order", { ascending: true });
+
+            if (error) {
+                console.error("FAQ fetch error:", error);
+            } else {
+                const formatted = data.map((category) => ({
+                    ...category,
+                    items: [...category.faqs].sort(
+                        (a, b) => a.sort_order - b.sort_order
+                    ),
+                }));
+                setCategories(formatted);
+            }
+
+            setLoading(false);
+        };
+
+        fetchFaqs();
     }, []);
 
     const handleToggle = (id) => {
@@ -26,33 +59,17 @@ const FAQ = () => {
 
     return (
         <div className="accordion my-5 container">
-            <div className="orders-box my-5">
-                <AccordionSection
-                title={ordersFaqs.title}
-                description={ordersFaqs.description}
-                data={ordersFaqs}
-                openId={openId}
-                onToggle={handleToggle} />
-            </div>
-            <div className="shipping-box my-5">
-                <AccordionSection
-                title={shippingFaqs.title}
-                description={shippingFaqs.description}
-                data={shippingFaqs}
-                openId={openId}
-                onToggle={handleToggle} />
-            </div>
-            <div className="help-box my-5">
-                <AccordionSection
-                title={helpFaqs.title}
-                description={helpFaqs.description}
-                data={helpFaqs}
-                openId={openId}
-                onToggle={handleToggle} />
-            </div>
-
-
-
+            {categories.map((category) => (
+                <div className={`${category.slug}-box my-5`} key={category.id}>
+                    <AccordionSection
+                        title={category.title}
+                        description={category.description}
+                        data={category}
+                        openId={openId}
+                        onToggle={handleToggle}
+                    />
+                </div>
+            ))}
         </div>
     );
 };
