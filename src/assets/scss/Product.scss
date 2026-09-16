@@ -142,6 +142,8 @@ $spacing: 20px;
 .main-shop {
     background-color: var(--shop-bg);
     transition: background-color 0.4s ease;
+    flex: 1;
+    min-width: 0;
 
     .sorting {
         display: flex;
@@ -247,6 +249,12 @@ $spacing: 20px;
                             background-color: var(--shop-hover-bg);
                             color: $green;
                         }
+
+                        &.active {
+                            background-color: var(--shop-hover-bg);
+                            color: $green;
+                            font-weight: 600;
+                        }
                     }
                 }
             }
@@ -339,6 +347,128 @@ $spacing: 20px;
         &:hover .checkmark {
             border-color: $green;
             background-color: var(--shop-hover-bg);
+        }
+    }
+}
+
+.filter-box {
+    align-self: flex-start;
+    width: 340px;
+    flex-shrink: 0;
+}
+
+// ─── PAGINATION ─────────────────────────────────────────────────────────
+.pagination-box {
+    flex-wrap: wrap;
+
+    .page-btn {
+        min-width: 38px;
+        height: 38px;
+        padding: 0 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--shop-text);
+        background-color: var(--shop-card-bg);
+        border: 1.5px solid var(--shop-border);
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.25s ease;
+
+        &:hover:not(:disabled) {
+            border-color: $green;
+            color: $green;
+            background-color: var(--shop-hover-bg);
+        }
+
+        &.active {
+            background-color: $green;
+            border-color: $green;
+            color: #fff;
+        }
+
+        &:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+    }
+}
+.price-range {
+    font-weight: 500;
+
+    .price-range-body {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.4s ease, opacity 0.3s ease;
+        padding: 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        &.open {
+            max-height: 200px;
+            opacity: 1;
+        }
+    }
+
+    .price-inputs {
+        span {
+            color: var(--shop-muted);
+        }
+    }
+
+    .price-input {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 14px;
+        color: var(--shop-text);
+        background-color: var(--shop-card-bg);
+        border: 1.5px solid var(--shop-border);
+        border-radius: 8px;
+        transition: border-color 0.3s ease, background-color 0.4s ease;
+
+        // Chrome/Safari number arrows
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        // Firefox number arrows
+        -moz-appearance: textfield;
+
+        &:focus {
+            outline: none;
+            border-color: $green;
+        }
+
+        &::placeholder {
+            color: var(--shop-muted);
+        }
+    }
+
+    .price-apply-btn {
+        width: 100%;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #fff;
+        background-color: $green;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+
+        &:hover {
+            background-color: darken($green, 8%);
+            transform: scale(1.02);
+        }
+
+        &:active {
+            transform: scale(0.98);
         }
     }
 }

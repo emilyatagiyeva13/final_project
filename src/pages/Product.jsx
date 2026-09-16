@@ -13,9 +13,11 @@ const Product = () => {
   const [booksData, setBooksData] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [allAuthors, setAllAuthors] = useState([]);
+  const [content, setContent] = useState({});
   const [loading, setLoading] = useState(true);
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isAuthorsOpen, setIsAuthorsOpen] = useState(true);
+  const [isPriceOpen, setIsPriceOpen] = useState(true);
   const [viewMode, setViewMode] = useState("grid");
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -28,7 +30,28 @@ const Product = () => {
   const [selectedAuthors, setSelectedAuthors] = useState(
     authorParam ? authorParam.split(",") : []
   );
-  // const { currentPage, totalPages, booksData, goToPage } = usePagination(booksData, 10)
+
+  const minPriceParam = searchParams.get("minPrice");
+  const maxPriceParam = searchParams.get("maxPrice");
+  const [minPrice, setMinPrice] = useState(minPriceParam || "");
+  const [maxPrice, setMaxPrice] = useState(maxPriceParam || "");
+
+  const sortParam = searchParams.get("sort");
+  const [sortBy, setSortBy] = useState(sortParam || "");
+
+  const PAGE_SIZE = 7;
+  const pageParam = searchParams.get("page");
+  const [currentPage, setCurrentPage] = useState(Number(pageParam) || 1);
+
+  // page_content sətirlərini { section: { key: text_az } } formasına çeviririk
+  const buildContentMap = (rows) => {
+    const map = {};
+    rows.forEach((row) => {
+      if (!map[row.section]) map[row.section] = {};
+      map[row.section][row.key] = row.text_en;
+    });
+    return map;
+  };
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,6 +60,7 @@ const Product = () => {
         { data, error },
         { data: categoriesData, error: categoriesError },
         { data: authorsData, error: authorsError },
+        { data: contentData, error: contentError },
       ] = await Promise.all([
         supabase
           .from("products")
@@ -49,6 +73,7 @@ const Product = () => {
             stock,
             image_url,
             rating,
+            sold_count,
             categories ( slug, name_az,name_en ),
             authors ( name, slug )
           `)
@@ -61,6 +86,10 @@ const Product = () => {
           .from("authors")
           .select("slug, name")
           .order("name"),
+        supabase
+          .from("page_content")
+          .select("section, key, text_en")
+          .eq("page", "product"),
       ]);
 
       if (error) {
@@ -88,6 +117,12 @@ const Product = () => {
         setAllAuthors(authorsData);
       }
 
+      if (contentError) {
+        console.error("Content fetch error:", contentError);
+      } else {
+        setContent(buildContentMap(contentData));
+      }
+
       setLoading(false);
     };
 
@@ -104,6 +139,22 @@ const Product = () => {
     setSelectedAuthors(authorParam ? authorParam.split(",") : []);
   }, [authorParam]);
 
+  // URL-dəki price parametrləri dəyişərsə state-i sinxronlaşdır
+  useEffect(() => {
+    setMinPrice(minPriceParam || "");
+    setMaxPrice(maxPriceParam || "");
+  }, [minPriceParam, maxPriceParam]);
+
+  // URL-dəki sort parametri dəyişərsə state-i sinxronlaşdır
+  useEffect(() => {
+    setSortBy(sortParam || "");
+  }, [sortParam]);
+
+  // URL-dəki page parametri dəyişərsə state-i sinxronlaşdır
+  useEffect(() => {
+    setCurrentPage(Number(pageParam) || 1);
+  }, [pageParam]);
+
   const toggleCategory = (slug) => {
     setSelectedCategories((prev) => {
       const next = prev.includes(slug)
@@ -115,6 +166,7 @@ const Product = () => {
       } else {
         searchParams.set("category", next.join(","));
       }
+      searchParams.delete("page");
       setSearchParams(searchParams);
 
       return next;
@@ -132,10 +184,44 @@ const Product = () => {
       } else {
         searchParams.set("author", next.join(","));
       }
+      searchParams.delete("page");
       setSearchParams(searchParams);
 
       return next;
     });
+  };
+
+  const applyPriceRange = () => {
+    if (minPrice) {
+      searchParams.set("minPrice", minPrice);
+    } else {
+      searchParams.delete("minPrice");
+    }
+    if (maxPrice) {
+      searchParams.set("maxPrice", maxPrice);
+    } else {
+      searchParams.delete("maxPrice");
+    }
+    searchParams.delete("page");
+    setSearchParams(searchParams);
+  };
+
+  const handleSortChange = (value) => {
+    setSortBy(value);
+    if (value) {
+      searchParams.set("sort", value);
+    } else {
+      searchParams.delete("sort");
+    }
+    searchParams.delete("page");
+    setSearchParams(searchParams);
+  };
+
+  const goToPage = (page) => {
+    if (page < 1 || page > totalPages) return;
+    searchParams.set("page", page);
+    setSearchParams(searchParams);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // authors cədvəlindən qururuq ki, məhsulu olmayanlar da (0 ilə) görünsün
@@ -157,8 +243,32 @@ const Product = () => {
       selectedCategories.length === 0 || selectedCategories.includes(book.categorySlug);
     const matchesAuthor =
       selectedAuthors.length === 0 || selectedAuthors.includes(book.authorSlug);
-    return matchesCategory && matchesAuthor;
+    const matchesMinPrice = !minPriceParam || book.price >= Number(minPriceParam);
+    const matchesMaxPrice = !maxPriceParam || book.price <= Number(maxPriceParam);
+    return matchesCategory && matchesAuthor && matchesMinPrice && matchesMaxPrice;
   });
+
+  const sortedBooks = [...filteredBooks].sort((a, b) => {
+    switch (sortBy) {
+      case "popularity":
+        return (b.sold_count || 0) - (a.sold_count || 0);
+      case "rating":
+        return (b.rating || 0) - (a.rating || 0);
+      case "price_asc":
+        return a.price - b.price;
+      case "price_desc":
+        return b.price - a.price;
+      default:
+        return 0;
+    }
+  });
+
+  const totalPages = Math.max(1, Math.ceil(sortedBooks.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const paginatedBooks = sortedBooks.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE
+  );
 
   if (loading) {
     return <Loader />;
@@ -168,16 +278,15 @@ const Product = () => {
     <>
       <section className="book-header">
         <nav className="breadcrumb d-flex justify-content-center">
-          <Link to={`/`}>Home</Link>
+          <Link to={`/`}>{content.breadcrumb?.home}</Link>
           <span>&gt;</span>
-          <span>Shop</span>
+          <span>{content.breadcrumb?.shop}</span>
         </nav>
 
-        <h1 className="title">All Books</h1>
+        <h1 className="title">{content.header?.title}</h1>
 
         <p className="description">
-          Discover your favorite book: you will find a wide range of selected books from bestseller
-          to newcomer, children's book to crime novel or thriller to science fiction novel.
+          {content.header?.description}
         </p>
       </section>
 
@@ -187,7 +296,7 @@ const Product = () => {
           <div className="category">
             <div className="filter-card">
               <div className="filter-card-title d-flex justify-content-between align-items-center">
-                <span>Category</span>
+                <span>{content.filters?.category_title}</span>
                 <button
                   className={` ${isCategoryOpen ? "open" : ""}`}
                   onClick={() => setIsCategoryOpen(!isCategoryOpen)}
@@ -218,7 +327,7 @@ const Product = () => {
           <div className="authors">
             <div className="filter-card">
               <div className="filter-card-title d-flex justify-content-between align-items-center">
-                <span>Authors</span>
+                <span>{content.filters?.authors_title}</span>
                 <button
                   className={` ${isAuthorsOpen ? "open" : ""}`}
                   onClick={() => setIsAuthorsOpen(!isAuthorsOpen)}
@@ -245,6 +354,45 @@ const Product = () => {
             </div>
           </div>
 
+          <div className="price-range">
+            <div className="filter-card">
+              <div className="filter-card-title d-flex justify-content-between align-items-center">
+                <span>{content.filters?.price_title}</span>
+                <button
+                  className={` ${isPriceOpen ? "open" : ""}`}
+                  onClick={() => setIsPriceOpen(!isPriceOpen)}
+                >
+                  <IoIosArrowDown />
+                </button>
+              </div>
+
+              <div className={`price-range-body ${isPriceOpen ? "open" : ""}`}>
+                <div className="price-inputs d-flex gap-2 align-items-center">
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="Min"
+                    className="price-input"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                  />
+                  <span>-</span>
+                  <input
+                    type="number"
+                    min="0"
+                    placeholder="Max"
+                    className="price-input"
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                  />
+                </div>
+                <button className="price-apply-btn" onClick={applyPriceRange}>
+                  {content.filters?.price_apply}
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div className="main-shop d-flex flex-column align-items-center">
@@ -257,19 +405,42 @@ const Product = () => {
                 onClick={() => setViewMode("list")}><CiBoxList /></button>
             </div>
 
-            <p className="results-count">Showing 1-{filteredBooks.length} of {filteredBooks.length} results</p>
+            <p className="results-count">
+              Showing {sortedBooks.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}-
+              {Math.min(safePage * PAGE_SIZE, sortedBooks.length)} of {sortedBooks.length} results
+            </p>
 
             <div className="dropdown">
               <button className="dropbtn">
-                Sort by <IoIosArrowDown className="dropdown-arrow" />
+                {content.sorting?.sort_by} <IoIosArrowDown className="dropdown-arrow" />
               </button>
               <div className="dropdown-content">
                 <div className="dropdown-inner">
                   <ul className="list-unstyled">
-                    <li>Popularity</li>
-                    <li>Rating</li>
-                    <li>Price: low to high</li>
-                    <li>Price: high to low</li>
+                    <li
+                      className={sortBy === "popularity" ? "active" : ""}
+                      onClick={() => handleSortChange("popularity")}
+                    >
+                      {content.sorting?.popularity}
+                    </li>
+                    <li
+                      className={sortBy === "rating" ? "active" : ""}
+                      onClick={() => handleSortChange("rating")}
+                    >
+                      {content.sorting?.rating}
+                    </li>
+                    <li
+                      className={sortBy === "price_asc" ? "active" : ""}
+                      onClick={() => handleSortChange("price_asc")}
+                    >
+                      {content.sorting?.price_low_high}
+                    </li>
+                    <li
+                      className={sortBy === "price_desc" ? "active" : ""}
+                      onClick={() => handleSortChange("price_desc")}
+                    >
+                      {content.sorting?.price_high_low}
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -277,7 +448,7 @@ const Product = () => {
           </div>
 
           <div className="product-box row my-3">
-            {filteredBooks.map((i) => (
+            {paginatedBooks.map((i) => (
               <div
                 key={i.id}
                 className={viewMode === "grid" ? "col-6 col-md-4 col-lg-4 my-2" : "col-12 my-2"}
@@ -286,10 +457,36 @@ const Product = () => {
               </div>
             ))}
           </div>
-          {/* <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={goToPage} /> */}
+
+          {totalPages > 1 && (
+            <nav className="pagination-box d-flex justify-content-center gap-2 my-3">
+              <button
+                className="page-btn"
+                disabled={safePage === 1}
+                onClick={() => goToPage(safePage - 1)}
+              >
+                Prev
+              </button>
+
+              {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
+                <button
+                  key={page}
+                  className={`page-btn ${page === safePage ? "active" : ""}`}
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </button>
+              ))}
+
+              <button
+                className="page-btn"
+                disabled={safePage === totalPages}
+                onClick={() => goToPage(safePage + 1)}
+              >
+                Next
+              </button>
+            </nav>
+          )}
 
         </div>
 
