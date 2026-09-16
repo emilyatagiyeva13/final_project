@@ -17,6 +17,7 @@ import ProtectedRoute from "../components/ProtectedRoute"
 import Dashboard from "../pages/admin/dashboard"
 import ProductsPage from "../components/dashboard/ProductsPage"
 import ScrollToTop from "../components/ScrollToTop"
+import ProductDetails from "../components/ProductDetails"
 // import AdminLayout from "../pages/admin/AdminLayout"
 // import ProductsPage from "../pages/admin/ProductsPage"
 // import CategoriesPage from "../pages/admin/CategoriesPage"
@@ -44,6 +45,7 @@ const Router = () => {
           <Route path="/contact" element={<Contact />}></Route>
           <Route path="/aboutus" element={<About />}></Route>
           <Route path="/shop" element={<Product />}></Route>
+          <Route path="/shop/:id" element={<ProductDetails />} />
           <Route path="/wishlist" element={<Wishlist />}></Route>
           <Route path="/basket" element={<Basket />}></Route>
           <Route path="/faqs" element={<FAQ />}></Route>

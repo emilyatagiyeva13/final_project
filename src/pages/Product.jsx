@@ -11,6 +11,7 @@ import Loader from "../components/Loader"
 
 const Product = () => {
   const [booksData, setBooksData] = useState([]);
+  const [allCategories, setAllCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isAuthorsOpen, setIsAuthorsOpen] = useState(true);
@@ -19,7 +20,7 @@ const Product = () => {
 
   const categoryParam = searchParams.get("category");
   const [selectedCategories, setSelectedCategories] = useState(
-    categoryParam ? [categoryParam] : []
+    categoryParam ? categoryParam.split(",") : []
   );
   const [selectedAuthors, setSelectedAuthors] = useState([]);
   // const { currentPage, totalPages, booksData, goToPage } = usePagination(booksData, 10)
@@ -27,37 +28,46 @@ const Product = () => {
   useEffect(() => {
     const fetchProducts = async () => {
 
-      const { data, error } = await supabase
-        .from("products")
-        .select(`
-          id,
-          slug,
-          title_az,
-          description_az,
-          price,
-          stock,
-          image_url,
-          rating,
-          categories ( slug, name_az ),
-          authors ( name )
-        `)
-        .eq("is_active", true);
-
+      const [{ data, error }, { data: categoriesData, error: categoriesError }] = await Promise.all([
+        supabase
+          .from("products")
+          .select(`
+            id,
+            slug,
+            title_az,
+            description_az,
+            price,
+            stock,
+            image_url,
+            rating,
+            categories ( slug, name_az,name_en ),
+            authors ( name )
+          `)
+          .eq("is_active", true),
+        supabase
+          .from("categories")
+          .select("slug, name_az,name_en")
+          .order("name_az,name_en"),
+      ]);
 
       if (error) {
         console.error("Products fetch error:", error);
-
       } else {
-        // author/category-ni flat sahə kimi çıxarırıq ki, aşağıdakı filterlər işləsin
         const formatted = data.map((book) => ({
           ...book,
           category: book.categories?.name_az,
           categorySlug: book.categories?.slug,
           author: book.authors?.name,
         }));
-        console.log("Product IDs:", formatted.map(b => b.id));
         setBooksData(formatted);
       }
+
+      if (categoriesError) {
+        console.error("Categories fetch error:", categoriesError);
+      } else {
+        setAllCategories(categoriesData);
+      }
+
       setLoading(false);
     };
 
@@ -66,7 +76,7 @@ const Product = () => {
 
   // URL-dəki category dəyişərsə (məs. carousel-dən yenidən klik) filtri sinxronlaşdır
   useEffect(() => {
-    setSelectedCategories(categoryParam ? [categoryParam] : []);
+    setSelectedCategories(categoryParam ? categoryParam.split(",") : []);
   }, [categoryParam]);
 
   const toggleCategory = (slug) => {
@@ -78,7 +88,7 @@ const Product = () => {
       if (next.length === 0) {
         searchParams.delete("category");
       } else {
-        searchParams.set("category", next[next.length - 1]);
+        searchParams.set("category", next.join(","));
       }
       setSearchParams(searchParams);
 
@@ -99,14 +109,12 @@ const Product = () => {
     return acs;
   }, {});
 
-  const categoryCounts = booksData.reduce((acs, book) => {
-    if (!book.categorySlug) return acs;
-    if (!acs[book.categorySlug]) {
-      acs[book.categorySlug] = { name: book.category, count: 0 };
-    }
-    acs[book.categorySlug].count += 1;
-    return acs;
-  }, {});
+  // categories cədvəlindən qururuq ki, məhsulu olmayanlar da (0 ilə) görünsün
+  const categoryList = allCategories.map((cat) => ({
+    slug: cat.slug,
+    name: cat.name_en,
+    count: booksData.filter((b) => b.categorySlug === cat.slug).length,
+  }));
 
   const filteredBooks = booksData.filter((book) => {
     const matchesCategory =
@@ -117,7 +125,7 @@ const Product = () => {
   });
 
   if (loading) {
-    return <Loader/>;
+    return <Loader />;
   }
 
   return (
@@ -153,7 +161,7 @@ const Product = () => {
               </div>
 
               <ul className={`list-unstyled filter-list ${isCategoryOpen ? "open" : ""}`}>
-                {Object.entries(categoryCounts).map(([slug, { name, count }]) => (
+                {categoryList.map(({ slug, name, count }) => (
                   <li key={slug}>
                     <label className="custom-checkbox">
                       <input

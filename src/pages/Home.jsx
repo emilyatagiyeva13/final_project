@@ -67,6 +67,27 @@ const Home = () => {
   // new arrivals section
   const newArrivals = [...booksData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
+  // shop-now bölməsi: ən çox satılan 3 kateqoriyadan hərəsinin ən çox satılan kitabı
+  const salesByCategory = booksData.reduce((acc, book) => {
+    const cat = book.category;
+    if (!cat) return acc;
+    if (!acc[cat]) acc[cat] = { total: 0, books: [] };
+    acc[cat].total += book.sold_count ?? 0;
+    acc[cat].books.push(book);
+    return acc;
+  }, {});
+
+  const topCategories = Object.entries(salesByCategory)
+    .sort((a, b) => b[1].total - a[1].total)
+    .slice(0, 3);
+
+  const topBooksByCategory = topCategories.map(([categoryName, data]) => {
+    const bestBook = [...data.books].sort(
+      (a, b) => (b.sold_count ?? 0) - (a.sold_count ?? 0)
+    )[0];
+    return bestBook;
+  });
+
   if (loading) {
     return <Loader />;
   }
@@ -207,14 +228,20 @@ const Home = () => {
 
       </section>
 
-      <section >
+      <section>
         <div className="container">
           <div className="shop-now row g-4">
-
-            <ShopNowCards />
-            <ShopNowCards />
-            <ShopNowCards />
-
+            <h1>Top selling 3 genre books</h1>
+            {topBooksByCategory.map((book) => (
+              <ShopNowCards
+                key={book.id}
+                bannerImg={book.banner_url}
+                bookImg={book.image_url}
+                category={book.category}
+                title={book.title_az}
+                id={book.id}
+              />
+            ))}
           </div>
         </div>
       </section>

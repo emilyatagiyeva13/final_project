@@ -1,42 +1,30 @@
 import { MdAddShoppingCart } from "react-icons/md"
-import shopNow from "../assets/Images/h1-banner02-1.jpg"
-import shopNow2 from "../assets/Images/h1-slider2.png"
 import "../assets/scss/ShopNowCards.scss"
 import { useNavigate } from "react-router-dom"
-const ShopNowCards = () => {
+
+const ShopNowCards = ({ bannerImg, bookImg, category, title, slug }) => {
     const navigate = useNavigate();
     return (
-        <>
+        <div className="col-12 col-md-4">
+            <div className="shopcard" data-aos="flip-up">
 
-            <div className="col-12 col-md-4">
-                <div className="shopcard" data-aos="flip-up">
+                <img src={bannerImg} alt="" className="background-img" />
+                <img src={bookImg} alt="" className="book-img" width={100} />
 
-                    <img src={shopNow} alt="" className="background-img" />
-                    <img src={shopNow2} alt="" className="book-img" width={100} />
-
-                    <div className="content">
-
-                        <div className="category">
-                            Game.Anime.Life
-                        </div>
-
-                        <div className="title fw-bolder">
-                            COLLECT SHOP
-                        </div>
-                    </div>
-
-                    <div className="shop-now-btn">
-                        <button className="button" onClick={() => navigate(`/shop`)}>
-                            <span>SHOP</span>
-                            <MdAddShoppingCart className="icon-shop" />
-                        </button>
-                    </div>
-
+                <div className="content">
+                    <div className="category">{category}</div>
+                    <div className="title fw-bolder">{title}</div>
                 </div>
+
+                <div className="shop-now-btn">
+                    <button className="button" onClick={() => navigate(`/shop/${slug}`)}>
+                        <span>SHOP</span>
+                        <MdAddShoppingCart className="icon-shop" />
+                    </button>
+                </div>
+
             </div>
-
-
-        </>
+        </div>
     )
 }
 
