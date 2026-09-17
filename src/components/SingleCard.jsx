@@ -1,12 +1,38 @@
 import "../assets/scss/SingleCard.scss";
 import { MdAddShoppingCart } from "react-icons/md";
-import { FaRegHeart, FaStar } from "react-icons/fa";
+import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import { useWishlistStore } from "../store/useWishlistStore";
+import { useAuthStore } from "../store/authStore";
+import useCartStore from "../store/useCartStore";
 
 const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, description_az, viewMode = "grid" }) => {
     const navigate = useNavigate();
     const fullStars = Math.round(rating);
+
+    const isInWishlist = useWishlistStore((state) => state.isInWishlist(id));
+    const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
+    const user = useAuthStore((state) => state.user);
+    const addItem = useCartStore((state) => state.addItem);
+
+    const handleAddToCart = (e) => {
+        e.stopPropagation();
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+        addItem({ id, title_az, price, image_url });
+    };
+
+    const handleWishlistClick = (e) => {
+        e.stopPropagation();
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+        toggleWishlist(id);
+    };
 
     return (
         <div
@@ -17,9 +43,9 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
             <div className="d-flex view-heart-col">
                 <button
                     className="card-hover-heart"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={handleWishlistClick}
                 >
-                    <FaRegHeart />
+                    {isInWishlist ? <FaHeart color="red" /> : <FaRegHeart />}
                 </button>
 
                 <button
@@ -59,7 +85,7 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
             </div>
 
             <div className="add-to-cart">
-                <button className="button" onClick={(e) => e.stopPropagation()}>
+                <button className="button" onClick={handleAddToCart} >
                     <MdAddShoppingCart className="icon-shop" />
                     <span>Add to cart</span>
                 </button>

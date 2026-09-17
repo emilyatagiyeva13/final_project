@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { supabase } from '../supabaseClient.js';
+import { useWishlistStore } from './useWishlistStore.js';
 
 export const useAuthStore = create((set) => ({
   user: null,
@@ -18,6 +19,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     await supabase.auth.signOut();
     set({ user: null, profile: null });
+    useWishlistStore.getState().clearWishlist();
   },
 
   init: async () => {
@@ -25,6 +27,7 @@ export const useAuthStore = create((set) => ({
     if (session?.user) {
       set({ user: session.user });
       await useAuthStore.getState().fetchProfile(session.user.id);
+      await useWishlistStore.getState().fetchWishlist();
     }
     set({ loading: false });
 
@@ -32,8 +35,10 @@ export const useAuthStore = create((set) => ({
       set({ user: session?.user ?? null });
       if (session?.user) {
         await useAuthStore.getState().fetchProfile(session.user.id);
+        await useWishlistStore.getState().fetchWishlist();
       } else {
         set({ profile: null });
+        useWishlistStore.getState().clearWishlist();
       }
     });
   },

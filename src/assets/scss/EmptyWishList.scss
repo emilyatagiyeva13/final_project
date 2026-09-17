@@ -1,0 +1,191 @@
+// Bokifa Rəng Palitrası
+$primary-green: #2A7A3B;
+$primary-green-hover: #2A7A3B;
+$accent-soft: #e8f5e9;
+$text-dark: #1f2937;
+$text-muted: #6b7280;
+$border-color: #e5e7eb;
+$bg-card: #ffffff;
+
+.empty-wishlist-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  width: 100%;
+  min-height: 500px;
+  background-color: transparent;
+
+  .empty-wishlist-content {
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.4s ease-in-out;
+
+    /* İkon Stili */
+    .icon-wrapper {
+      position: relative;
+      margin-bottom: 24px;
+
+      .icon-bg {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: $accent-soft;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $primary-green;
+        transition: transform 0.3s ease;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+
+      .badge-zero {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        background-color: $primary-green;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 600;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #fff;
+      }
+    }
+
+    /* Başlıq və Mətn */
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      color: $text-dark;
+      margin-bottom: 12px;
+      font-family: inherit;
+    }
+
+    .description {
+      font-size: 15px;
+      color: $text-muted;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    /* Start Shopping Düyməsi */
+    .btn-start-shopping {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background-color: $primary-green;
+      color: #ffffff;
+      padding: 14px 32px;
+      border-radius: 30px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
+      box-shadow: 0 4px 12px rgba(27, 94, 59, 0.15);
+
+      &:hover {
+        background-color: $primary-green-hover;
+        box-shadow: 0 6px 16px rgba(27, 94, 59, 0.25);
+        transform: translateY(-2px);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+    }
+
+    /* Kateqoriyalar */
+    .categories-suggestion {
+      margin-top: 40px;
+      width: 100%;
+
+      .suggestion-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: $text-muted;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 14px;
+      }
+
+      .category-tags {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+
+        .category-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 16px;
+          border-radius: 20px;
+          border: 1px solid $border-color;
+          background-color: $bg-card;
+          color: $text-dark;
+          font-size: 14px;
+          font-weight: 500;
+          text-decoration: none;
+          transition: all 0.2s ease;
+
+          &:hover {
+            border-color: $primary-green;
+            color: $primary-green;
+            background-color: $accent-soft;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* Animasiya */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dark Mode Dəstəyi (Əgər sisteminizdə [data-theme="dark"] istifadə olunursa) */
+[data-theme="dark"] .empty-wishlist-container {
+  .title {
+    color: #f3f4f6;
+  }
+  .description {
+    color: #9ca3af;
+  }
+  .icon-bg {
+    background-color: rgba(27, 94, 59, 0.2);
+    color: #4ade80;
+  }
+  .category-tag {
+    background-color: #1f2937;
+    border-color: #374151;
+    color: #e5e7eb;
+
+    &:hover {
+      background-color: rgba(27, 94, 59, 0.3);
+      color: #4ade80;
+      border-color: #4ade80;
+    }
+  }
+}
