@@ -6,8 +6,12 @@ import "../src/assets/scss/index.scss"
 import './assets/scss/index.scss';
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import Router from './router/Router.jsx'
+import Aos from 'aos'
 
-
+Aos.init({
+  duration: 600,
+  once: true,
+})
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>

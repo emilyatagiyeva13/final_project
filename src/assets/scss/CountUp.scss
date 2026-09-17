@@ -1,0 +1,77 @@
+.stats-section {
+  padding: 80px 0;
+  background-color: var(--testi-bg, #ffffff);
+  transition: background-color 0.4s ease;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    align-items: center;
+
+    @media (max-width: 992px) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 40px;
+    }
+
+    @media (max-width: 576px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .icon-wrapper {
+      width: 90px; // Dairə böyüdüldü
+      height: 90px;
+      border-radius: 50%;
+      background-color: #fbf5ec; // Şəkildəki açiq kremi fon
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+
+      // React Icons (SVG) üçün dəqiq tənzimləmə
+      svg {
+        width: 42px; // İkonun öz ölçüsü böyüdüldü
+        height: 42px;
+        color: #cca473; // Şəkildəki incə qızılı/qəhvəyi ton
+        stroke-width: 1px; // Xətlərin incə qalması üçün
+      }
+    }
+
+    .stat-number {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 56px;
+      font-weight: 500;
+      color: #1e6d3b; // Tünd meşə yaşılı
+      line-height: 1;
+      margin-bottom: 12px;
+      font-variant-numeric: tabular-nums;
+
+      @media (max-width: 1200px) {
+        font-size: 44px;
+      }
+    }
+
+    .stat-title {
+      font-family: "Inter", sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: #111111;
+      margin: 0;
+      text-transform: lowercase;
+      letter-spacing: 0.2px;
+    }
+  }
+}

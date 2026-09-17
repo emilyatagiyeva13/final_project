@@ -6,6 +6,7 @@ import { Link, useSearchParams } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
 import { useState, useEffect } from "react"
 import Loader from "../components/Loader"
+import Aos from "aos"
 // import { Pagination } from "react-bootstrap"
 // import usePagination from "../components/hooks/usePagination"
 
@@ -124,10 +125,15 @@ const Product = () => {
       }
 
       setLoading(false);
+      setTimeout(() => Aos.refresh(), 0);
     };
 
     fetchProducts();
   }, []);
+
+  useEffect(() => {
+  setTimeout(() => Aos.refreshHard(), 0);
+}, [viewMode]);
 
   // URL-dəki category dəyişərsə (məs. carousel-dən yenidən klik) filtri sinxronlaşdır
   useEffect(() => {
