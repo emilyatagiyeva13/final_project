@@ -18,6 +18,7 @@ import Dashboard from "../pages/admin/dashboard"
 import ProductsPage from "../components/dashboard/ProductsPage"
 import ScrollToTop from "../components/ScrollToTop"
 import ProductDetails from "../components/ProductDetails"
+import BlogDetails from "../components/BlogDetails"
 // import AdminLayout from "../pages/admin/AdminLayout"
 // import ProductsPage from "../pages/admin/ProductsPage"
 // import CategoriesPage from "../pages/admin/CategoriesPage"
@@ -50,6 +51,7 @@ const Router = () => {
           <Route path="/basket" element={<Basket />}></Route>
           <Route path="/faqs" element={<FAQ />}></Route>
           <Route path="/blog" element={<Blog />}></Route>
+          <Route path="/blog/:id" element={<BlogDetails />} />
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
 

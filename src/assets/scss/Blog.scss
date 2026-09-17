@@ -1,23 +1,174 @@
+:root {
+  /* Ümumi & Fon rəngləri */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --border-color: #eaeaea;
+  
+  /* Mətn rəngləri */
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --separator-color: #cccccc;
+  
+  /* Aktsent (Brend) və Effektlər */
+  --accent-color: #1b5e20;
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  
+  /* Hero Section (Glassmorphism) */
+  --hero-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.65) 100%);
+  --hero-title: #ffffff;
+  --glass-bg: rgba(255, 255, 255, 0.12);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-text: rgba(255, 255, 255, 0.85);
+  --glass-active: #2a7a3b;
+}
+
+[data-theme="dark"] {
+  /* Ümumi & Fon rəngləri */
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --border-color: #2d2d2d;
+  
+  /* Mətn rəngləri */
+  --text-primary: #f5f5f5;
+  --text-secondary: #a0a0a0;
+  --text-muted: #b0b0b0;
+  --separator-color: #444444;
+  
+  /* Aktsent (Brend) və Effektlər */
+  --accent-color: #4caf50; // Qaranlıq rejimdə oxunması daha rahat olan parlaq yaşıl
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  
+  /* Hero Section (Glassmorphism) */
+  --hero-overlay: linear-gradient(180deg, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.85) 100%);
+  --hero-title: #ffffff;
+  --glass-bg: rgba(0, 0, 0, 0.35);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-active: #4caf50;
+}
+
+
+.blog-page-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease;
+}
+
 .hero-box {
-    
-    img {
-        position: relative;
-    }
+  position: relative;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
 
+  .blog-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transform: scale(1.02);
+    transition: transform 0.8s ease;
+  }
+
+  .hero-content-overlay {
+    position: absolute;
+    inset: 0;
+    background: var(--hero-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: background 0.3s ease;
+
+    .hero-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      z-index: 2;
+
+      .hero-title {
+        font-family: "Playfair Display", Georgia, serif;
+        font-size: 48px;
+        font-weight: 600;
+        color: var(--hero-title);
+        margin: 0;
+        letter-spacing: 1px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+
+        @media (max-width: 768px) {
+          font-size: 36px;
+        }
+      }
+
+      .breadcrumb-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        font-weight: 500;
+        background: var(--glass-bg);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        padding: 8px 20px;
+        border-radius: 30px;
+        border: 1px solid var(--glass-border);
+        transition: background-color 0.3s ease, border-color 0.3s ease;
+
+        .nav-link {
+          color: var(--glass-text);
+          text-decoration: none;
+          transition: color 0.3s ease;
+
+          &:hover {
+            color: #ffffff;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+          }
+        }
+
+        .arrow-icon {
+          display: flex;
+          align-items: center;
+          color: rgba(255, 255, 255, 0.6);
+          font-size: 18px;
+        }
+
+        .current-page {
+          color: var(--glass-active);
+          font-weight: 600;
+          transition: color 0.3s ease;
+        }
+      }
+    }
+  }
+
+  &:hover {
     .blog-hero-img {
-        width: 100%;
-        height: 300px;
-        object-fit: cover;
-        opacity: 94%;
+      transform: scale(1.05);
     }
+  }
+}
 
-    .content {
-        position: absolute;
-        top:300px;
-        left:650px;
-        color:white;
-        .nav-link:hover {
-            color: #027A36;
-        }    
-    }
+.blog-cards-box {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 40px;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+
+  .loader-wrapper {
+    width: 100%;
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    padding: 50px 0;
+  }
 }
