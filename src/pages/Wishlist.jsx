@@ -69,21 +69,22 @@ const Wishlist = () => {
 
   return (
     <div className="wishlist-page">
-      <h1>My Wishlist</h1>
-      {products.length === 0 ? (
-        <div className="wishlist-empty">
-          <EmptyWishlist />
-
-        </div>
-      ) : (
-        <div className="wishlist-grid row">
-          {products.map((p) => (
-            <div key={p.id} className="col-6 col-md-4 col-lg-3 my-3">
-              <SingleCard {...p} />
-            </div>
-          ))}
-        </div>
-      )}
+      <div className="container">
+        <h1>My Wishlist</h1>
+        {products.length === 0 ? (
+          <div className="wishlist-empty">
+            <EmptyWishlist />
+          </div>
+        ) : (
+          <div className="row wishlist-grid">
+            {products.map((p) => (
+              <div key={p.id} className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4">
+                <SingleCard {...p} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

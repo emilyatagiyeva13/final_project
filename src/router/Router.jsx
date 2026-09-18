@@ -19,6 +19,7 @@ import ProductsPage from "../components/dashboard/ProductsPage"
 import ScrollToTop from "../components/ScrollToTop"
 import ProductDetails from "../components/ProductDetails"
 import BlogDetails from "../components/BlogDetails"
+import { ToastContainer } from "react-toastify"
 // import AdminLayout from "../pages/admin/AdminLayout"
 // import ProductsPage from "../pages/admin/ProductsPage"
 // import CategoriesPage from "../pages/admin/CategoriesPage"
@@ -79,6 +80,7 @@ const Router = () => {
         <Footer />
 
       </BrowserRouter>
+      <ToastContainer />
 
 
 

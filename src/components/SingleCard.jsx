@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useWishlistStore } from "../store/useWishlistStore";
 import { useAuthStore } from "../store/authStore";
 import useCartStore from "../store/useCartStore";
+import { Bounce, toast } from "react-toastify";
 
 const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, description_az, viewMode = "grid" }) => {
     const navigate = useNavigate();
@@ -19,6 +20,15 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
     const handleAddToCart = (e) => {
         e.stopPropagation();
         if (!user) {
+            toast.error("You need to log in first!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                transition: Bounce,
+            })
             navigate("/login");
             return;
         }
@@ -28,6 +38,15 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
     const handleWishlistClick = (e) => {
         e.stopPropagation();
         if (!user) {
+            toast.error("You need to log in first!", {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                transition: Bounce,
+            })
             navigate("/login");
             return;
         }

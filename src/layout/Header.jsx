@@ -6,32 +6,45 @@ import { NavLink, useNavigate } from "react-router-dom"
 import ThemeToggle from "../components/ThemeToggle"
 import LanguageSwitchButton from "../components/LangButton"
 import { useAuthStore } from "../store/authStore.js"
+import { useWishlistStore } from "../store/useWishlistStore.js"
+import useCartStore from "../store/useCartStore.js"
+import { Bounce, toast } from "react-toastify"
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false)
     const navigate = useNavigate()
 
-    // Öz ayrıca supabase.auth.getSession() çağırışımızı ləğv etdik —
-    // bu, refresh zamanı "login olunmayıb" ikonunun bir anlıq görünməsinə
-    // (flicker) səbəb olurdu. Bunun əvəzinə App.jsx-də artıq init olunan
-    // mərkəzi authStore-a etibar edirik.
     const user = useAuthStore((state) => state.user)
     const profile = useAuthStore((state) => state.profile)
     const authLoading = useAuthStore((state) => state.loading)
     const logout = useAuthStore((state) => state.logout)
+
+    const profileResolving = !!user && !profile
     const username = profile?.username || ""
+
+    const wishlistCount = useWishlistStore((state) => state.wishlist.length)
+    const basketCount = useCartStore((state) =>
+        state.items.reduce((sum, item) => sum + item.quantity, 0)
+    )
 
     const handleLogout = async () => {
         await logout()
+        toast.warning("You logged out from your account", {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            transition: Bounce,
+        })
         navigate("/")
     }
 
     return (
         <>
             <nav className="navbar">
-
                 <div className="navbar-top container-fluid">
-
                     <div className="navbar-brand">
                         <img src={logo} alt="Bokifa" className="navbar-logo" />
 
@@ -65,45 +78,54 @@ const Header = () => {
                             <ThemeToggle />
                         </div>
                         <div className="navbar-icons d-flex">
-
-                            <div className="navbar-icon">
-                                {authLoading ? (
-                                    // authStore hələ init olunur — refresh-dən sonra bir anlıq
-                                    // "login olunmayıb" ikonunun görünməsinin (flicker) qarşısını
-                                    // almaq üçün nə username, nə də login ikonu göstərilmir
-                                    <span className="navbar-icon-placeholder" style={{ width: 24, height: 24, display: "inline-block" }} />
+                            {/* User Section */}
+                            <div className="navbar-icon navbar-user-wrapper">
+                                {authLoading || profileResolving ? (
+                                    <div className="navbar-user-skeleton" />
                                 ) : user ? (
-                                    <div className="navbar-user d-flex align-items-center">
-                                        <span className="navbar-username">{username}</span>
+                                    <div className="navbar-user">
+                                        <div className="navbar-user-info">
+                                            <span className="navbar-username" title={username}>{username}</span>
+                                        </div>
                                         <button
                                             type="button"
-                                            className="navbar-logout-btn nav-link"
+                                            className="navbar-logout-btn"
                                             onClick={handleLogout}
                                             aria-label="Logout"
+                                            title="Logout"
                                         >
                                             <CiLogout />
                                         </button>
                                     </div>
                                 ) : (
-                                    <NavLink to="/login" className="nav-link"><CiUser /></NavLink>
+                                    <NavLink to="/login" className="nav-link user-login-icon" aria-label="Login">
+                                        <CiUser />
+                                    </NavLink>
                                 )}
                             </div>
 
                             <div className="navbar-icon">
-                                <NavLink to="/wishlist" className="nav-link"><CiHeart /></NavLink>
-                                <span className="navbar-icon-badge">4</span>
+                                <NavLink to="/wishlist" className="nav-link" aria-label="Wishlist">
+                                    <CiHeart />
+                                </NavLink>
+                                {wishlistCount > 0 && (
+                                    <span className="navbar-icon-badge">{wishlistCount}</span>
+                                )}
                             </div>
-                            <div className="navbar-icon">
 
-                                <NavLink to="/basket" className="nav-link"><CiShoppingBasket /> </NavLink>
-                                <span className="navbar-icon-badge">0</span>
+                            <div className="navbar-icon">
+                                <NavLink to="/basket" className="nav-link" aria-label="Basket">
+                                    <CiShoppingBasket />
+                                </NavLink>
+                                {basketCount > 0 && (
+                                    <span className="navbar-icon-badge">{basketCount}</span>
+                                )}
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div className="navbar-bottom container-fluid">
-
                     <div
                         className="checkboxtoggler"
                         onClick={() => setMenuOpen(!menuOpen)}
@@ -130,10 +152,8 @@ const Header = () => {
                             Need help? Call Us: <strong>+84 2500 888 33</strong>
                         </div>
                     </div>
-
                 </div>
-            </nav >
-
+            </nav>
             <div className="hero" />
         </>
     )

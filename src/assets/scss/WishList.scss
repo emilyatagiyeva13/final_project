@@ -1,24 +1,24 @@
 .wishlist-page {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 50px 20px 80px 20px;
-  min-height: 70vh;
-  background-color: var(--bg-primary);
+  width: 100%;
+  padding: 40px 0 80px 0;
+  min-height: 75vh;
+  background-color: var(--bg-primary, #ffffff);
   transition: background-color 0.3s ease;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
 
   h1 {
     font-family: "Playfair Display", Georgia, serif;
-    font-size: 36px;
+    font-size: clamp(26px, 4vw, 36px);
     font-weight: 600;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
     text-align: center;
-    color: var(--text-primary);
+    color: var(--text-primary, #1a1a1a);
     transition: color 0.3s ease;
-
-    @media (max-width: 768px) {
-      font-size: 28px;
-      margin-bottom: 25px;
-    }
   }
 
   .wishlist-empty {
@@ -26,18 +26,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 60px 20px;
+    padding: 50px 20px;
     text-align: center;
-    background-color: var(--bg-secondary);
-    border: 1px dashed var(--border-color);
+    background-color: var(--bg-secondary, #f9fafb);
+    border: 1px dashed var(--border-color, #e5e7eb);
     border-radius: 12px;
     margin-top: 20px;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 
     p {
       font-family: "Inter", sans-serif;
-      color: var(--text-secondary);
-      font-size: 18px;
+      color: var(--text-secondary, #6b7280);
+      font-size: clamp(15px, 2vw, 18px);
       margin-bottom: 20px;
       transition: color 0.3s ease;
     }
@@ -45,7 +45,7 @@
     .explore-btn {
       display: inline-block;
       padding: 10px 24px;
-      background-color: var(--accent-color);
+      background-color: var(--green-primary, #2a7a3b);
       color: #ffffff;
       font-family: "Inter", sans-serif;
       font-size: 14px;
@@ -55,13 +55,15 @@
       transition: background-color 0.3s ease, transform 0.2s ease;
 
       &:hover {
+        background-color: var(--green-dark, #1f5e2c);
         transform: translateY(-2px);
       }
     }
   }
 
   .wishlist-grid {
-    margin: 0 -10px;
+    // Bootstrap row-nun sağ-sol margin problemlərini sıfırlamaq və ya tarazlamaq üçün
+    row-gap: 1rem;
   }
 }
 
@@ -72,7 +74,22 @@
   min-height: 50vh;
   font-family: "Inter", sans-serif;
   font-size: 16px;
-  color: var(--text-secondary);
-  background-color: var(--bg-primary);
+  color: var(--text-secondary, #6b7280);
+  background-color: var(--bg-primary, #ffffff);
   transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Mobil cihazlar üçün əlavə tənzimləmələr (max-width: 576px) */
+@media (max-width: 576px) {
+  .wishlist-page {
+    padding: 25px 0 50px 0;
+
+    .container {
+      padding: 0 12px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+  }
 }

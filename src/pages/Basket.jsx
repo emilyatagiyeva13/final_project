@@ -3,6 +3,7 @@ import '../assets/scss/Basket.scss';
 import useCartStore from '../store/useCartStore';
 import { useEffect } from 'react';
 import Loader from '../components/Loader';
+import EmptyBasket from '../components/EmptyBasket';
 
 const Basket = () => {
   const { items = [], updateQuantity, removeItem, totalPrice, loading, fetchBasket } = useCartStore();
@@ -18,11 +19,7 @@ const Basket = () => {
   if (items.length === 0) {
     return (
       <div className="basket-page basket-page--empty">
-        <h2>Your basket is empty</h2>
-        <p>It seems you didn't add anything.</p>
-        <Link to="/shop" className="basket-page__shop-btn">
-          Şopa keç
-        </Link>
+        <EmptyBasket />
       </div>
     );
   }

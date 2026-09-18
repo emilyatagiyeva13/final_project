@@ -1,517 +1,540 @@
-// ===========================
-// Theme Variables (CSS custom properties)
-// ===========================
+// ==========================================
+// 1. Theme Variables (CSS Custom Properties)
+// ==========================================
 :root[data-theme="light"] {
-    --navbar-bg: #ffffff;
-    --green-primary: #2a7a3b;
-    --green-dark: #1f5e2c;
-    --text-dark: #1a1a1a;
-    --text-muted: #6b7280;
-    --border-color: #e5e7eb;
-    --bg-light: #f3f4f6;
-    --white: #ffffff;
-    --toggler-color: #1f5e2c;
-    --slider-knob: #e8e8e8;
-    --sun-color: #f5a623;
-    --moon-color: #cbd5e1;
+  --navbar-bg: #ffffff;
+  --green-primary: #2a7a3b;
+  --green-dark: #1f5e2c;
+  --text-dark: #1a1a1a;
+  --text-muted: #6b7280;
+  --border-color: #e5e7eb;
+  --bg-light: #f3f4f6;
+  --white: #ffffff;
+  --toggler-color: #1f5e2c;
+  --slider-knob: #e8e8e8;
+  --sun-color: #f5a623;
+  --moon-color: #cbd5e1;
+  --user-bg: #f9fafb;
+  --user-border: #e5e7eb;
 }
 
 :root[data-theme="dark"] {
-    --navbar-bg: #14181c;
-    --green-primary: #3fae56;
-    --green-dark: #2f8a41;
-    --text-dark: #f0f0f0;
-    --text-muted: #9ca3af;
-    --border-color: #2c3238;
-    --bg-light: #1e2328;
-    --white: #1e2328;
-    --toggler-color: #3fae56;
-    --slider-knob: #0f1215;
-    --sun-color: #f5a623;
-    --moon-color: #ffffff;
+  --navbar-bg: #14181c;
+  --green-primary: #3fae56;
+  --green-dark: #2f8a41;
+  --text-dark: #f0f0f0;
+  --text-muted: #9ca3af;
+  --border-color: #2c3238;
+  --bg-light: #1e2328;
+  --white: #1e2328;
+  --toggler-color: #3fae56;
+  --slider-knob: #0f1215;
+  --sun-color: #f5a623;
+  --moon-color: #ffffff;
+  --user-bg: #1a2026;
+  --user-border: #2c3238;
 }
 
-// ===========================
-// Non-color SCSS Variables
-// ===========================
-$font-main: 'Segoe UI', sans-serif;
-
+// ==========================================
+// 2. SCSS Variables & Mixins
+// ==========================================
+$font-main: 'Segoe UI', system-ui, -apple-system, sans-serif;
 $breakpoint-lg: 992px;
 $breakpoint-md: 768px;
 $breakpoint-sm: 576px;
 
-// ===========================
-// Mixins
-// ===========================
 @mixin flex($align: center, $justify: flex-start, $gap: 0) {
-    display: flex;
-    align-items: $align;
-    justify-content: $justify;
-
-    @if $gap !=0 {
-        gap: $gap;
-    }
+  display: flex;
+  align-items: $align;
+  justify-content: $justify;
+  @if $gap != 0 {
+    gap: $gap;
+  }
 }
 
 @mixin responsive($bp) {
-    @media (max-width: $bp) {
-        @content;
-    }
+  @media (max-width: $bp) {
+    @content;
+  }
 }
 
-// ===========================
-// Navbar
-// ===========================
+// ==========================================
+// 3. Navbar
+// ==========================================
 .navbar {
-    width: 100%;
-    background: var(--navbar-bg);
-    border-bottom: 1px solid var(--border-color);
-    font-family: $font-main;
-    padding: 0;
-    transition: background-color 0.3s ease, border-color 0.3s ease;
+  width: 100%;
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--border-color);
+  font-family: $font-main;
+  padding: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 
-    // ── Top ──────────────────────────────
-    &-top {
-        @include flex(center, space-between, 2rem);
-        padding: 14px 40px;
+  &-top {
+    @include flex(center, space-between, 2rem);
+    padding: 14px 40px;
+    border-bottom: 1px solid var(--border-color);
+
+    @include responsive($breakpoint-lg) {
+      padding: 12px 20px;
+      gap: 1rem;
+    }
+
+    @include responsive($breakpoint-md) {
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+  }
+
+  &-brand {
+    @include flex(center, flex-start, 1.5rem);
+    flex: 1;
+
+    @include responsive($breakpoint-sm) {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
+  &-logo {
+    height: 40px;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  // Search bar
+  &-search {
+    @include flex(center, flex-start);
+    flex: 1;
+    max-width: 600px;
+    background: var(--bg-light);
+    border-radius: 50px;
+    overflow: hidden;
+    border: 1.5px solid var(--border-color);
+    transition: border-color 0.2s, background-color 0.3s ease;
+
+    &:focus-within {
+      border-color: var(--green-primary);
+    }
+
+    @include responsive($breakpoint-md) {
+      max-width: 100%;
+      order: 3; // Mobildə axtarış blokunu tam enə salmaq üçün
+    }
+  }
+
+  &-search-select {
+    background: transparent;
+    border: none;
+    border-right: 1.5px solid var(--border-color);
+    padding: 10px 16px;
+    font-size: 15px;
+    color: var(--text-dark);
+    cursor: pointer;
+    outline: none;
+    white-space: nowrap;
+
+    @include responsive($breakpoint-sm) {
+      display: none;
+    }
+  }
+
+  &-search-input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 16px;
+    font-size: 0.875rem;
+    color: var(--text-dark);
+    outline: none;
+
+    &::placeholder {
+      color: var(--text-muted);
+    }
+  }
+
+  &-search-btn {
+    @include flex(center, center, 0.4rem);
+    background: var(--green-primary);
+    color: var(--white);
+    border: none;
+    padding: 10px 22px;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    border-radius: 50px;
+    transition: background 0.2s;
+
+    &:hover {
+      background: var(--green-dark);
+    }
+
+    @include responsive($breakpoint-sm) {
+      padding: 10px 14px;
+      span { display: none; }
+    }
+  }
+
+  // Actions & User UI
+  &-actions {
+    @include flex(center, flex-end, 1.5rem);
+    flex-shrink: 0;
+
+    @include responsive($breakpoint-md) {
+      gap: 1rem;
+    }
+  }
+
+  &-icons {
+    @include flex(center, flex-start, 1.25rem);
+
+    @include responsive($breakpoint-sm) {
+      gap: 0.85rem;
+    }
+  }
+
+  &-icon {
+    position: relative;
+    color: var(--text-dark);
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--green-primary);
+    }
+
+    &-badge {
+      @include flex(center, center);
+      position: absolute;
+      top: -6px;
+      right: -8px;
+      background: var(--green-primary);
+      color: var(--white);
+      font-size: 0.65rem;
+      font-weight: 700;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+    }
+  }
+
+  // Modern User Pill Design
+  .navbar-user {
+    @include flex(center, center, 0.5rem);
+    background: var(--user-bg);
+    border: 1px solid var(--user-border);
+    padding: 4px 6px 4px 12px;
+    border-radius: 30px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: var(--green-primary);
+    }
+
+    &-skeleton {
+      width: 80px;
+      height: 32px;
+      background: var(--border-color);
+      border-radius: 20px;
+      animation: pulse 1.5s infinite;
+    }
+
+    .navbar-username {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-dark);
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      @include responsive($breakpoint-sm) {
+        max-width: 80px;
+      }
+    }
+
+    .navbar-logout-btn {
+      @include flex(center, center);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.2rem;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+
+      &:hover {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+      }
+    }
+  }
+
+  // Bottom Navigation
+  &-bottom {
+    @include flex(center, flex-start, 1rem);
+    padding: 0 40px;
+
+    @include responsive($breakpoint-lg) {
+      padding: 0 20px;
+    }
+
+    @include responsive($breakpoint-md) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 20px;
+      gap: 0;
+    }
+  }
+
+  &-bottom-right {
+    @include flex(center, space-between);
+    flex: 1;
+
+    @include responsive($breakpoint-md) {
+      flex-direction: column;
+      align-items: flex-start;
+      width: 100%;
+    }
+  }
+
+  &-nav-list {
+    @include flex(center, flex-start);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &-nav-item {
+    position: relative;
+
+    a, span {
+      display: block;
+      padding: 16px 18px;
+      font-size: 17px;
+      font-weight: 500;
+      color: var(--text-dark);
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--green-primary);
+      }
+
+      @include responsive($breakpoint-lg) {
+        padding: 14px 12px;
+        font-size: 0.875rem;
+      }
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 2px;
+      background: var(--green-primary);
+      transition: width 0.25s ease;
+    }
+
+    &:hover::after {
+      width: 70%;
+    }
+  }
+
+  &-helpline {
+    font-size: 14px;
+    color: var(--text-muted);
+    white-space: nowrap;
+
+    strong {
+      color: var(--text-dark);
+      font-weight: 700;
+    }
+
+    @include responsive($breakpoint-md) {
+      font-size: 0.8rem;
+      padding: 8px 0;
+    }
+  }
+
+  // Mobile collapse
+  &-nav-collapse {
+    @include responsive($breakpoint-md) {
+      display: none;
+      width: 100%;
+
+      &--open {
+        display: block;
+      }
+
+      .navbar-nav-list {
+        flex-direction: column;
+        width: 100%;
+      }
+
+      .navbar-nav-item {
+        width: 100%;
         border-bottom: 1px solid var(--border-color);
 
-        @include responsive($breakpoint-lg) {
-            padding: 12px 20px;
-            gap: 1rem;
-        }
+        &::after { display: none; }
 
-        @include responsive($breakpoint-md) {
-            flex-wrap: wrap;
-            gap: 0.75rem;
+        a, span {
+          padding: 12px 0;
         }
+      }
+    }
+  }
+
+  // Mobile Menu Toggler (Checkboxtoggler)
+  .checkboxtoggler {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.4em;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+    flex-shrink: 0;
+    user-select: none;
+
+    @include responsive($breakpoint-md) {
+      display: flex;
+    }
+  }
+
+  .line-1, .line-2, .line-3 {
+    background: var(--toggler-color);
+    height: 0.22em;
+    width: 100%;
+    border-radius: 10em;
+    transition: transform 0.4s ease, opacity 0.4s ease, background-color 0.3s ease;
+    transform-origin: center;
+  }
+
+  // Hamburger X animasiyasının mərkəzlənməsi düzəldildi
+  .line-1.open { 
+    transform: translateY(0.62em) rotate(45deg); 
+  }
+  .line-2.open { 
+    opacity: 0; 
+    transform: scaleX(0); 
+  }
+  .line-3.open { 
+    transform: translateY(-0.62em) rotate(-45deg); 
+  }
+}
+
+// ==========================================
+// 4. Keyframes
+// ==========================================
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes tilt {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+// ==========================================
+// 5. Dark/Light Theme Switch (Orijinal Kod)
+// ==========================================
+.switch {
+  font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 64px;
+  height: 34px;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:focus {
+      &+.slider {
+        box-shadow: 0 0 1px #183153;
+      }
     }
 
-    // ── Brand (Logo + Search) ─────────────
-    &-brand {
-        @include flex(center, flex-start, 1.5rem);
-        flex: 1;
+    &:checked {
+      &+.slider {
+        background-color: var(--green-primary);
 
-        @include responsive($breakpoint-sm) {
-            width: 100%;
+        &:before {
+          transform: translateX(30px);
         }
+      }
     }
+  }
+}
 
-    &-logo {
-        height: 40px;
-        width: auto;
-        flex-shrink: 0;
-    }
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--green-primary);
+  transition: .4s;
+  border-radius: 30px;
 
-    // ── Search ────────────────────────────
-    &-search {
-        @include flex(center, flex-start);
-        flex: 1;
-        max-width: 600px;
-        background: var(--bg-light);
-        border-radius: 50px;
-        overflow: hidden;
-        border: 1.5px solid var(--border-color);
-        transition: border-color 0.2s, background-color 0.3s ease;
+  &:before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    left: 2px;
+    bottom: 2px;
+    z-index: 2;
+    background-color: var(--slider-knob);
+    transition: .4s;
+  }
+}
 
-        &:focus-within {
-            border-color: var(--green-primary);
-        }
+.sun {
+  svg {
+    fill: var(--sun-color);
+    color: var(--sun-color);
+    position: absolute;
+    top: 6px;
+    left: 36px;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+    animation: rotate 15s linear infinite;
+  }
+}
 
-        @include responsive($breakpoint-md) {
-            max-width: 100%;
-        }
-    }
-
-    &-search-select {
-        background: transparent;
-        border: none;
-        border-right: 1.5px solid var(--border-color);
-        padding: 10px 16px;
-        font-size: 15px;
-        color: var(--text-dark);
-        cursor: pointer;
-        outline: none;
-        appearance: auto;
-        white-space: nowrap;
-
-        @include responsive($breakpoint-sm) {
-            display: none;
-        }
-    }
-
-    &-search-input {
-        flex: 1;
-        border: none;
-        background: transparent;
-        padding: 10px 16px;
-        font-size: 0.875rem;
-        color: var(--text-dark);
-        outline: none;
-
-        &::placeholder {
-            color: var(--text-muted);
-        }
-    }
-
-    &-search-btn {
-        @include flex(center, center, 0.4rem);
-        background: var(--green-primary);
-        color: var(--white);
-        border: none;
-        padding: 10px 22px;
-        font-size: 17px;
-        font-weight: 600;
-        cursor: pointer;
-        white-space: nowrap;
-        border-radius: 50px;
-        transition: background 0.2s;
-
-        &:hover {
-            background: var(--green-dark);
-        }
-
-        svg {
-            font-size: 1rem;
-        }
-
-        @include responsive($breakpoint-sm) {
-            padding: 10px 14px;
-
-            span {
-                display: none;
-            }
-        }
-    }
-
-    // ── Right Actions ─────────────────────
-    &-actions {
-        @include flex(center, flex-end, 1.5rem);
-        flex-shrink: 0;
-
-        @include responsive($breakpoint-md) {
-            gap: 1rem;
-        }
-
-        .switch {
-            font-size: 17px;
-            position: relative;
-            display: inline-block;
-            width: 64px;
-            height: 34px;
-
-            input {
-                opacity: 0;
-                width: 0;
-                height: 0;
-
-                &:focus {
-                    &+.slider {
-                        box-shadow: 0 0 1px #183153;
-                    }
-                }
-
-                &:checked {
-                    &+.slider {
-                        background-color: var(--green-primary);
-
-                        &:before {
-                            transform: translateX(30px);
-                        }
-                    }
-                }
-            }
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--green-primary);
-            transition: .4s;
-            border-radius: 30px;
-
-            &:before {
-                position: absolute;
-                content: "";
-                height: 30px;
-                width: 30px;
-                border-radius: 20px;
-                left: 2px;
-                bottom: 2px;
-                z-index: 2;
-                background-color: var(--slider-knob);
-                transition: .4s;
-            }
-        }
-
-        .sun {
-            svg {
-                fill: var(--sun-color);
-                color: var(--sun-color);
-                position: absolute;
-                top: 6px;
-                left: 36px;
-                z-index: 1;
-                width: 24px;
-                height: 24px;
-                animation: rotate 15s linear infinite;
-            }
-        }
-
-        .moon {
-            svg {
-                fill: var(--moon-color);
-                color: var(--moon-color);
-                position: absolute;
-                top: 5px;
-                left: 5px;
-                z-index: 1;
-                width: 24px;
-                height: 24px;
-                animation: tilt 5s linear infinite;
-            }
-        }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes tilt {
-            0% {
-                transform: rotate(0deg);
-            }
-            25% {
-                transform: rotate(-10deg);
-            }
-            75% {
-                transform: rotate(10deg);
-            }
-            100% {
-                transform: rotate(0deg);
-            }
-        }
-    }
-
-    &-lang-currency {
-        @include flex(center, flex-start, 0.5rem);
-    }
-
-    &-btn {
-        background: transparent;
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        padding: 5px 10px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        color: var(--text-dark);
-        cursor: pointer;
-        transition: border-color 0.2s, color 0.2s;
-
-        &:hover {
-            border-color: var(--green-primary);
-            color: var(--green-primary);
-        }
-    }
-
-    &-icons {
-        @include flex(center, flex-start, 1.25rem);
-    }
-
-    &-icon {
-        position: relative;
-        color: var(--text-dark);
-        font-size: 1.6rem;
-        cursor: pointer;
-        transition: color 0.2s;
-
-        &:hover {
-            color: var(--green-primary);
-        }
-
-        &-badge {
-            @include flex(center, center);
-            position: absolute;
-            top: -6px;
-            right: -8px;
-            background: var(--green-primary);
-            color: var(--white);
-            font-size: 0.65rem;
-            font-weight: 700;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-        }
-    }
-
-    // ── Bottom ────────────────────────────
-    &-bottom {
-        @include flex(center, flex-start, 1rem);
-        padding: 0 40px;
-
-        @include responsive($breakpoint-lg) {
-            padding: 0 20px;
-        }
-
-        @include responsive($breakpoint-md) {
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 10px 20px;
-            gap: 0;
-        }
-    }
-
-    &-bottom-right {
-        @include flex(center, space-between);
-        flex: 1;
-
-        @include responsive($breakpoint-md) {
-            flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-        }
-    }
-
-    // ── Nav List ──────────────────────────
-    &-nav-list {
-        @include flex(center, flex-start);
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
-
-    &-nav-item {
-        position: relative;
-
-        a,
-        span {
-            display: block;
-            padding: 16px 18px;
-            font-size: 18px;
-            font-weight: 500;
-            color: var(--text-dark);
-            text-decoration: none;
-            cursor: pointer;
-            white-space: nowrap;
-            transition: color 0.2s;
-
-            &:hover {
-                color: var(--green-primary);
-            }
-
-            @include responsive($breakpoint-lg) {
-                padding: 14px 12px;
-                font-size: 0.875rem;
-            }
-        }
-
-        &::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 2px;
-            background: var(--green-primary);
-            transition: width 0.25s ease;
-        }
-
-        &:hover::after {
-            width: 70%;
-        }
-    }
-
-    // ── Helpline ──────────────────────────
-    &-helpline {
-        font-size: 14px;
-        color: var(--text-muted);
-        white-space: nowrap;
-
-        strong {
-            color: var(--text-dark);
-            font-weight: 700;
-        }
-
-        @include responsive($breakpoint-md) {
-            font-size: 0.8rem;
-            padding: 8px 0;
-        }
-    }
-
-    // ── toggler ─────────────────────────
-    .checkboxtoggler {
-        display: none;
-        flex-direction: column;
-        gap: 0.55em;
-        width: 2.2em;
-        cursor: pointer;
-        flex-shrink: 0;
-        padding: 12px 0;
-
-        @include responsive($breakpoint-md) {
-            display: flex;
-        }
-    }
-
-    .line-1,
-    .line-2,
-    .line-3 {
-        background: var(--toggler-color);
-        height: 0.25em;
-        border-radius: 10em;
-        transition: transform 500ms, opacity 500ms, background-color 0.3s ease;
-    }
-
-    .line-1.open {
-        transform: rotate(45deg) translateY(0.55em) translateX(0.55em);
-    }
-
-    .line-2.open {
-        transform: rotate(-45deg) translateY(0) translateX(0.1em);
-    }
-
-    .line-3.open {
-        transform: scaleX(0);
-        transform-origin: left;
-    }
-
-    // ── Nav Collapse (mobile) ─────────────
-    &-nav-collapse {
-        @include responsive($breakpoint-md) {
-            display: none;
-            width: 100%;
-
-            &--open {
-                display: block;
-            }
-
-            .navbar__nav-list {
-                flex-direction: column;
-                width: 100%;
-            }
-
-            .navbar__nav-item {
-                width: 100%;
-                border-bottom: 1px solid var(--border-color);
-
-                &::after {
-                    display: none;
-                }
-
-                a,
-                span {
-                    padding: 12px 0;
-                }
-            }
-        }
-    }
+.moon {
+  svg {
+    fill: var(--moon-color);
+    color: var(--moon-color);
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 1;
+    width: 24px;
+    height: 24px;
+    animation: tilt 5s linear infinite;
+  }
 }
