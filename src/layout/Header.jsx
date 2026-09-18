@@ -1,13 +1,31 @@
 import { useState } from "react"
-import { CiHeart, CiShoppingBasket, CiUser, CiSearch } from "react-icons/ci"
+import { CiHeart, CiShoppingBasket, CiUser, CiSearch, CiLogout } from "react-icons/ci"
 import logo from "../assets/Images/logo-bokifa.svg"
 import "../assets/scss/Header.scss"
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import ThemeToggle from "../components/ThemeToggle"
 import LanguageSwitchButton from "../components/LangButton"
+import { useAuthStore } from "../store/authStore.js"
 
 const Header = () => {
     const [menuOpen, setMenuOpen] = useState(false)
+    const navigate = useNavigate()
+
+    // Öz ayrıca supabase.auth.getSession() çağırışımızı ləğv etdik —
+    // bu, refresh zamanı "login olunmayıb" ikonunun bir anlıq görünməsinə
+    // (flicker) səbəb olurdu. Bunun əvəzinə App.jsx-də artıq init olunan
+    // mərkəzi authStore-a etibar edirik.
+    const user = useAuthStore((state) => state.user)
+    const profile = useAuthStore((state) => state.profile)
+    const authLoading = useAuthStore((state) => state.loading)
+    const logout = useAuthStore((state) => state.logout)
+    const username = profile?.username || ""
+
+    const handleLogout = async () => {
+        await logout()
+        navigate("/")
+    }
+
     return (
         <>
             <nav className="navbar">
@@ -49,7 +67,26 @@ const Header = () => {
                         <div className="navbar-icons d-flex">
 
                             <div className="navbar-icon">
-                                <NavLink to="/login" className="nav-link"><CiUser /></NavLink>
+                                {authLoading ? (
+                                    // authStore hələ init olunur — refresh-dən sonra bir anlıq
+                                    // "login olunmayıb" ikonunun görünməsinin (flicker) qarşısını
+                                    // almaq üçün nə username, nə də login ikonu göstərilmir
+                                    <span className="navbar-icon-placeholder" style={{ width: 24, height: 24, display: "inline-block" }} />
+                                ) : user ? (
+                                    <div className="navbar-user d-flex align-items-center">
+                                        <span className="navbar-username">{username}</span>
+                                        <button
+                                            type="button"
+                                            className="navbar-logout-btn nav-link"
+                                            onClick={handleLogout}
+                                            aria-label="Logout"
+                                        >
+                                            <CiLogout />
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <NavLink to="/login" className="nav-link"><CiUser /></NavLink>
+                                )}
                             </div>
 
                             <div className="navbar-icon">

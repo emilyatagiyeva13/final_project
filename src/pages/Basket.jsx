@@ -1,19 +1,25 @@
 import { Link } from 'react-router-dom';
-import useCartStore from '../store/useCartStore';
 import '../assets/scss/Basket.scss';
+import useCartStore from '../store/useCartStore';
+import { useEffect } from 'react';
+import Loader from '../components/Loader';
 
 const Basket = () => {
-  const { items, updateQuantity, removeItem, totalPrice, loading } = useCartStore();
+  const { items = [], updateQuantity, removeItem, totalPrice, loading, fetchBasket } = useCartStore();
+
+  useEffect(() => {
+    fetchBasket();
+  }, [fetchBasket]);
 
   if (loading) {
-    return <div className="basket-page basket-page--loading">Yüklənir...</div>;
+    return <div className="basket-page basket-page--loading"><Loader /></div>;
   }
 
   if (items.length === 0) {
     return (
       <div className="basket-page basket-page--empty">
-        <h2>Basketiniz boşdur</h2>
-        <p>Görünür hələ heç bir kitab əlavə etməmisiniz.</p>
+        <h2>Your basket is empty</h2>
+        <p>It seems you didn't add anything.</p>
         <Link to="/shop" className="basket-page__shop-btn">
           Şopa keç
         </Link>
