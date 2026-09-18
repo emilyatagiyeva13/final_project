@@ -6,17 +6,28 @@
   background-color: var(--bg-primary);
   transition: background-color 0.3s ease;
 
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    @media (max-width: 768px) {
+      margin-bottom: 24px;
+    }
+  }
+
   &__title {
     font-family: "Playfair Display", Georgia, serif;
     font-size: 32px;
     font-weight: 600;
     color: var(--text-primary);
-    margin-bottom: 32px;
+    margin: 0;
     transition: color 0.3s ease;
 
     @media (max-width: 768px) {
       font-size: 26px;
-      margin-bottom: 24px;
     }
   }
 

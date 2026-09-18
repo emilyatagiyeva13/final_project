@@ -8,6 +8,16 @@ import { useAuthStore } from "../store/authStore";
 import useCartStore from "../store/useCartStore";
 import { Bounce, toast } from "react-toastify";
 
+const toastOptions = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    transition: Bounce,
+};
+
 const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, description_az, viewMode = "grid" }) => {
     const navigate = useNavigate();
     const fullStars = Math.round(rating);
@@ -17,40 +27,33 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
     const user = useAuthStore((state) => state.user);
     const addItem = useCartStore((state) => state.addItem);
 
-    const handleAddToCart = (e) => {
+    const handleAddToCart = async (e) => {
         e.stopPropagation();
         if (!user) {
-            toast.error("You need to log in first!", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                transition: Bounce,
-            })
+            toast.error("You need to log in first!", toastOptions);
             navigate("/login");
             return;
         }
-        addItem({ id, title_az, price, image_url });
+        await addItem({ id, title_az, price, image_url });
+        toast.success("Added to cart", toastOptions);
     };
 
-    const handleWishlistClick = (e) => {
+    const handleWishlistClick = async (e) => {
         e.stopPropagation();
         if (!user) {
-            toast.error("You need to log in first!", {
-                position: "top-right",
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                transition: Bounce,
-            })
+            toast.error("You need to log in first!", toastOptions);
             navigate("/login");
             return;
         }
-        toggleWishlist(id);
+
+        const wasInWishlist = isInWishlist; // klikdən əvvəlki vəziyyət
+        await toggleWishlist(id);
+
+        if (wasInWishlist) {
+            toast.info("Removed from wishlist", toastOptions);
+        } else {
+            toast.success("Added to wishlist", toastOptions);
+        }
     };
 
     return (

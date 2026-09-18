@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 import '../assets/scss/Basket.scss';
 import useCartStore from '../store/useCartStore';
 import { useEffect } from 'react';
@@ -11,6 +13,42 @@ const Basket = () => {
   useEffect(() => {
     fetchBasket();
   }, [fetchBasket]);
+
+  const handleIncrease = async (item) => {
+    await updateQuantity(item.id, item.quantity + 1);
+    toast.success('Məhsulun sayı artırıldı');
+  };
+
+  const handleDecrease = async (item) => {
+    if (item.quantity <= 1) return;
+    await updateQuantity(item.id, item.quantity - 1);
+    toast.info('Məhsulun sayı azaldıldı');
+  };
+
+  const handleRemove = async (item) => {
+    const result = await Swal.fire({
+      title: 'Əminsiniz?',
+      text: `"${item.title}" səbətdən silinsin?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#306D36',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Bəli, sil',
+      cancelButtonText: 'Ləğv et',
+    });
+
+    if (!result.isConfirmed) return;
+
+    await removeItem(item.id);
+
+    // removeItem xəta olarsa məhsulu geri qaytarır, ona görə yoxlayırıq
+    const stillInBasket = useCartStore.getState().items.some((i) => i.id === item.id);
+    if (stillInBasket) {
+      toast.error('Məhsulu silmək mümkün olmadı');
+    } else {
+      toast.error('Məhsul səbətdən silindi');
+    }
+  };
 
   if (loading) {
     return <div className="basket-page basket-page--loading"><Loader /></div>;
@@ -26,7 +64,12 @@ const Basket = () => {
 
   return (
     <div className="basket-page">
-      <h1 className="basket-page__title">Basket</h1>
+      <div className="basket-page__header">
+        <h1 className="basket-page__title">Basket</h1>
+        <Link to="/shop" className="basket-page__shop-btn">
+          Shop
+        </Link>
+      </div>
 
       <div className="basket-page__list">
         {items.map((item) => (
@@ -45,7 +88,8 @@ const Basket = () => {
             <div className="basket-item__quantity">
               <button
                 className="basket-item__qty-btn"
-                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                onClick={() => handleDecrease(item)}
+                disabled={item.quantity <= 1}
                 aria-label="Azalt"
               >
                 −
@@ -53,7 +97,7 @@ const Basket = () => {
               <span className="basket-item__qty-value">{item.quantity}</span>
               <button
                 className="basket-item__qty-btn"
-                onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                onClick={() => handleIncrease(item)}
                 disabled={item.stock != null && item.quantity >= item.stock}
                 aria-label="Artır"
               >
@@ -67,7 +111,7 @@ const Basket = () => {
 
             <button
               className="basket-item__remove"
-              onClick={() => removeItem(item.id)}
+              onClick={() => handleRemove(item)}
               aria-label="Sil"
             >
               ✕
