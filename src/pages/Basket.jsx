@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import '../assets/scss/Basket.scss';
@@ -125,7 +125,9 @@ const Basket = () => {
         <span className="basket-page__summary-total">
           {totalPrice().toFixed(2)} ₼
         </span>
-        <button className="basket-page__checkout-btn">Sifarişi tamamla</button>
+        <button className="basket-page__checkout-btn">
+          <NavLink className="nav-link" to="/checkout">Sifarişi tamamla</NavLink>
+        </button>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=Josefin+Sans:ital@1&family=Lexend+Deca:wght@100..900&family=Oswald:wght@200..700&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Stoke:wght@300;400&display=swap');
+
 :root[data-theme="light"] {
     --body-bg: #ffffff;
     --body-text: #1a1a1a;
@@ -14,4 +15,14 @@ body {
     color: var(--body-text);
     transition: background-color 0.4s ease, color 0.4s ease;
     margin: 0;
+}
+
+::selection {
+    background-color: var(--accent-color, #306D36);
+    color: #ffffff;
+}
+
+::-moz-selection {
+    background-color: var(--accent-color, #306D36);
+    color: #ffffff;
 }

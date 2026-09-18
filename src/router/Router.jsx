@@ -20,6 +20,8 @@ import ScrollToTop from "../components/ScrollToTop"
 import ProductDetails from "../components/ProductDetails"
 import BlogDetails from "../components/BlogDetails"
 import { ToastContainer } from "react-toastify"
+import Checkout from "../pages/Checkout"
+import NotFound from "../components/NotFound"
 // import AdminLayout from "../pages/admin/AdminLayout"
 // import ProductsPage from "../pages/admin/ProductsPage"
 // import CategoriesPage from "../pages/admin/CategoriesPage"
@@ -55,6 +57,8 @@ const Router = () => {
           <Route path="/blog/:id" element={<BlogDetails />} />
           <Route path="/login" element={<Login />}></Route>
           <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/checkout" element={<Checkout />}></Route>
+          <Route path="*" element={<NotFound />}></Route>
 
           <Route
             path="/admin"

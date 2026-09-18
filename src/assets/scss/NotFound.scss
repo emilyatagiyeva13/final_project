@@ -1,0 +1,194 @@
+// Bokifa Rəng Palitrası
+$primary-green: #2A7A3B;
+$primary-green-hover: #1f5e2c;
+$accent-soft: #e8f5e9;
+$text-dark: #1f2937;
+$text-muted: #6b7280;
+$border-color: #e5e7eb;
+$bg-card: #ffffff;
+
+.not-found-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 20px;
+  width: 100%;
+  min-height: 75vh;
+  background-color: var(--bg-primary, #ffffff);
+  transition: background-color 0.3s ease;
+
+  .not-found-content {
+    max-width: 540px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.5s ease-in-out;
+
+    /* Animasiyalı İkon Stili */
+    .icon-wrapper {
+      position: relative;
+      margin-bottom: 20px;
+      animation: floatIcon 3s ease-in-out infinite;
+
+      .icon-bg {
+        width: 110px;
+        height: 110px;
+        border-radius: 50%;
+        background-color: $accent-soft;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $primary-green;
+        box-shadow: 0 10px 25px rgba(42, 122, 59, 0.15);
+      }
+
+      .badge-404 {
+        position: absolute;
+        top: 0;
+        right: -5px;
+        background-color: $primary-green;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 8px;
+        border-radius: 12px;
+        border: 2px solid #fff;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+    }
+
+    /* Böyük 404 Kodu */
+    .error-code {
+      font-size: clamp(60px, 10vw, 90px);
+      font-weight: 800;
+      font-family: "Playfair Display", Georgia, serif;
+      color: $primary-green;
+      line-height: 1;
+      margin-bottom: 10px;
+      letter-spacing: -2px;
+    }
+
+    /* Başlıq və Mətn */
+    .title {
+      font-size: 26px;
+      font-weight: 700;
+      color: $text-dark;
+      margin-bottom: 12px;
+      font-family: "Playfair Display", Georgia, serif;
+      transition: color 0.3s ease;
+    }
+
+    .description {
+      font-size: 15px;
+      color: $text-muted;
+      line-height: 1.6;
+      margin-bottom: 32px;
+      font-family: "Inter", sans-serif;
+      transition: color 0.3s ease;
+    }
+
+    /* Düymələr Qrupu */
+    .actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      width: 100%;
+
+      button, a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px 26px;
+        border-radius: 30px;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: "Inter", sans-serif;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.25s ease-in-out;
+      }
+
+      .btn-go-back {
+        background-color: transparent;
+        border: 1px solid var(--border-color, $border-color);
+        color: $text-dark;
+
+        &:hover {
+          border-color: $primary-green;
+          color: $primary-green;
+          background-color: $accent-soft;
+          transform: translateY(-2px);
+        }
+      }
+
+      .btn-home {
+        background-color: $primary-green;
+        color: #ffffff;
+        border: none;
+        box-shadow: 0 4px 14px rgba(42, 122, 59, 0.2);
+
+        &:hover {
+          background-color: $primary-green-hover;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(42, 122, 59, 0.35);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+}
+
+/* Animasiyalar */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatIcon {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Dark Mode Dəstəyi */
+[data-theme="dark"] .not-found-container {
+  .title {
+    color: #f3f4f6;
+  }
+  .description {
+    color: #9ca3af;
+  }
+  .icon-bg {
+    background-color: rgba(42, 122, 59, 0.2);
+    color: #4ade80;
+  }
+  .badge-404 {
+    border-color: #1f2937;
+  }
+  .btn-go-back {
+    color: #e5e7eb;
+    border-color: #374151;
+
+    &:hover {
+      background-color: rgba(42, 122, 59, 0.2);
+      color: #4ade80;
+      border-color: #4ade80;
+    }
+  }
+}
