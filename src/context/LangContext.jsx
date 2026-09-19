@@ -9,19 +9,15 @@ const LanguageContext = createContext(null);
 export function LanguageProvider({ children }) {
   const user = useAuthStore((s) => s.user);
 
-  // i18next artıq init zamanı localStorage/navigator-dan düzgün dili seçib
-  // sadəcə onun cari dəyərini oxuyuruq
   const [currentLang, setCurrentLang] = useState(i18n.language);
   
 
-  // i18next-in öz dəyişikliklərini (məsələn başqa yerdə changeLanguage çağırılsa) izləyirik
   useEffect(() => {
     const handleChange = (lng) => setCurrentLang(lng);
     i18n.on("languageChanged", handleChange);
     return () => i18n.off("languageChanged", handleChange);
   }, []);
 
-  // İstifadəçi login olanda DB-dəki seçimi yoxla
   useEffect(() => {
     if (!user) return;
     let cancelled = false;
@@ -33,16 +29,15 @@ export function LanguageProvider({ children }) {
       .single()
       .then(({ data, error }) => {
         if (!cancelled && !error && data?.preferred_lang && data.preferred_lang !== i18n.language) {
-          i18n.changeLanguage(data.preferred_lang); // localStorage-ı da i18next özü yeniləyir
+          i18n.changeLanguage(data.preferred_lang);
         }
       });
 
     return () => { cancelled = true; };
   }, [user?.id]);
 
-  // İstifadəçi manual dəyişdikdə
   const changeLanguage = async (lang) => {
-    i18n.changeLanguage(lang); // bu, localStorage-ı da avtomatik yeniləyir (caches: ['localStorage'])
+    i18n.changeLanguage(lang); 
 
     if (user) {
       await supabase.from("profiles").update({ preferred_lang: lang }).eq("id", user.id);
