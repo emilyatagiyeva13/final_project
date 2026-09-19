@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useTranslation } from "react-i18next"
 import SingleCard from "../components/SingleCard"
 import "../assets/scss/Home.scss"
 import topFavThriller from "../assets/Images/h1-banner01-1.jpg"
@@ -15,9 +16,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Loader from "../components/Loader"
 import { Pagination } from "react-bootstrap"
 import { FreeMode } from "swiper/modules"
+import { useLanguage } from "../context/LangContext"
 
 const Home = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation('home');
+  const { currentLang } = useLanguage();
   const [booksData, setBooksData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,7 +33,9 @@ const Home = () => {
           id,
           slug,
           title_az,
+          title_en,
           description_az,
+          description_en,
           price,
           stock,
           image_url,
@@ -37,7 +43,8 @@ const Home = () => {
           sold_count,
           is_weekly_highlight,
           created_at,
-          categories ( name_az ),
+          banner_url,
+          categories ( name_az, name_en ),
           authors ( name )
         `)
         .eq("is_active", true);
@@ -47,7 +54,9 @@ const Home = () => {
       } else {
         const formatted = data.map((book) => ({
           ...book,
-          category: book.categories?.name_az,
+          title: currentLang === "en" ? book.title_en : book.title_az,
+          description: currentLang === "en" ? book.description_en : book.description_az,
+          category: currentLang === "en" ? book.categories?.name_en : book.categories?.name_az,
           author: book.authors?.name,
         }));
         setBooksData(formatted);
@@ -56,18 +65,12 @@ const Home = () => {
     };
 
     fetchProducts();
-  }, []);
+  }, [currentLang]);
 
-  // this week's highlight section
   const weeklyHighlights = booksData.filter((book) => book.is_weekly_highlight);
-
-  // current best selling books section
   const currentBestSeller = [...booksData].sort((a, b) => (b.sold_count ?? 0) - (a.sold_count ?? 0));
-
-  // new arrivals section
   const newArrivals = [...booksData].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-  // shop-now bölməsi: ən çox satılan 3 kateqoriyadan hərəsinin ən çox satılan kitabı
   const salesByCategory = booksData.reduce((acc, book) => {
     const cat = book.category;
     if (!cat) return acc;
@@ -82,10 +85,7 @@ const Home = () => {
     .slice(0, 3);
 
   const topBooksByCategory = topCategories.map(([categoryName, data]) => {
-    const bestBook = [...data.books].sort(
-      (a, b) => (b.sold_count ?? 0) - (a.sold_count ?? 0)
-    )[0];
-    return bestBook;
+    return [...data.books].sort((a, b) => (b.sold_count ?? 0) - (a.sold_count ?? 0))[0];
   });
 
   if (loading) {
@@ -94,19 +94,12 @@ const Home = () => {
 
   return (
     <>
-
-      {/* HERO CAROUSEL */}
       <HomeCarousel />
 
-
-      {/* THIS WEEKS HIGHLIGHT SECTION */}
       <section>
-
         <div className="book-cards-1 container my-4">
-          <h1>This week's highlight</h1>
-
+          <h1>{t('sections.weeklyHighlight')}</h1>
           <div className="row g-3 single-card my-2">
-
             <Swiper
               slidesPerView={4.3}
               spaceBetween={10}
@@ -128,24 +121,14 @@ const Home = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-
           </div>
-
-
         </div>
-
       </section>
 
-
-      {/* CURRENT BEST SELLING BOOKS SECTION */}
-
       <section>
-
         <div className="book-cards-1 container my-4">
-          <h1>Current bestselling books</h1>
-
+          <h1>{t('sections.bestSellers')}</h1>
           <div className="row g-3 single-card my-2">
-
             <Swiper
               slidesPerView={4.3}
               spaceBetween={10}
@@ -167,23 +150,17 @@ const Home = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-
           </div>
-
-
         </div>
-
       </section>
-
-
 
       <section className="top-fav-thriller container p-5">
         <div className="thriller-content d-flex flex-column my-5">
-          <h1>TOP FAVOURITE <br /> THRILLER STORIES</h1>
-          <span>Find our take on the best books of all time.</span>
+          <h1 dangerouslySetInnerHTML={{ __html: t('thriller.title') }} />
+          <span>{t('thriller.subtitle')}</span>
           <div className="btn-wrapper my-3">
             <button className="discover-btn" onClick={() => navigate(`/shop`)}>
-              <span>DISCOVER NOW</span>
+              <span>{t('thriller.discover')}</span>
               <span><IoIosArrowForward /></span>
             </button>
           </div>
@@ -193,12 +170,9 @@ const Home = () => {
       </section>
 
       <section>
-
         <div className="book-cards-1 container my-4">
-          <h1>New arrivals</h1>
-
+          <h1>{t('sections.newArrivals')}</h1>
           <div className="row g-3 single-card my-2">
-
             <Swiper
               slidesPerView={4.3}
               spaceBetween={10}
@@ -220,25 +194,21 @@ const Home = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-
           </div>
-
-
         </div>
-
       </section>
 
       <section>
         <div className="container">
           <div className="shop-now row g-4">
-            <h1>Top selling 3 genre books</h1>
+            <h1>{t('sections.topGenres')}</h1>
             {topBooksByCategory.map((book) => (
               <ShopNowCards
                 key={book.id}
                 bannerImg={book.banner_url}
                 bookImg={book.image_url}
                 category={book.category}
-                title={book.title_az}
+                title={book.title}
                 id={book.id}
               />
             ))}
@@ -250,25 +220,16 @@ const Home = () => {
         <div className="container">
           <CategoryCarousel />
         </div>
-
       </section>
-
-      {/* <section className="picks-for-u">
-        <UpcomingBooks />
-      </section> */}
 
       <section className="author">
         <AuthorsCarousel />
       </section>
       <div className="line border d-flex container"></div>
 
-
-
-
       <section className="service">
         <ServiceFeatures />
       </section>
-
     </>
   )
 }

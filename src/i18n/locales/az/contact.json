@@ -1,0 +1,27 @@
+{
+  "contact": {
+    "title": "Müraciət Göndərin",
+    "subtitle": "Aşağıdakı formanı doldurun, mövzunu seçin, sualınızı və ya şərhinizi yazın, biz ən qısa zamanda sizinlə əlaqə saxlayacağıq.",
+    "labels": {
+      "subject": "MÖVZU",
+      "your_name": "ADINIZ",
+      "your_email": "E-POÇTUNUZ"
+    },
+    "placeholders": {
+      "subject": "Mövzu və ya mesajınızı bura yazın...",
+      "your_name": "Adınızı daxil edin",
+      "your_email": "E-poçt ünvanınızı daxil edin"
+    },
+    "buttons": {
+      "send_request": "MÜRACİƏTİ GÖNDƏR",
+      "ok": "Aydındır",
+      "try_again": "Yenidən cəhd edin"
+    },
+    "alerts": {
+      "success_title": "Uğurlu!",
+      "success_message": "Sorğunuz uğurla göndərildi!",
+      "error_title": "Xəta!",
+      "error_message": "Mesaj göndərilmədi: "
+    }
+  }
+}

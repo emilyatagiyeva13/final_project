@@ -3,6 +3,7 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
 import { GrView } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useWishlistStore } from "../store/useWishlistStore";
 import { useAuthStore } from "../store/authStore";
 import useCartStore from "../store/useCartStore";
@@ -18,9 +19,27 @@ const toastOptions = {
     transition: Bounce,
 };
 
-const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, description_az, viewMode = "grid" }) => {
+const SingleCard = ({
+    id,
+    image_url,
+    title,
+    title_az,
+    author,
+    price,
+    rating = 0,
+    description,
+    description_az,
+    viewMode = "grid",
+}) => {
+    const { t } = useTranslation("shop");
     const navigate = useNavigate();
     const fullStars = Math.round(rating);
+    
+
+    // Product səhifəsi aktiv dildə title/description göndərir.
+    // SingleCard-ı başqa yerlər hələ title_az/description_az ilə çağırırsa, onlar da işləyir.
+    const displayTitle = title ?? title_az;
+    const displayDescription = description ?? description_az;
 
     const isInWishlist = useWishlistStore((state) => state.isInWishlist(id));
     const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
@@ -30,18 +49,19 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
     const handleAddToCart = async (e) => {
         e.stopPropagation();
         if (!user) {
-            toast.error("You need to log in first!", toastOptions);
+            toast.error(t("card.loginRequired"), toastOptions);
             navigate("/login");
             return;
         }
-        await addItem({ id, title_az, price, image_url });
-        toast.success("Added to cart", toastOptions);
+        // Cart store hələ title_az sahəsini gözləyir, ona görə dəyişmədim
+        await addItem({ id, title_az: displayTitle, price, image_url });
+        toast.success(t("card.addedToCart"), toastOptions);
     };
 
     const handleWishlistClick = async (e) => {
         e.stopPropagation();
         if (!user) {
-            toast.error("You need to log in first!", toastOptions);
+            toast.error(t("card.loginRequired"), toastOptions);
             navigate("/login");
             return;
         }
@@ -50,9 +70,9 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
         await toggleWishlist(id);
 
         if (wasInWishlist) {
-            toast.info("Removed from wishlist", toastOptions);
+            toast.info(t("card.removedFromWishlist"), toastOptions);
         } else {
-            toast.success("Added to wishlist", toastOptions);
+            toast.success(t("card.addedToWishlist"), toastOptions);
         }
     };
 
@@ -79,7 +99,7 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
             </div>
 
             <div className="book-card-image-wrapper">
-                <img src={image_url} alt={title_az} className="book-card-image" />
+                <img src={image_url} alt={displayTitle} className="book-card-image" />
             </div>
 
             <div className="book-card-info">
@@ -93,12 +113,12 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
                     <span className="book-card-rating">({rating})</span>
                 </div>
 
-                <h3 className="book-card-title">{title_az}</h3>
+                <h3 className="book-card-title">{displayTitle}</h3>
 
                 <div className="book-card-author">{author}</div>
 
                 {viewMode === "list" && (
-                    <p className="book-card-description">{description_az}</p>
+                    <p className="book-card-description">{displayDescription}</p>
                 )}
 
                 <div className="book-card-line"></div>
@@ -109,7 +129,7 @@ const SingleCard = ({ id, image_url, title_az, author, price, rating = 0, descri
             <div className="add-to-cart">
                 <button className="button" onClick={handleAddToCart} >
                     <MdAddShoppingCart className="icon-shop" />
-                    <span>Add to cart</span>
+                    <span>{t("card.addToCart")}</span>
                 </button>
             </div>
         </div>

@@ -21,7 +21,6 @@
     --auth-placeholder-2: #1e2328;
 }
 
-// ─── AUTHORS SECTION STYLES ─────────────────────────────────────────────────
 .authors-section {
     padding: 20px 0;
     text-align: center;
@@ -35,6 +34,10 @@
         margin-bottom: 50px;
         color: var(--auth-title);
         transition: color 0.4s ease;
+    }
+
+    h1{
+        text-transform: uppercase;
     }
 }
 

@@ -1,13 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "../assets/scss/Faqs.scss";
 import Loader from "../components/Loader";
 import AccordionSection from "../components/Accordion";
 import { supabase } from "../supabaseClient.js";
+import { useLocalize } from "../components/hooks/useLocalise.jsx";
 
 const FAQ = () => {
+    const { localize } = useLocalize();
     const [loading, setLoading] = useState(true);
     const [openId, setOpenId] = useState(null);
-    const [categories, setCategories] = useState([]);
+    const [rawCategories, setRawCategories] = useState([]);
 
     useEffect(() => {
         const fetchFaqs = async () => {
@@ -17,12 +19,16 @@ const FAQ = () => {
                     id,
                     slug,
                     title,
+                    title_az,
                     description,
+                    description_az,
                     sort_order,
                     faqs (
                         id,
                         question,
+                        question_az,
                         answer,
+                        answer_az,
                         sort_order
                     )
                 `)
@@ -31,13 +37,7 @@ const FAQ = () => {
             if (error) {
                 console.error("FAQ fetch error:", error);
             } else {
-                const formatted = data.map((category) => ({
-                    ...category,
-                    items: [...category.faqs].sort(
-                        (a, b) => a.sort_order - b.sort_order
-                    ),
-                }));
-                setCategories(formatted);
+                setRawCategories(data);
             }
 
             setLoading(false);
@@ -45,6 +45,27 @@ const FAQ = () => {
 
         fetchFaqs();
     }, []);
+    const categories = useMemo(
+        () =>
+            rawCategories.map((category) => {
+                const items = [...category.faqs]
+                    .sort((a, b) => a.sort_order - b.sort_order)
+                    .map((faq) => ({
+                        ...faq,
+                        question: localize(faq, "question"),
+                        answer: localize(faq, "answer"),
+                    }));
+
+                return {
+                    ...category,
+                    title: localize(category, "title"),
+                    description: localize(category, "description"),
+                    faqs: items,
+                    items,
+                };
+            }),
+        [rawCategories, localize]
+    );
 
     const handleToggle = (id) => {
         setOpenId((prev) => (prev === id ? null : id));

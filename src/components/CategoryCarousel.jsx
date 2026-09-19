@@ -6,9 +6,12 @@ import { SwiperSlide, Swiper } from "swiper/react";
 import "../assets/scss/CategorySlider.scss"
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const CategoryCarousel = () => {
     const [categories, setCategories] = useState([]);
+    const { t, i18n } = useTranslation('home');
+
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
@@ -16,7 +19,7 @@ const CategoryCarousel = () => {
         const fetchCategories = async () => {
             const { data, error } = await supabase
                 .from("categories")
-                .select("id, slug, name_az, img_url,name_en")
+                .select("id, slug, name_az, img_url, name_en")
                 .order("name_az");
 
             if (error) {
@@ -35,7 +38,7 @@ const CategoryCarousel = () => {
 
     return (
         <div className="category-carousel-container container">
-            <h1 className="text-center mb-4">TOP CATEGORIES FOR YOU</h1>
+            <h1 className="text-center mb-4">{t('carousels.categorySlider.header')}</h1>
 
             <Swiper
                 slidesPerView={4}
@@ -63,22 +66,26 @@ const CategoryCarousel = () => {
                 }}
                 className="category-swiper"
             >
-                {categories.map((i) => (
-                    <SwiperSlide key={i.id}>
-                        <div className="category-card my-4" onClick={() => navigate(`/shop?category=${i.slug}`)}>
-                            <div className="icon-box">
-                                {i.img_url ? (
-                                    <img src={i.img_url} alt={i.name_az} />
-                                ) : (
-                                    <div className="image-placeholder" />
-                                )}
+                {categories.map((i) => {
+                    const displayName = i18n.language === 'az' ? i.name_az : i.name_en;
+
+                    return (
+                        <SwiperSlide key={i.id}>
+                            <div className="category-card my-4" onClick={() => navigate(`/shop?category=${i.slug}`)}>
+                                <div className="icon-box">
+                                    {i.img_url ? (
+                                        <img src={i.img_url} alt={displayName} />
+                                    ) : (
+                                        <div className="image-placeholder" />
+                                    )}
+                                </div>
+                                <div className="category-label">
+                                    <span>{displayName}</span>
+                                </div>
                             </div>
-                            <div className="category-label">
-                                <span>{i.name_en}</span>
-                            </div>
-                        </div>
-                    </SwiperSlide>
-                ))}
+                        </SwiperSlide>
+                    );
+                })}
             </Swiper>
         </div>
     );

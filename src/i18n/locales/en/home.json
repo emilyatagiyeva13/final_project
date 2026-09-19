@@ -1,0 +1,40 @@
+{
+  "sections": {
+    "weeklyHighlight": "This week's highlight",
+    "bestSellers": "Current bestselling books",
+    "newArrivals": "New arrivals",
+    "topGenres": "Top selling 3 genre books"
+  },
+  "thriller": {
+    "title": "TOP FAVOURITE <br /> THRILLER STORIES",
+    "subtitle": "Find our take on the best books of all time.",
+    "discover": "DISCOVER NOW"
+  },
+  "carousels": {
+    "discover_now": "DISCOVER NOW",
+    "off": "OFF",
+    "slide1": {
+      "subtitle": "A brand new series.",
+      "title": "the world of young adult books",
+      "description": "Save up to 15% on new releases."
+    },
+    "slide2": {
+      "subtitle": "Fiction addiction.",
+      "title": "YOUR ULTIMATE PAGE-TO-SCREEN READING LIST",
+      "description": "Save over $24 with the Booker prize shortlist collection"
+    },
+    "slide3": {
+      "subtitle": "Fiction addiction.",
+      "title": "YOUR ULTIMATE PAGE-TO-SCREEN READING LIST",
+      "description_prefix": "Save over ",
+      "description_highlight": "$24",
+      "description_suffix": " with the Booker prize shortlist collection"
+    },
+    "categorySlider": {
+      "header": "TOP CATEGORIES FOR YOU"
+    },
+    "authorsCarousel":{
+      "header":"TOP AUTHORS FOR YOU"
+    }
+  }
+}

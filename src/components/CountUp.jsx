@@ -8,6 +8,7 @@ import { CiFaceSmile } from "react-icons/ci";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "../assets/scss/CountUp.scss";
+import { useTranslation } from "react-i18next";
 
 const iconMap = {
     books: <PiBookLight />,
@@ -70,6 +71,7 @@ const StatItem = ({ endVal, suffix, title, icon, delay }) => {
 };
 
 const StatsSection = () => {
+    const { i18n } = useTranslation();
     const [stats, setStats] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -82,7 +84,7 @@ const StatsSection = () => {
         const fetchStats = async () => {
             const { data, error } = await supabase
                 .from("page_content")
-                .select("key, text_en")
+                .select("key, text_en, text_az")
                 .eq("page", "about_us")
                 .eq("section", "stats");
 
@@ -94,21 +96,28 @@ const StatsSection = () => {
 
             const map = buildStatsMap(data);
             const prefixes = ["books", "authors", "sold", "customers"];
+            const isAz = i18n.language === "az";
 
-            const parsed = prefixes.map((prefix) => ({
-                id: prefix,
-                endVal: Number(map[`${prefix}_value`]?.text_en) || 0,
-                title: map[`${prefix}_title`]?.text_en || "",
-                suffix: map[`${prefix}_suffix`]?.text_en || "",
-                icon: iconMap[prefix],
-            }));
+            const parsed = prefixes.map((prefix) => {
+                const valueRow = map[`${prefix}_value`];
+                const titleRow = map[`${prefix}_title`];
+                const suffixRow = map[`${prefix}_suffix`];
+
+                return {
+                    id: prefix,
+                    endVal: Number((isAz ? valueRow?.text_az : valueRow?.text_en) || valueRow?.text_en) || 0,
+                    title: (isAz ? titleRow?.text_az : titleRow?.text_en) || titleRow?.text_en || "",
+                    suffix: (isAz ? suffixRow?.text_az : suffixRow?.text_en) || suffixRow?.text_en || "",
+                    icon: iconMap[prefix],
+                };
+            });
 
             setStats(parsed);
             setLoading(false);
         };
 
         fetchStats();
-    }, []);
+    }, [i18n.language]);
 
     useEffect(() => {
         if (!loading) {

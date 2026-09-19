@@ -102,30 +102,31 @@ $breakpoint-sm: 576px;
   }
 
   // Search bar
-  &-search {
+&-search {
     @include flex(center, flex-start);
     flex: 1;
     max-width: 600px;
     background: var(--bg-light);
     border-radius: 50px;
-    overflow: hidden;
     border: 1.5px solid var(--border-color);
     transition: border-color 0.2s, background-color 0.3s ease;
+    position: relative; // dropdown üçün referens nöqtə
 
     &:focus-within {
-      border-color: var(--green-primary);
+        border-color: var(--green-primary);
     }
 
     @include responsive($breakpoint-md) {
-      max-width: 100%;
-      order: 3; // Mobildə axtarış blokunu tam enə salmaq üçün
+        max-width: 100%;
+        order: 3;
     }
-  }
+}
 
-  &-search-select {
+ &-search-select {
     background: transparent;
     border: none;
     border-right: 1.5px solid var(--border-color);
+    border-radius: 50px 0 0 50px; // əlavə edildi
     padding: 10px 16px;
     font-size: 15px;
     color: var(--text-dark);
@@ -134,9 +135,9 @@ $breakpoint-sm: 576px;
     white-space: nowrap;
 
     @include responsive($breakpoint-sm) {
-      display: none;
+        display: none;
     }
-  }
+}
 
   &-search-input {
     flex: 1;
@@ -537,4 +538,70 @@ $breakpoint-sm: 576px;
     height: 24px;
     animation: tilt 5s linear infinite;
   }
+}
+.navbar-search-input-wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.navbar-search-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    z-index: 1000;
+    overflow: hidden;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.navbar-search-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    cursor: pointer;
+
+    &:hover {
+        background: #f5f5f5;
+    }
+}
+
+.navbar-search-dropdown-img {
+    width: 36px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.navbar-search-dropdown-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar-search-dropdown-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.navbar-search-dropdown-price {
+    font-size: 12px;
+    color: #888;
+}
+
+.navbar-search-dropdown-viewall {
+    text-align: center;
+    font-weight: 600;
+    color: var(--primary-color, #333);
+    justify-content: center;
+}
+
+.navbar-search-dropdown-empty {
+    justify-content: center;
+    color: #999;
+    cursor: default;
+    &:hover { background: transparent; }
 }

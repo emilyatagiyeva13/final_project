@@ -6,11 +6,14 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import "../assets/scss/AuthorsCarousel.scss"
 import { supabase } from "../supabaseClient";
+import { useTranslation } from "react-i18next";
 
 const AuthorsCarousel = () => {
     const [authors, setAuthors] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { t } = useTranslation("home");
+
 
     useEffect(() => {
         const fetchAuthors = async () => {
@@ -38,7 +41,7 @@ const AuthorsCarousel = () => {
 
     return (
         <section className="authors-section">
-            <h1 className="text-center">Featured authors</h1>
+            <h1 className="text-center">{t('carousels.authorsCarousel.header')}</h1>
 
             <div className="authors-carousel-wrapper">
                 <Swiper

@@ -4,7 +4,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import '../assets/scss/HomeCarousels.scss';
 import h1sliderbg from "../assets/Images/h1-sliderbg1.png";
-import h1sliderbg3 from "../assets/Images/h1-slider3-3.svg"
+import h1sliderbg3 from "../assets/Images/h1-slider3-3.svg";
 import h1slider3 from "../assets/Images/h1-slider3.png";
 import Aos from 'aos';
 import { useEffect, useRef, useState } from 'react';
@@ -14,8 +14,10 @@ import h1slider21 from "../assets/Images/h1-slider2-1.png";
 import slider31 from "../assets/Images/h1-slider3-1.png";
 import { IoIosArrowForward } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
-export default function HomeCarousels() {
+import { useTranslation } from 'react-i18next';
 
+export default function HomeCarousels() {
+    const { t } = useTranslation('home');
     const swiperRef = useRef(null);
     const navigate = useNavigate();
 
@@ -23,20 +25,18 @@ export default function HomeCarousels() {
     const [slideKeys, setSlideKeys] = useState([0, 0, 0]);
 
     useEffect(() => {
-    Aos.init({
-        duration: 900,
-        easing: 'ease-out-cubic',
-        once: true,   // dəyişdi: false → true
-        offset: 0,
-    });
-}, []);
+        Aos.init({
+            duration: 900,
+            easing: 'ease-out-cubic',
+            once: true,
+            offset: 0,
+        });
+    }, []);
 
     useEffect(() => {
-
         // aos-un her slide ucun yeniden ise dusmesi ucun bu kodu yazariq hansi ki keyler ile bir-bir onlari refresh edib aoslar ise dusecek
         Aos.refresh();
     }, [slideKeys]);
-
 
     // componenti yeniden render etmek ucun slidelar ucun key yaradiriq
     const handleSlideChange = (swiper) => {
@@ -48,18 +48,7 @@ export default function HomeCarousels() {
         });
     };
 
-    // const [isPaused, setIsPaused] = useState(false);
-    // const marqueeItems = [
-    //     { number: "1200", text: "AUTHORS" },
-    //     { number: "12.000", text: "BOOKS SOLD" },
-    //     { number: "95%", text: "HAPPY CUSTOMERS" },
-    //     { number: "20.000", text: "TOTAL BOOKS" },
-    // ];
-
-
-
     return (
-
         <>
             <Swiper
                 pagination={{ clickable: true }}
@@ -72,9 +61,6 @@ export default function HomeCarousels() {
                 className="mySwiper1"
                 ref={swiperRef}
             >
-
-
-
                 {/* SLIDE 1 */}
                 <SwiperSlide>
                     <div className="slide-1" key={slideKeys[0]}>
@@ -88,25 +74,24 @@ export default function HomeCarousels() {
                                     data-aos="fade-down"
                                     data-aos-delay="200"
                                 >
-                                    A brand new series.
+                                    {t('carousels.slide1.subtitle')}
                                 </h6>
                                 <h1
                                     data-aos="fade-up"
                                     data-aos-delay="350"
                                 >
-                                    the world of young adult books
+                                    {t('carousels.slide1.title')}
                                 </h1>
                                 <span
                                     data-aos="fade-up"
                                     data-aos-delay="500"
                                 >
-                                    Save up to 15% on new releases.
+                                    {t('carousels.slide1.description')}
                                 </span>
                             </div>
                             <div className="btn-wrapper" data-aos="fade-up" data-aos-delay="800">
                                 <button className="discover-btn" onClick={() => navigate(`/shop`)}>
-                                    <span>DISCOVER NOW</span> <span><IoIosArrowForward />
-                                    </span>
+                                    <span>{t('carousels.discover_now')}</span> <span><IoIosArrowForward /></span>
                                 </button>
                             </div>
                         </div>
@@ -117,10 +102,10 @@ export default function HomeCarousels() {
                                 data-aos="zoom-in"
                                 data-aos-delay="400"
                                 data-aos-duration="700"
-                            >
-
+                            ></div>
+                            <div className="off-text" data-aos="zoom-out">
+                                15 % <br />{t('carousels.off')}
                             </div>
-                            <div className="off-text" data-aos="zoom-out">15 % <br />OFF</div>
                         </div>
 
                         <img
@@ -165,8 +150,6 @@ export default function HomeCarousels() {
                     </div>
                 </SwiperSlide>
 
-
-
                 {/* SLIDE 2 */}
                 <SwiperSlide>
                     <div className="slide-2" key={slideKeys[1]}>
@@ -175,25 +158,24 @@ export default function HomeCarousels() {
                                 data-aos="fade-down"
                                 data-aos-delay="150"
                             >
-                                Fiction addiction.
+                                {t('carousels.slide2.subtitle')}
                             </h6>
                             <h1
                                 data-aos="fade-up"
                                 data-aos-delay="300"
                             >
-                                YOUR ULTIMATE PAGE-TO-SCREEN READING LIST
+                                {t('carousels.slide2.title')}
                             </h1>
                             <span
                                 data-aos="fade-up"
                                 data-aos-delay="450"
                             >
-                                Save over $24 with the Booker prize shortlist collection
+                                {t('carousels.slide2.description')}
                             </span>
 
                             <div className="btn-wrapper" data-aos="fade-up" data-aos-delay="800">
                                 <button className="discover-btn" onClick={() => navigate(`/shop`)}>
-                                    <span>DISCOVER NOW</span> <span ><IoIosArrowForward />
-                                    </span>
+                                    <span>{t('carousels.discover_now')}</span> <span><IoIosArrowForward /></span>
                                 </button>
                             </div>
                         </div>
@@ -221,18 +203,14 @@ export default function HomeCarousels() {
                     </div>
                 </SwiperSlide>
 
-
-
-
                 {/* SLIDE 3 */}
                 <SwiperSlide>
                     <div className="slide-3 d-flex align-items-center" key={slideKeys[2]}>
                         <div className="container position-relative h-100 d-flex align-items-center">
-
                             <div className="off-slider-wrapper" data-aos="zoom-in" data-aos-delay="900">
                                 <div className="off-slider-bg"></div>
                                 <div className="off-slider-text">
-                                    <span>15% <br /> OFF</span>
+                                    <span>15% <br /> {t('carousels.off')}</span>
                                 </div>
                             </div>
 
@@ -246,23 +224,23 @@ export default function HomeCarousels() {
 
                             <div className="content-box">
                                 <h6 data-aos="fade-down" data-aos-delay="200">
-                                    Fiction addiction.
+                                    {t('carousels.slide3.subtitle')}
                                 </h6>
                                 <h1 data-aos="fade-right" data-aos-delay="400">
-                                    YOUR ULTIMATE PAGE-TO-SCREEN READING LIST
+                                    {t('carousels.slide3.title')}
                                 </h1>
                                 <p data-aos="fade-up" data-aos-delay="600">
-                                    Save over <strong>$24</strong> with the Booker prize shortlist collection
+                                    {t('carousels.slide3.description_prefix')}
+                                    <strong>{t('carousels.slide3.description_highlight')}</strong>
+                                    {t('carousels.slide3.description_suffix')}
                                 </p>
 
                                 <div className="btn-wrapper" data-aos="fade-up" data-aos-delay="800">
                                     <button className="discover-btn" onClick={() => navigate(`/shop`)}>
-                                        <span>DISCOVER NOW</span> <span><IoIosArrowForward />
-                                        </span>
+                                        <span>{t('carousels.discover_now')}</span> <span><IoIosArrowForward /></span>
                                     </button>
                                 </div>
                             </div>
-
                         </div>
 
                         <div className="h1sliderbg3">
@@ -270,18 +248,7 @@ export default function HomeCarousels() {
                         </div>
                     </div>
                 </SwiperSlide>
-
             </Swiper>
-
-
-
-
-
-
-
-
-
         </>
-
     );
 }

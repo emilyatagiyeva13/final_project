@@ -1,0 +1,40 @@
+{
+    "sections": {
+        "weeklyHighlight": "Bu həftənin seçimi",
+        "bestSellers": "Ən çox satılan kitablar",
+        "newArrivals": "Yeni gələnlər",
+        "topGenres": "Ən çox satılan 3 janr"
+    },
+    "thriller": {
+        "title": "ƏN SEVİLƏN <br /> TRİLLER HEKAYƏLƏRİ",
+        "subtitle": "Bütün zamanların ən yaxşı kitabları haqqında fikrimizi kəşf edin.",
+        "discover": "İNDİ KƏŞF ET"
+    },
+    "carousels": {
+        "discover_now": "İNDİ KƏŞF ET",
+        "off": "ENDİRİM",
+        "slide1": {
+            "subtitle": "Yepyeni bir seriya.",
+            "title": "gənclər üçün kitablar aləmi",
+            "description": "Yeni çıxan kitablarda 15%-dək qənaət edin."
+        },
+        "slide2": {
+            "subtitle": "Bədii ədəbiyyat aludəçiliyi.",
+            "title": "SƏHİFƏDƏN EKRANA ƏN YAXŞI MÜTALIƏ SİYAHINIZ",
+            "description": "Booker mükafatı namizədlər kolleksiyası ilə $24-dən çox qənaət edin"
+        },
+        "slide3": {
+            "subtitle": "Bədii ədəbiyyat aludəçiliyi.",
+            "title": "SƏHİFƏDƏN EKRANA ƏN YAXŞI MÜTALIƏ SİYAHINIZ",
+            "description_prefix": "Booker mükafatı namizədlər kolleksiyası ilə ",
+            "description_highlight": "$24",
+            "description_suffix": "-dən çox qənaət edin"
+        },
+        "categorySlider": {
+            "header": "Sizin üçün əsas kateqoriyalar"
+        },
+        "authorsCarousel": {
+            "header": "Sizin üçün əsas müəlliflər"
+        }
+    }
+}

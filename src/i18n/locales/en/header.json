@@ -1,0 +1,29 @@
+{
+  "search": {
+    "placeholder": "Search products...",
+    "button": "Search",
+    "categories": {
+      "all": "All",
+      "books": "Books",
+      "fiction": "Fiction",
+      "kids": "Kids Books",
+      "nonFiction": "Non Fiction",
+      "youngAdult": "Young Adult"
+    }
+  },
+  "nav": {
+    "home": "Home",
+    "shop": "Shop",
+    "blogs": "Blogs",
+    "aboutUs": "About Us",
+    "contact": "Contact",
+    "faqs": "FAQs"
+  },
+  "help": {
+    "text": "Need help? Call Us:"
+  },
+  "user": {
+    "logout": "Logout",
+    "login": "Login"
+  }
+}

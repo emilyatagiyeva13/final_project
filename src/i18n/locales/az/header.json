@@ -1,0 +1,29 @@
+{
+  "search": {
+    "placeholder": "Məhsul axtar...",
+    "button": "Axtar",
+    "categories": {
+      "all": "Hamısı",
+      "books": "Kitablar",
+      "fiction": "Bədii ədəbiyyat",
+      "kids": "Uşaq kitabları",
+      "nonFiction": "Bədii olmayan",
+      "youngAdult": "Gənclər üçün"
+    }
+  },
+  "nav": {
+    "home": "Ana səhifə",
+    "shop": "Mağaza",
+    "blogs": "Bloglar",
+    "aboutUs": "Haqqımızda",
+    "contact": "Əlaqə",
+    "faqs": "Suallar"
+  },
+  "help": {
+    "text": "Kömək lazımdır? Bizə zəng edin:"
+  },
+  "user": {
+    "logout": "Çıxış",
+    "login": "Giriş"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "contact": {
+    "title": "Send a Request",
+    "subtitle": "Complete the form below, select a subject, type your question or comment and we will get back to you as soon as possible.",
+    "labels": {
+      "subject": "SUBJECT",
+      "your_name": "YOUR NAME",
+      "your_email": "YOUR EMAIL"
+    },
+    "placeholders": {
+      "subject": "Type your subject or message here...",
+      "your_name": "Enter your name",
+      "your_email": "Enter your mail address"
+    },
+    "buttons": {
+      "send_request": "SEND REQUEST",
+      "ok": "OK",
+      "try_again": "Try Again"
+    },
+    "alerts": {
+      "success_title": "Success!",
+      "success_message": "Your request has been sent successfully!",
+      "error_title": "Error!",
+      "error_message": "Failed to send message: "
+    }
+  }
+}

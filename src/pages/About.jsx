@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { IoIosArrowForward } from "react-icons/io"
 import { Link } from "react-router-dom"
 import "../assets/scss/AboutUs.scss"
@@ -12,14 +12,15 @@ import "swiper/css"
 import "swiper/css/pagination"
 import "swiper/css/free-mode"
 import CountUpSection from "../components/CountUp.jsx"
+import { useLocalize } from "../components/hooks/useLocalise.jsx"
+import { useTranslation } from "react-i18next"
 
-const buildContentMap = (rows) => {
+const buildContentMap = (rows, localize) => {
     const map = {};
     rows.forEach((row) => {
         if (!map[row.section]) map[row.section] = {};
-        map[row.section][row.key] = row.text_en;
+        map[row.section][row.key] = localize(row, "text");
         if (row.image_url) {
-            if (!map[row.section]) map[row.section] = {};
             map[row.section][`${row.key}_url`] = row.image_url;
         }
     });
@@ -27,36 +28,38 @@ const buildContentMap = (rows) => {
 };
 
 const About = () => {
+    const { localize, lang } = useLocalize();
+    const { t } = useTranslation("blog")
     const [data, setData] = useState([]);
-    const [content, setContent] = useState({});
+    const [contentRows, setContentRows] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchAboutData = async () => {
             const [
-                { data: data, error: dataError },
+                { data: aboutData, error: dataError },
                 { data: contentData, error: contentError },
             ] = await Promise.all([
                 supabase
                     .from("about_us")
-                    .select("id, text, author, role, sort_order")
+                    .select("id, text, text_az, author, role, role_az, sort_order")
                     .order("sort_order"),
                 supabase
                     .from("page_content")
-                    .select("section, key, text_en, image_url")
+                    .select("section, key, text_en, text_az, image_url")
                     .eq("page", "about_us"),
             ]);
 
             if (dataError) {
                 console.error("data fetch error:", dataError);
             } else {
-                setData(data);
+                setData(aboutData);
             }
 
             if (contentError) {
                 console.error("About Us content fetch error:", contentError);
             } else {
-                setContent(buildContentMap(contentData));
+                setContentRows(contentData);
             }
 
             setLoading(false);
@@ -65,6 +68,11 @@ const About = () => {
 
         fetchAboutData();
     }, []);
+
+    const content = useMemo(
+        () => buildContentMap(contentRows, localize),
+        [contentRows, localize]
+    );
 
     if (loading) {
         return <Loader />;
@@ -80,7 +88,7 @@ const About = () => {
 
                 <div className="container hero-content">
                     <div className="breadcrumb">
-                        <Link to="/" className="home-link nav-link">Home</Link>
+                        <Link to="/" className="home-link nav-link">{t('home')}</Link>
                         <IoIosArrowForward className="breadcrumb-icon" />
                         <span className="current-page">{content.breadcrumb?.current}</span>
                     </div>
@@ -91,7 +99,7 @@ const About = () => {
             <section className="who-we-are">
                 <div className="container">
                     <div className="headers" data-aos="fade-up">
-                        <h6>{content.who_we_are?.label}</h6>
+                        <h6>{content.who_we_are?.label} ?</h6>
                         <h1>
                             {content.who_we_are?.heading_pre}
                             <span> {content.who_we_are?.heading_highlight}</span> {content.who_we_are?.heading_post}
@@ -131,6 +139,7 @@ const About = () => {
 
                     <div className="row g-3 single-card my-2">
                         <Swiper
+                            key={lang}
                             slidesPerView={4.3}
                             spaceBetween={10}
                             pagination={{ clickable: true }}
@@ -149,14 +158,14 @@ const About = () => {
                                 <SwiperSlide key={item.id}>
                                     <div className="data-card text-center" data-aos="fade-up">
                                         <div className="card-top">
-                                            <p className="data-text">{item.text}</p>
+                                            <p className="data-text">{localize(item, "text")}</p>
                                         </div>
                                         <div className="card-bottom">
                                             <div className="icon-wrapper">
                                                 <FaSmile className="client-icon" />
                                             </div>
                                             <h4 className="author-name">{item.author}</h4>
-                                            <span className="author-role">{item.role}</span>
+                                            <span className="author-role">{localize(item, "role")}</span>
                                         </div>
                                     </div>
                                 </SwiperSlide>

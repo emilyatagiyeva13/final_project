@@ -1,15 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { NavLink } from "react-router-dom";
 import "../assets/scss/Blog.scss";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import BlogCard from "../components/BlogCard";
 import { supabase } from "../supabaseClient.js";
 import Loader from "../components/Loader";
+import { useLocalize } from "../components/hooks/useLocalise.jsx";
+import { useTranslation } from "react-i18next";
 
 const BLOG_HERO_URL = "https://zjagsvlmvgzvkjndcviz.supabase.co/storage/v1/object/public/blog_posts_img/blog-hero.jpg";
 
 const Blog = () => {
-    const [posts, setPosts] = useState([]);
+    const { localize } = useLocalize();
+    const { t } = useTranslation('blog')
+
+    const [rawPosts, setRawPosts] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -22,13 +27,25 @@ const Blog = () => {
             if (error) {
                 console.error("Blog fetch error:", error);
             } else {
-                setPosts(data);
+                setRawPosts(data);
             }
             setLoading(false);
         };
 
         fetchPosts();
     }, []);
+    const posts = useMemo(
+        () =>
+            rawPosts.map((post) => ({
+                ...post,
+                title: localize(post, "title"),
+                summary: localize(post, "summary"),
+                read_time: localize(post, "read_time"),
+                content: localize(post, "content"),
+            })),
+        [rawPosts, localize]
+    );
+
     if (loading) {
         return (
             <div className="loader-container">
@@ -39,18 +56,17 @@ const Blog = () => {
 
     return (
         <div className="blog-page-container">
-            {/* Hero Section */}
             <div className="hero-box">
                 <img src={BLOG_HERO_URL} alt="Blog Hero" className="blog-hero-img" />
                 <div className="hero-content-overlay">
                     <div className="hero-inner">
-                        <h1 className="hero-title">Blogs</h1>
+                        <h1 className="hero-title">{t('header_page')}</h1>
                         <div className="breadcrumb-wrapper">
-                            <NavLink to="/" className="nav-link">Home</NavLink>
+                            <NavLink to="/" className="nav-link">{t('home')}</NavLink>
                             <span className="arrow-icon">
                                 <MdKeyboardArrowRight />
                             </span>
-                            <span className="current-page">Blogs</span>
+                            <span className="current-page">{t('header_page')}</span>
                         </div>
                     </div>
                 </div>

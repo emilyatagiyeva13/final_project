@@ -4,17 +4,30 @@ import SingleCard from "../components/SingleCard"
 import { supabase } from "../supabaseClient.js"
 import { Link, useSearchParams } from "react-router-dom"
 import { IoIosArrowDown } from "react-icons/io"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
+import { useTranslation } from "react-i18next"
 import Loader from "../components/Loader"
 import Aos from "aos"
-// import { Pagination } from "react-bootstrap"
-// import usePagination from "../components/hooks/usePagination"
+import { useLocalize } from "../components/hooks/useLocalise.jsx"
+
+const buildContentMap = (rows, localize) => {
+  const map = {};
+  rows.forEach((row) => {
+    if (!map[row.section]) map[row.section] = {};
+    map[row.section][row.key] = localize(row, "text");
+  });
+  return map;
+};
 
 const Product = () => {
-  const [booksData, setBooksData] = useState([]);
+  const { t } = useTranslation("shop");
+  const { localize } = useLocalize();
+
+  const [rawBooks, setRawBooks] = useState([]);
   const [allCategories, setAllCategories] = useState([]);
   const [allAuthors, setAllAuthors] = useState([]);
-  const [content, setContent] = useState({});
+  const [contentRows, setContentRows] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isAuthorsOpen, setIsAuthorsOpen] = useState(true);
@@ -22,6 +35,7 @@ const Product = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // URL Parameters
   const categoryParam = searchParams.get("category");
   const [selectedCategories, setSelectedCategories] = useState(
     categoryParam ? categoryParam.split(",") : []
@@ -40,23 +54,35 @@ const Product = () => {
   const sortParam = searchParams.get("sort");
   const [sortBy, setSortBy] = useState(sortParam || "");
 
+  // Header-dən gələn axtarış parametridir
+  const searchQueryParam = searchParams.get("search");
+  const [searchQuery, setSearchQuery] = useState(searchQueryParam || "");
+
   const PAGE_SIZE = 7;
   const pageParam = searchParams.get("page");
   const [currentPage, setCurrentPage] = useState(Number(pageParam) || 1);
 
-  // page_content sətirlərini { section: { key: text_az } } formasına çeviririk
-  const buildContentMap = (rows) => {
-    const map = {};
-    rows.forEach((row) => {
-      if (!map[row.section]) map[row.section] = {};
-      map[row.section][row.key] = row.text_en;
-    });
-    return map;
-  };
+  const content = useMemo(
+    () => buildContentMap(contentRows, localize),
+    [contentRows, localize]
+  );
+
+  const booksData = useMemo(
+    () =>
+      rawBooks.map((book) => ({
+        ...book,
+        title: localize(book, "title"),
+        description: localize(book, "description"),
+        category: localize(book.categories, "name"),
+        categorySlug: book.categories?.slug,
+        author: localize(book.authors, "name"),
+        authorSlug: book.authors?.slug,
+      })),
+    [rawBooks, localize]
+  );
 
   useEffect(() => {
     const fetchProducts = async () => {
-
       const [
         { data, error },
         { data: categoriesData, error: categoriesError },
@@ -69,14 +95,16 @@ const Product = () => {
             id,
             slug,
             title_az,
+            title_en,
             description_az,
+            description_en,
             price,
             stock,
             image_url,
             rating,
             sold_count,
-            categories ( slug, name_az,name_en ),
-            authors ( name, slug )
+            categories ( slug, name_az, name_en ),
+            authors ( name, name_az, slug )
           `)
           .eq("is_active", true),
         supabase
@@ -85,44 +113,25 @@ const Product = () => {
           .order("name_az"),
         supabase
           .from("authors")
-          .select("slug, name")
+          .select("slug, name, name_az")
           .order("name"),
         supabase
           .from("page_content")
-          .select("section, key, text_en")
+          .select("section, key, text_en, text_az")
           .eq("page", "product"),
       ]);
 
-      if (error) {
-        console.error("Products fetch error:", error);
-      } else {
-        const formatted = data.map((book) => ({
-          ...book,
-          category: book.categories?.name_az,
-          categorySlug: book.categories?.slug,
-          author: book.authors?.name,
-          authorSlug: book.authors?.slug,
-        }));
-        setBooksData(formatted);
-      }
+      if (error) console.error("Products fetch error:", error);
+      else setRawBooks(data || []);
 
-      if (categoriesError) {
-        console.error("Categories fetch error:", categoriesError);
-      } else {
-        setAllCategories(categoriesData);
-      }
+      if (categoriesError) console.error("Categories fetch error:", categoriesError);
+      else setAllCategories(categoriesData || []);
 
-      if (authorsError) {
-        console.error("Authors fetch error:", authorsError);
-      } else {
-        setAllAuthors(authorsData);
-      }
+      if (authorsError) console.error("Authors fetch error:", authorsError);
+      else setAllAuthors(authorsData || []);
 
-      if (contentError) {
-        console.error("Content fetch error:", contentError);
-      } else {
-        setContent(buildContentMap(contentData));
-      }
+      if (contentError) console.error("Content fetch error:", contentError);
+      else setContentRows(contentData || []);
 
       setLoading(false);
       setTimeout(() => Aos.refresh(), 0);
@@ -132,34 +141,33 @@ const Product = () => {
   }, []);
 
   useEffect(() => {
-  setTimeout(() => Aos.refreshHard(), 0);
-}, [viewMode]);
+    setTimeout(() => Aos.refreshHard(), 0);
+  }, [viewMode]);
 
-  // URL-dəki category dəyişərsə (məs. carousel-dən yenidən klik) filtri sinxronlaşdır
   useEffect(() => {
     setSelectedCategories(categoryParam ? categoryParam.split(",") : []);
   }, [categoryParam]);
 
-  // URL-dəki author dəyişərsə (məs. AuthorsCarousel-dən klik) filtri sinxronlaşdır
   useEffect(() => {
     setSelectedAuthors(authorParam ? authorParam.split(",") : []);
   }, [authorParam]);
 
-  // URL-dəki price parametrləri dəyişərsə state-i sinxronlaşdır
   useEffect(() => {
     setMinPrice(minPriceParam || "");
     setMaxPrice(maxPriceParam || "");
   }, [minPriceParam, maxPriceParam]);
 
-  // URL-dəki sort parametri dəyişərsə state-i sinxronlaşdır
   useEffect(() => {
     setSortBy(sortParam || "");
   }, [sortParam]);
 
-  // URL-dəki page parametri dəyişərsə state-i sinxronlaşdır
   useEffect(() => {
     setCurrentPage(Number(pageParam) || 1);
   }, [pageParam]);
+
+  useEffect(() => {
+    setSearchQuery(searchQueryParam || "");
+  }, [searchQueryParam]);
 
   const toggleCategory = (slug) => {
     setSelectedCategories((prev) => {
@@ -198,27 +206,21 @@ const Product = () => {
   };
 
   const applyPriceRange = () => {
-    if (minPrice) {
-      searchParams.set("minPrice", minPrice);
-    } else {
-      searchParams.delete("minPrice");
-    }
-    if (maxPrice) {
-      searchParams.set("maxPrice", maxPrice);
-    } else {
-      searchParams.delete("maxPrice");
-    }
+    if (minPrice) searchParams.set("minPrice", minPrice);
+    else searchParams.delete("minPrice");
+
+    if (maxPrice) searchParams.set("maxPrice", maxPrice);
+    else searchParams.delete("maxPrice");
+
     searchParams.delete("page");
     setSearchParams(searchParams);
   };
 
   const handleSortChange = (value) => {
     setSortBy(value);
-    if (value) {
-      searchParams.set("sort", value);
-    } else {
-      searchParams.delete("sort");
-    }
+    if (value) searchParams.set("sort", value);
+    else searchParams.delete("sort");
+
     searchParams.delete("page");
     setSearchParams(searchParams);
   };
@@ -230,17 +232,15 @@ const Product = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // authors cədvəlindən qururuq ki, məhsulu olmayanlar da (0 ilə) görünsün
   const authorList = allAuthors.map((author) => ({
     slug: author.slug,
-    name: author.name,
+    name: localize(author, "name"),
     count: booksData.filter((b) => b.authorSlug === author.slug).length,
   }));
 
-  // categories cədvəlindən qururuq ki, məhsulu olmayanlar da (0 ilə) görünsün
   const categoryList = allCategories.map((cat) => ({
     slug: cat.slug,
-    name: cat.name_en,
+    name: localize(cat, "name"),
     count: booksData.filter((b) => b.categorySlug === cat.slug).length,
   }));
 
@@ -251,7 +251,21 @@ const Product = () => {
       selectedAuthors.length === 0 || selectedAuthors.includes(book.authorSlug);
     const matchesMinPrice = !minPriceParam || book.price >= Number(minPriceParam);
     const matchesMaxPrice = !maxPriceParam || book.price <= Number(maxPriceParam);
-    return matchesCategory && matchesAuthor && matchesMinPrice && matchesMaxPrice;
+
+    const cleanSearch = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      !cleanSearch ||
+      book.title?.toLowerCase().includes(cleanSearch) ||
+      book.author?.toLowerCase().includes(cleanSearch) ||
+      book.description?.toLowerCase().includes(cleanSearch);
+
+    return (
+      matchesCategory &&
+      matchesAuthor &&
+      matchesMinPrice &&
+      matchesMaxPrice &&
+      matchesSearch
+    );
   });
 
   const sortedBooks = [...filteredBooks].sort((a, b) => {
@@ -377,7 +391,7 @@ const Product = () => {
                   <input
                     type="number"
                     min="0"
-                    placeholder="Min"
+                    placeholder="min"
                     className="price-input"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
@@ -386,7 +400,7 @@ const Product = () => {
                   <input
                     type="number"
                     min="0"
-                    placeholder="Max"
+                    placeholder="max"
                     className="price-input"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
@@ -412,8 +426,8 @@ const Product = () => {
             </div>
 
             <p className="results-count">
-              Showing {sortedBooks.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}-
-              {Math.min(safePage * PAGE_SIZE, sortedBooks.length)} of {sortedBooks.length} results
+              {t('showing')} {sortedBooks.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}-
+              {Math.min(safePage * PAGE_SIZE, sortedBooks.length)} {t('of')} {sortedBooks.length} {t('results')}
             </p>
 
             <div className="dropdown">
@@ -454,14 +468,20 @@ const Product = () => {
           </div>
 
           <div className="product-box row my-3">
-            {paginatedBooks.map((i) => (
-              <div
-                key={i.id}
-                className={viewMode === "grid" ? "col-6 col-md-4 col-lg-4 my-2" : "col-12 my-2"}
-              >
-                <SingleCard {...i} viewMode={viewMode} />
+            {paginatedBooks.length > 0 ? (
+              paginatedBooks.map((i) => (
+                <div
+                  key={i.id}
+                  className={viewMode === "grid" ? "col-6 col-md-4 col-lg-4 my-2" : "col-12 my-2"}
+                >
+                  <SingleCard {...i} viewMode={viewMode} />
+                </div>
+              ))
+            ) : (
+              <div className="text-center my-5">
+                <h5>Məhsul tapılmadı.</h5>
               </div>
-            ))}
+            )}
           </div>
 
           {totalPages > 1 && (
@@ -471,7 +491,7 @@ const Product = () => {
                 disabled={safePage === 1}
                 onClick={() => goToPage(safePage - 1)}
               >
-                Prev
+                {t("pagination.prev")}
               </button>
 
               {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
@@ -489,7 +509,7 @@ const Product = () => {
                 disabled={safePage === totalPages}
                 onClick={() => goToPage(safePage + 1)}
               >
-                Next
+                {t("pagination.next")}
               </button>
             </nav>
           )}
@@ -497,10 +517,8 @@ const Product = () => {
         </div>
 
       </section>
-
     </>
-  )
-}
+  );
+};
 
-
-export default Product
+export default Product;

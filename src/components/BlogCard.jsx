@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "../assets/scss/BlogCard.scss";
+import { useTranslation } from "react-i18next";
 
 const formatDate = (dateStr) => {
     if (!dateStr) return "";
@@ -12,6 +13,7 @@ const formatDate = (dateStr) => {
 };
 
 const BlogCard = ({ post }) => {
+    const {t}=useTranslation("blog")
     const {
         slug,
         title,
@@ -33,7 +35,7 @@ const BlogCard = ({ post }) => {
                     <span className="separator">/</span>
                     <span className="date">{formatDate(post_date)}</span>
                     <span className="separator">/</span>
-                    <span className="author">BY {author_name?.toUpperCase()}</span>
+                    <span className="author">{t('by')} {author_name?.toUpperCase()}</span>
                 </div>
             </div>
 
@@ -44,7 +46,7 @@ const BlogCard = ({ post }) => {
             <p className="blog-description">{summary}</p>
 
             <NavLink to={`/blog/${slug}`} className="read-more">
-                Read More
+                {t('read-more')}
             </NavLink>
         </div>
     );
