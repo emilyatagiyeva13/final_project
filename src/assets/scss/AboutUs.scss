@@ -113,11 +113,10 @@ $accent-yellow: #FFD254;
 
 .who-we-are {
     padding: 100px 0;
-    background-color: var(--testi-bg); // Saytın ümumi fon rəngi
+    background-color: var(--testi-bg); 
     transition: background-color 0.4s ease;
 
     .container {
-        // Bootstrap container-dən istifadə etdiyinizi fərz edirəm
         max-width: 1200px;
         margin: 0 auto;
         padding: 0 15px;
@@ -126,7 +125,7 @@ $accent-yellow: #FFD254;
     .headers {
         text-align: center;
         max-width: 700px;
-        margin: 0 auto 80px auto; // Aşağıdan boşluq
+        margin: 0 auto 80px auto; 
 
         h6 {
             color: $primary-green;
@@ -156,7 +155,6 @@ $accent-yellow: #FFD254;
                 position: relative;
                 display: inline-block;
 
-                // Sözün altına yüngül xətt effekti
                 &::after {
                     content: '';
                     position: absolute;
@@ -173,22 +171,21 @@ $accent-yellow: #FFD254;
 
     .our-mission-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr; // İki bərabər sütun
+        grid-template-columns: 1fr 1fr; 
         gap: 50px;
         align-items: center;
 
         @media (max-width: 992px) {
-            grid-template-columns: 1fr; // Planşet və telefonda tək sütun
+            grid-template-columns: 1fr; 
             gap: 40px;
         }
 
-        // --- SOL TƏRƏF (Şəkil və Missiya Kartı) ---
         .left-content-wrapper {
             position: relative;
 
             .main-img-bucket {
                 position: relative;
-                padding-right: 50px; // Kartın çıxıntısı üçün yer
+                padding-right: 50px; 
                 padding-bottom: 50px;
 
                 @media (max-width: 576px) {
@@ -211,7 +208,7 @@ $accent-yellow: #FFD254;
                     }
                 }
 
-                // Şəklin üzərinə hover effekti
+               
                 &:hover .left-box-img {
                     transform: scale(1.02);
                 }
@@ -222,7 +219,7 @@ $accent-yellow: #FFD254;
                 bottom: 0;
                 right: 0;
                 width: 380px;
-                background-color: var(--testi-card-bg); // Dark mode uyğun fon
+                background-color: var(--testi-card-bg); 
                 padding: 40px;
                 border-radius: 20px;
                 box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
@@ -246,7 +243,7 @@ $accent-yellow: #FFD254;
                     left: 20px;
                     width: 50px;
                     height: 5px;
-                    background-color: $accent-yellow; // Sarı vurğu xətti
+                    background-color: $accent-yellow;
                     border-radius: 0 0 5px 5px;
                 }
 
@@ -270,7 +267,6 @@ $accent-yellow: #FFD254;
             }
         }
 
-        // --- SAĞ TƏRƏF (Services List) ---
         .right-services-list {
             display: flex;
             flex-direction: column;
@@ -288,7 +284,6 @@ $accent-yellow: #FFD254;
                 position: relative;
                 overflow: hidden;
 
-                // Hover etdikdə sol tərəfdə yaşıl xətt peyda olur
                 &::after {
                     content: '';
                     position: absolute;
