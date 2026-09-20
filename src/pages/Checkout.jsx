@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { CreditCard, Lock, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Swal from 'sweetalert2';
 import useCartStore from '../store/useCartStore';
 import { useLocalize } from '../components/hooks/useLocalise';
 import '../assets/scss/Checkout.scss';
@@ -15,7 +16,7 @@ const Checkout = () => {
     const { items = [], totalPrice, clearBasket } = useCartStore();
 
     const [isFlipped, setIsFlipped] = useState(false);
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -31,13 +32,13 @@ const Checkout = () => {
     const shippingCost = 2.00;
     const finalTotal = subTotal + shippingCost;
 
-    useEffect(()=>{
-        const timer = setTimeout(()=>{
+    useEffect(() => {
+        const timer = setTimeout(() => {
             setLoading(false);
-        },2000)
+        }, 2000);
 
-        return ()=> clearTimeout(timer)
-    },[])
+        return () => clearTimeout(timer);
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -60,19 +61,28 @@ const Checkout = () => {
         }
     };
 
-const handleSubmit = (e) => {
-    e.preventDefault();
-    
-    // 1. Səbəti təmizləyirik
-    if (clearBasket) clearBasket();
-    
-    // 2. Bildiriş çıxarırıq
-    toast.success(t('checkout.successMessage') || 'Sifarişiniz uğurla rəsmiləşdirildi!');
-    
-    // 3. Yeni Uğurlu Ödəniş səhifəsinə yönləndiririk
-    navigate('/success');
-};
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        // SweetAlert ilə istifadəçidən təsdiq almaq
+        const result = await Swal.fire({
+            title: t('checkout.confirmTitle') || 'Sifarişi təsdiqləyirsiniz?',
+            text: t('checkout.confirmText') || 'Ödəniş kartınızdan silinəcək və sifariş rəsmiləşdiriləcək.',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: t('checkout.confirmYes') || 'Bəli, təsdiqləyirəm',
+            cancelButtonText: t('checkout.confirmNo') || 'Xeyr, ləğv et'
+        });
+
+        // İstifadəçi "Bəli" dedikdə
+        if (result.isConfirmed) {
+            if (clearBasket) await clearBasket();
+            toast.success(t('checkout.successMessage') || 'Sifarişiniz uğurla rəsmiləşdirildi!');
+            navigate('/success');
+        }
+    };
 
     if (loading) {
         return (
@@ -143,11 +153,9 @@ const handleSubmit = (e) => {
                         </div>
                     </div>
 
-                    {/* 2. Kartın Vizual Görünüşü və Formu (İkisi bir-birinin altında) */}
                     <div className="form-section">
                         <h3>{t('checkout.paymentInfo') || 'Kart Məlumatları'}</h3>
 
-                        {/* İnteraktiv Kart - Birbaşa formanın üstündə yerləşir */}
                         <div className="card-wrapper">
                             <div className={`interactive-card ${isFlipped ? 'is-flipped' : ''}`}>
                                 <div className="card-front">
@@ -180,7 +188,6 @@ const handleSubmit = (e) => {
                             </div>
                         </div>
 
-                        {/* Kartın Daxil Etmə Sahələri */}
                         <div className="input-group full">
                             <label>Kart üzərindəki ad</label>
                             <input
@@ -239,7 +246,6 @@ const handleSubmit = (e) => {
                     </button>
                 </form>
 
-                {/* Sifariş Xülasəsi */}
                 <div className="checkout-summary">
                     <h3>{t('basket.summaryTitle') || 'Sifarişin xülasəsi'}</h3>
 
@@ -274,8 +280,6 @@ const handleSubmit = (e) => {
                         <span>{t('basket.finalTotal') || 'Yekun qiymət:'}</span>
                         <span className="total-amount">{finalTotal.toFixed(2)} ₼</span>
                     </div>
-
-
                 </div>
             </div>
         </div>
