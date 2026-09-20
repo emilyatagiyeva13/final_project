@@ -2,7 +2,7 @@
   width: 100%;
   padding: 40px 0 80px 0;
   min-height: 75vh;
-  background-color: var(--bg-primary, #ffffff);
+  // background-color: var(--bg-primary, #ffffff);
   transition: background-color 0.3s ease;
 
   .container {
@@ -107,7 +107,7 @@
   font-family: "Inter", sans-serif;
   font-size: 16px;
   color: var(--text-secondary, #6b7280);
-  background-color: var(--bg-primary, #ffffff);
+  // background-color: var(--bg-primary, #ffffff);
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 

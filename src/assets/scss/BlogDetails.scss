@@ -99,11 +99,11 @@
 .blog-details-page {
     width: 100%;
     padding-bottom: 80px;
-    background-color: var(--bg-primary);
+    // background-color: var(--bg-primary);
     transition: background-color 0.3s ease;
 
     .blog-breadcrumb {
-        background-color: var(--bg-secondary);
+        // background-color: var(--bg-secondary);
         padding: 15px 0;
         margin-bottom: 40px;
         border-bottom: 1px solid var(--border-color);
@@ -249,7 +249,7 @@
     justify-content: center;
     text-align: center;
     gap: 20px;
-    background-color: var(--bg-primary);
+    // background-color: var(--bg-primary);
     color: var(--text-primary);
 
     .back-btn {
