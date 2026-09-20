@@ -1,4 +1,3 @@
-// Bokifa Rəng Palitrası
 $primary-green: #2A7A3B;
 $primary-green-hover: #1f5e2c;
 $accent-soft: #e8f5e9;
@@ -25,7 +24,6 @@ $bg-card: #ffffff;
     align-items: center;
     animation: fadeIn 0.4s ease-in-out;
 
-    /* İkon Stili */
     .icon-wrapper {
       position: relative;
       margin-bottom: 24px;
@@ -64,7 +62,6 @@ $bg-card: #ffffff;
       }
     }
 
-    /* Başlıq və Mətn */
     .title {
       font-size: 28px;
       font-weight: 700;
@@ -81,7 +78,6 @@ $bg-card: #ffffff;
       font-family: "Inter", sans-serif;
     }
 
-    /* Explore Shop Düyməsi */
     .btn-start-shopping {
       display: inline-flex;
       align-items: center;

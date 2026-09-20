@@ -72,7 +72,6 @@ const Wishlist = () => {
   return (
     <div className="wishlist-page">
       <div className="container">
-        {/* Başlıq və məhsul sayı göstəricisi */}
         <div className="wishlist-header">
           <h1>{t('wishlist.header')}</h1>
           {products.length > 0 && (

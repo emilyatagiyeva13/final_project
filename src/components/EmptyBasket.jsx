@@ -1,8 +1,10 @@
 import { ShoppingBag, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../assets/scss/EmptyBasket.scss';
+import { useTranslation } from 'react-i18next';
 
 const EmptyBasket = () => {
+  const { t } = useTranslation("common")
   return (
     <div className="empty-basket-container">
       <div className="empty-basket-content">
@@ -13,13 +15,13 @@ const EmptyBasket = () => {
           <span className="badge-zero">0</span>
         </div>
 
-        <h2 className="title">Your Cart is Empty</h2>
+        <h2 className="title">{t('basket.emptyBasket.header')}</h2>
         <p className="description">
-          You haven't added any books to your shopping cart yet. Discover our latest arrivals and fill your shelf with great reads!
+          {t('basket.emptyBasket.content-1')}
         </p>
 
         <Link to="/shop" className="btn-start-shopping">
-          <span>Explore Shop</span>
+          <span>{t('basket.emptyBasket.start')}</span>
           <ArrowRight size={18} />
         </Link>
       </div>

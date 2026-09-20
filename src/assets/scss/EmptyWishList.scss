@@ -25,7 +25,6 @@ $bg-card: #ffffff;
     align-items: center;
     animation: fadeIn 0.4s ease-in-out;
 
-    /* İkon Stili */
     .icon-wrapper {
       position: relative;
       margin-bottom: 24px;
@@ -64,7 +63,6 @@ $bg-card: #ffffff;
       }
     }
 
-    /* Başlıq və Mətn */
     .title {
       font-size: 28px;
       font-weight: 700;
@@ -80,7 +78,6 @@ $bg-card: #ffffff;
       margin-bottom: 28px;
     }
 
-    /* Start Shopping Düyməsi */
     .btn-start-shopping {
       display: inline-flex;
       align-items: center;
@@ -107,7 +104,6 @@ $bg-card: #ffffff;
       }
     }
 
-    /* Kateqoriyalar */
     .categories-suggestion {
       margin-top: 40px;
       width: 100%;
@@ -153,7 +149,6 @@ $bg-card: #ffffff;
   }
 }
 
-/* Animasiya */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -165,7 +160,6 @@ $bg-card: #ffffff;
   }
 }
 
-/* Dark Mode Dəstəyi (Əgər sisteminizdə [data-theme="dark"] istifadə olunursa) */
 [data-theme="dark"] .empty-wishlist-container {
   .title {
     color: #f3f4f6;
@@ -188,4 +182,5 @@ $bg-card: #ffffff;
       border-color: #4ade80;
     }
   }
+  
 }

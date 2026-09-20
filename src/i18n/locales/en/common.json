@@ -1,6 +1,42 @@
 {
-    "wishlist":{
-        "header":"Wishlist",
-        "total-product":"total product"
+    "wishlist": {
+        "header": "Your wishlist",
+        "total-product": "total products",
+        "emptyWishList": {
+            "header": "Your wishlist is empty",
+            "content-1": "You haven't added any books to your wishlist yet. Browse our collection and add your favorite stories to read later!",
+            "start": "Start shopping"
+        }
+    },
+    "basket": {
+        "header": "Cart",
+        "total-product": "total products",
+        "emptyBasket": {
+            "header": "Your cart is empty",
+            "content-1": "You haven't added any books to your shopping cart yet. Check out our new arrivals and fill your shelf with great works!",
+            "start": "Start shopping"
+        },
+        "total": "Total",
+        "productCount": "products",
+        "shopBtn": "Shop",
+        "summaryTitle": "Order Summary",
+        "subtotal": "Subtotal:",
+        "shipping": "Shipping fee:",
+        "finalTotal": "Total amount:",
+        "checkout": "Complete order",
+        "decreaseAlert": "Product quantity decreased",
+        "increaseAlert": "Product quantity increased",
+        "removeConfirmTitle": "Are you sure?",
+        "removeConfirmText": "will be removed from cart?",
+        "removeSuccess": "Product removed from cart",
+        "removeError": "Could not remove product",
+        "confirmBtn": "Yes, delete",
+        "cancelBtn": "Cancel"
+    },
+    "card": {
+        "addedToCart": "Added to cart",
+        "addedToWishlist": "Added to wishlist",
+        "removedFromWishlist": "Removed from wishlist",
+        "addToCart": "Add to cart"
     }
 }

@@ -1,6 +1,42 @@
 {
-    "wishlist":{
-        "header":"Arzu siyahısı",
-        "total-product":"ümumi məhsul"
+    "wishlist": {
+        "header": "İstək siyahın",
+        "total-product": "ümumi məhsul",
+        "emptyWishList": {
+            "header": "İstək siyahın boşdur",
+            "content-1": "İstək siyahınıza hələ heç bir kitab əlavə etməmisiniz. Kolleksiyamızı nəzərdən keçirin və daha sonra oxumaq üçün sevdiyiniz hekayələri əlavə edin!",
+            "start": "Alış verişə başlayın"
+        }
+    },
+    "basket": {
+        "header": "Səbət",
+        "total-product": "ümumi məhsul",
+        "emptyBasket": {
+            "header": "Səbətin boşdur",
+            "content-1": "Siz hələ alış-veriş səbətinizə heç bir kitab əlavə etməmisiniz. Yeni gələn kitablarla tanış olun və rəfinizi əla əsərlərlə doldurun!",
+            "start": "Alış verişə başlayın"
+        },
+        "total": "Ümumi",
+        "productCount": "məhsul",
+        "shopBtn": "Mağaza",
+        "summaryTitle": "Sifarişin xülasəsi",
+        "subtotal": "Məhsulların cəmi:",
+        "shipping": "Çatdırılma xidməti:",
+        "finalTotal": "Yekun qiymət:",
+        "checkout": "Sifarişi tamamla",
+        "decreaseAlert": "Məhsulun sayı azaldıldı",
+        "increaseAlert": "Məhsulun sayı artırıldı",
+        "removeConfirmTitle": "Əminsiniz?",
+        "removeConfirmText": "səbətdən silinsin?",
+        "removeSuccess": "Məhsul səbətdən silindi",
+        "removeError": "Məhsulu silmək mümkün olmadı",
+        "confirmBtn": "Bəli, sil",
+        "cancelBtn": "Ləğv et"
+    },
+    "card": {
+        "addedToCart": "Səbətə əlavə olundu",
+        "addedToWishlist": "İstək siyahısına əlavə olundu",
+        "removedFromWishlist": "İstək siyahısından silindi",
+        "addToCart": "Səbətə əlavə et"
     }
 }

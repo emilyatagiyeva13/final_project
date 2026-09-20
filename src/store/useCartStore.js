@@ -38,10 +38,13 @@ const useCartStore = create((set, get) => ({
       set({ items: [] });
     } else {
       // Məlumatı Basket.jsx-in gözlədiyi formata salırıq (item.id, item.title, vs.)
+      // title_az və title_en ayrıca saxlanılır ki, localize(item, 'title') dilə görə seçsin
       const formattedItems = data.map((row) => ({
         id: row.products.id,
         product_id: row.product_id,
         title: row.products.title_az || row.products.title_en,
+        title_az: row.products.title_az,
+        title_en: row.products.title_en,
         price: row.products.price,
         image: row.products.image_url,
         stock: row.products.stock,
@@ -71,6 +74,8 @@ const useCartStore = create((set, get) => ({
           id: product.id,
           product_id: product.id,
           title: product.title_az || product.title,
+          title_az: product.title_az,
+          title_en: product.title_en,
           price: product.price,
           image: product.image_url || product.image,
           stock: product.stock,

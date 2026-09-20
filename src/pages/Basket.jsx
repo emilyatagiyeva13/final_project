@@ -6,8 +6,12 @@ import useCartStore from '../store/useCartStore';
 import { useEffect } from 'react';
 import Loader from '../components/Loader';
 import EmptyBasket from '../components/EmptyBasket';
+import { useLocalize } from '../components/hooks/useLocalise';
+import { useTranslation } from 'react-i18next';
 
 const Basket = () => {
+  const { t } = useTranslation("common");
+  const { localize } = useLocalize();
   const { items = [], updateQuantity, removeItem, totalPrice, loading, fetchBasket } = useCartStore();
 
   useEffect(() => {
@@ -16,25 +20,25 @@ const Basket = () => {
 
   const handleIncrease = async (item) => {
     await updateQuantity(item.id, item.quantity + 1);
-    toast.success('Məhsulun sayı artırıldı');
+    toast.success(t('basket.increaseAlert'));
   };
 
   const handleDecrease = async (item) => {
     if (item.quantity <= 1) return;
     await updateQuantity(item.id, item.quantity - 1);
-    toast.info('Məhsulun sayı azaldıldı');
+    toast.info(t('basket.decreaseAlert'));
   };
 
   const handleRemove = async (item) => {
     const result = await Swal.fire({
-      title: 'Əminsiniz?',
-      text: `"${item.title}" səbətdən silinsin?`,
+      title: t('basket.removeConfirmTitle'),
+      text: `"${localize(item, 'title')}" ${t('basket.removeConfirmText')}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#306D36',
       cancelButtonColor: '#6b7280',
-      confirmButtonText: 'Bəli, sil',
-      cancelButtonText: 'Ləğv et',
+      confirmButtonText: t('basket.confirmBtn'),
+      cancelButtonText: t('basket.cancelBtn'),
     });
 
     if (!result.isConfirmed) return;
@@ -43,9 +47,9 @@ const Basket = () => {
 
     const stillInBasket = useCartStore.getState().items.some((i) => i.id === item.id);
     if (stillInBasket) {
-      toast.error('Məhsulu silmək mümkün olmadı');
+      toast.error(t('basket.removeError'));
     } else {
-      toast.error('Məhsul səbətdən silindi');
+      toast.error(t('basket.removeSuccess'));
     }
   };
 
@@ -61,7 +65,6 @@ const Basket = () => {
     );
   }
 
-  // Hesablamalar: Çatdırılma minimum 2 AZN olaraq təyin edildi
   const subTotal = totalPrice();
   const shippingCost = 2.00; 
   const finalTotal = subTotal + shippingCost;
@@ -71,15 +74,15 @@ const Basket = () => {
     <div className="basket-page">
       <div className="basket-page__header">
         <div className="basket-page__title-wrapper">
-          <h1 className="basket-page__title">Basket</h1>
+          <h1 className="basket-page__title">{t('basket.header')}</h1>
           {items.length > 0 && (
             <span className="basket-count-badge">
-              Ümumi: <span>{totalItemsCount} məhsul</span>
+              {t('basket.total')}: <span>{totalItemsCount} {t('basket.productCount')}</span>
             </span>
           )}
         </div>
         <Link to="/shop" className="basket-page__shop-btn">
-          Shop
+          {t('basket.shopBtn')}
         </Link>
       </div>
 
@@ -90,12 +93,12 @@ const Basket = () => {
               <img
                 className="basket-item__image"
                 src={item.image}
-                alt={item.title}
+                alt={localize(item, 'title')}
               />
 
               <div className="basket-item__info">
-                <h3 className="basket-item__title">{item.title}</h3>
-                <span className="basket-item__price">{item.price} ₼</span>
+                <h3 className="basket-item__title">{localize(item, 'title')}</h3>
+                <span className="basket-item__price">{item.price} $</span>
               </div>
 
               <div className="basket-item__quantity">
@@ -119,7 +122,7 @@ const Basket = () => {
               </div>
 
               <div className="basket-item__subtotal">
-                {(item.price * item.quantity).toFixed(2)} ₼
+                {(item.price * item.quantity).toFixed(2)} $
               </div>
 
               <button
@@ -133,29 +136,28 @@ const Basket = () => {
           ))}
         </div>
 
-        {/* Sağ tərəfdəki Sifariş Xülasəsi Paneli */}
         <div className="basket-summary-card">
-          <h3>Sifarişin xülasəsi</h3>
+          <h3>{t('basket.summaryTitle')}</h3>
           
           <div className="summary-row">
-            <span>Məhsulların cəmi:</span>
-            <span>{subTotal.toFixed(2)} ₼</span>
+            <span>{t('basket.subtotal')}</span>
+            <span>{subTotal.toFixed(2)} $</span>
           </div>
 
           <div className="summary-row">
-            <span>Çatdırılma xidməti:</span>
-            <span>{shippingCost.toFixed(2)} ₼</span>
+            <span>{t('basket.shipping')}</span>
+            <span>{shippingCost.toFixed(2)} $</span>
           </div>
 
           <div className="summary-divider"></div>
 
           <div className="summary-row total-row">
-            <span>Yekun qiymət:</span>
-            <span className="basket-page__summary-total">{finalTotal.toFixed(2)} ₼</span>
+            <span>{t('basket.finalTotal')}</span>
+            <span className="basket-page__summary-total">{finalTotal.toFixed(2)} $</span>
           </div>
 
           <button className="basket-page__checkout-btn">
-            <NavLink className="nav-link" to="/checkout">Sifarişi tamamla</NavLink>
+            <NavLink className="nav-link" to="/checkout">{t('basket.checkout')}</NavLink>
           </button>
         </div>
       </div>

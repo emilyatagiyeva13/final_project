@@ -1,14 +1,16 @@
-import { Heart, ShoppingBag} from 'lucide-react';
+import { Heart, ShoppingBag } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import '../assets/scss/EmptyWishlist.scss';
+import '../assets/scss/EmptyWishList.scss';
+import { useTranslation } from 'react-i18next';
 
 const EmptyWishlist = () => {
+
+  const { t } = useTranslation('common')
 
 
   return (
     <div className="empty-wishlist-container">
       <div className="empty-wishlist-content">
-        {/* İkon Vizuallığı */}
         <div className="icon-wrapper">
           <div className="icon-bg">
             <Heart className="heart-icon" size={48} />
@@ -16,14 +18,14 @@ const EmptyWishlist = () => {
           <span className="badge-zero">0</span>
         </div>
 
-        <h2 className="title">Your Wishlist is Empty</h2>
+        <h2 className="title">{t('wishlist.emptyWishList.header')}</h2>
         <p className="description">
-          You haven't saved any books to your wishlist yet. Explore our collection and add your favorite stories to read later!
+          {t('wishlist.emptyWishList.content-1')}
         </p>
 
         <Link to="/shop" className="btn-start-shopping">
           <ShoppingBag size={18} />
-          <span>Start Shopping</span>
+          <span>{t('wishlist.emptyWishList.start')}</span>
         </Link>
 
       </div>
