@@ -1,0 +1,23 @@
+$green: #306D36;
+
+.recommended {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 48px 20px 64px;
+  --swiper-navigation-color: #{$green};
+  --swiper-pagination-color: #{$green};
+
+  &__title {
+    font-size: 1.75rem;
+    text-align: center;
+    margin-bottom: 28px;
+  }
+
+  &__swiper {
+    padding-bottom: 40px;
+
+    .swiper-slide {
+      height: auto; // kartlar eyni hündürlükdə olsun
+    }
+  }
+} 

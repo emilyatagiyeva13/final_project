@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient.js';
 import { useAuthStore } from './authStore.js';
 
 const useCartStore = create((set, get) => ({
-  items: [], // Basket.jsx 'items' gözlədiyi üçün adını items etdik
+  items: [],
   loading: false,
 
   fetchBasket: async () => {
@@ -15,8 +15,6 @@ const useCartStore = create((set, get) => ({
 
     set({ loading: true });
 
-    // Supabase-dən məhsul məlumatlarını da birlikdə çəkirik (products cədvəli ilə əlaqə)
-    // Qeyd: products cədvəlində sütun adları title_az/title_en və image_url-dir
     const { data, error } = await supabase
       .from('basket')
       .select(`
@@ -37,8 +35,6 @@ const useCartStore = create((set, get) => ({
       console.error('Basket fetch error:', error);
       set({ items: [] });
     } else {
-      // Məlumatı Basket.jsx-in gözlədiyi formata salırıq (item.id, item.title, vs.)
-      // title_az və title_en ayrıca saxlanılır ki, localize(item, 'title') dilə görə seçsin
       const formattedItems = data.map((row) => ({
         id: row.products.id,
         product_id: row.product_id,
@@ -66,7 +62,6 @@ const useCartStore = create((set, get) => ({
       return;
     }
 
-    // Optimistik əlavəetmə
     set((state) => ({
       items: [
         ...state.items,
@@ -93,7 +88,7 @@ const useCartStore = create((set, get) => ({
 
     if (error) {
       console.error('Add to basket error:', error);
-      get().fetchBasket(); // Xəta olarsa, serverdən təzədən çək
+      get().fetchBasket();
     }
   },
 
@@ -107,7 +102,6 @@ const useCartStore = create((set, get) => ({
     const current = get().items.find((b) => b.id === productId);
     if (!current) return;
 
-    // Optimistik yeniləmə
     set((state) => ({
       items: state.items.map((b) =>
         b.id === productId ? { ...b, quantity: newQuantity } : b
@@ -122,7 +116,7 @@ const useCartStore = create((set, get) => ({
 
     if (error) {
       console.error('Update quantity error:', error);
-      get().fetchBasket(); // Xəta olarsa, serverdən təzədən çək
+      get().fetchBasket();
     }
   },
 
@@ -146,7 +140,28 @@ const useCartStore = create((set, get) => ({
     }
   },
 
-  clearBasket: () => set({ items: [] }),
+  clearBasket: async () => {
+    const userId = useAuthStore.getState().user?.id;
+    const previousItems = get().items;
+
+    set({ items: [] });
+
+    if (userId) {
+      const { error } = await supabase
+        .from('basket')
+        .delete()
+        .eq('user_id', userId);
+
+      if (error) {
+        console.error('Clear basket error:', error);
+        set({ items: previousItems }); 
+      }
+    }
+  },
+
+  clearCart: async () => {
+    await get().clearBasket();
+  },
 
   totalPrice: () => {
     return get().items.reduce((sum, item) => sum + item.price * item.quantity, 0);

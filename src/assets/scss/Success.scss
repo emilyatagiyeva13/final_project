@@ -1,0 +1,86 @@
+.success-page {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: var(--bg-checkout-summary, #f9fafb);
+
+  .success-card {
+    background: var(--bg-checkout-card, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    padding: 40px;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+
+    &__icon {
+      color: var(--badge-text, #16a34a);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--badge-bg, #f0fdf4);
+      padding: 16px;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+
+    &__title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary, #1f2937);
+      margin-bottom: 12px;
+    }
+
+    &__description {
+      font-size: 15px;
+      color: var(--text-secondary, #4b5563);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    &__order-info {
+      background: var(--bg-checkout-summary, #f9fafb);
+      border: 1px border-color;
+      padding: 12px 20px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      color: var(--text-secondary, #4b5563);
+      margin-bottom: 28px;
+
+      strong {
+        color: var(--accent-color, #306d36);
+        font-size: 16px;
+      }
+    }
+
+    &__actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+
+      .btn-primary {
+        background-color: var(--accent-color, #306d36);
+        color: #ffffff;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: background-color 0.2s;
+
+        &:hover {
+          background-color: var(--accent-hover, #245329);
+        }
+      }
+    }
+  }
+}

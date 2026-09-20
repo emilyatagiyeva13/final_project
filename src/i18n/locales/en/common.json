@@ -40,11 +40,15 @@
         "addToCart": "Add to cart"
     },
     "checkout": {
-    "header": "Checkout & Payment",
-    "backToCart": "Back to cart",
-    "shippingInfo": "Shipping Address",
-    "paymentInfo": "Payment Details",
-    "payNow": "Confirm Order",
-    "successMessage": "Your order has been placed successfully!"
-}
+        "header": "Checkout & Payment",
+        "backToCart": "Back to cart",
+        "shippingInfo": "Shipping Address",
+        "paymentInfo": "Payment Details",
+        "payNow": "Confirm Order",
+        "successMessage": "Your order has been placed successfully!",
+        "successTitle": "Payment Completed Successfully!",
+        "successDesc": "Your order has been received and will be processed shortly.",
+        "orderNumber": "Order Number",
+        "continueShopping": "Continue Shopping"
+    }
 }

@@ -40,11 +40,15 @@
         "addToCart": "Səbətə əlavə et"
     },
     "checkout": {
-    "header": "Ödəniş və Çatdırılma",
-    "backToCart": "Səbətə qayıt",
-    "shippingInfo": "Çatdırılma Ünvanı",
-    "paymentInfo": "Kart Məlumatları",
-    "payNow": "Ödənişi Təsdiqlə",
-    "successMessage": "Sifarişiniz uğurla rəsmiləşdirildi!"
-}
+        "header": "Ödəniş və Çatdırılma",
+        "backToCart": "Səbətə qayıt",
+        "shippingInfo": "Çatdırılma Ünvanı",
+        "paymentInfo": "Kart Məlumatları",
+        "payNow": "Ödənişi Təsdiqlə",
+        "successMessage": "Sifarişiniz uğurla rəsmiləşdirildi!",
+        "successTitle": "Ödəniş Uğurla Tamamlandı!",
+        "successDesc": "Sifarişiniz qəbul olundu. Tezliklə çatdırılma üçün hazırlanacaq.",
+        "orderNumber": "Sifariş Nömrəsi",
+        "continueShopping": "Alış-verişə davam et"
+    }
 }
