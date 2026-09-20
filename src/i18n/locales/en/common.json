@@ -1,54 +1,60 @@
 {
-    "wishlist": {
-        "header": "Your wishlist",
-        "total-product": "total products",
-        "emptyWishList": {
-            "header": "Your wishlist is empty",
-            "content-1": "You haven't added any books to your wishlist yet. Browse our collection and add your favorite stories to read later!",
-            "start": "Start shopping"
-        }
-    },
-    "basket": {
-        "header": "Cart",
-        "total-product": "total products",
-        "emptyBasket": {
-            "header": "Your cart is empty",
-            "content-1": "You haven't added any books to your shopping cart yet. Check out our new arrivals and fill your shelf with great works!",
-            "start": "Start shopping"
-        },
-        "total": "Total",
-        "productCount": "products",
-        "shopBtn": "Shop",
-        "summaryTitle": "Order Summary",
-        "subtotal": "Subtotal:",
-        "shipping": "Shipping fee:",
-        "finalTotal": "Total amount:",
-        "checkout": "Complete order",
-        "decreaseAlert": "Product quantity decreased",
-        "increaseAlert": "Product quantity increased",
-        "removeConfirmTitle": "Are you sure?",
-        "removeConfirmText": "will be removed from cart?",
-        "removeSuccess": "Product removed from cart",
-        "removeError": "Could not remove product",
-        "confirmBtn": "Yes, delete",
-        "cancelBtn": "Cancel"
-    },
-    "card": {
-        "addedToCart": "Added to cart",
-        "addedToWishlist": "Added to wishlist",
-        "removedFromWishlist": "Removed from wishlist",
-        "addToCart": "Add to cart"
-    },
-    "checkout": {
-        "header": "Checkout & Payment",
-        "backToCart": "Back to cart",
-        "shippingInfo": "Shipping Address",
-        "paymentInfo": "Payment Details",
-        "payNow": "Confirm Order",
-        "successMessage": "Your order has been placed successfully!",
-        "successTitle": "Payment Completed Successfully!",
-        "successDesc": "Your order has been received and will be processed shortly.",
-        "orderNumber": "Order Number",
-        "continueShopping": "Continue Shopping"
+  "wishlist": {
+    "header": "Your wishlist",
+    "total-product": "total products",
+    "emptyWishList": {
+      "header": "Your wishlist is empty",
+      "content-1": "You haven't added any books to your wishlist yet. Browse our collection and add your favorite stories to read later!",
+      "start": "Start shopping"
     }
+  },
+  "basket": {
+    "header": "Cart",
+    "total-product": "total products",
+    "emptyBasket": {
+      "header": "Your cart is empty",
+      "content-1": "You haven't added any books to your shopping cart yet. Check out our new arrivals and fill your shelf with great works!",
+      "start": "Start shopping"
+    },
+    "total": "Total",
+    "productCount": "products",
+    "shopBtn": "Shop",
+    "summaryTitle": "Order Summary",
+    "subtotal": "Subtotal:",
+    "shipping": "Shipping fee:",
+    "finalTotal": "Total amount:",
+    "checkout": "Complete order",
+    "decreaseAlert": "Product quantity decreased",
+    "increaseAlert": "Product quantity increased",
+    "removeConfirmTitle": "Are you sure?",
+    "removeConfirmText": "will be removed from cart?",
+    "removeSuccess": "Product removed from cart",
+    "removeError": "Could not remove product",
+    "confirmBtn": "Yes, delete",
+    "cancelBtn": "Cancel"
+  },
+  "card": {
+    "addedToCart": "Added to cart",
+    "addedToWishlist": "Added to wishlist",
+    "removedFromWishlist": "Removed from wishlist",
+    "addToCart": "Add to cart"
+  },
+  "checkout": {
+    "header": "Checkout & Payment",
+    "backToCart": "Back to cart",
+    "shippingInfo": "Shipping Address",
+    "paymentInfo": "Payment Details",
+    "payNow": "Confirm Payment",
+    "confirmTitle": "Confirm your order?",
+    "confirmText": "Payment will be deducted from your card and your order will be processed.",
+    "confirmYes": "Yes, confirm",
+    "confirmNo": "No, cancel",
+    "successMessage": "Your order has been placed successfully!",
+    "successTitle": "Payment Completed Successfully!",
+    "successDesc": "Your order has been received and will be processed shortly.",
+    "swalSuccessTitle": "Order Received Successfully!",
+    "swalOk": "Great!",
+    "orderNumber": "Order Number",
+    "continueShopping": "Continue Shopping"
+  }
 }

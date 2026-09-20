@@ -1,54 +1,60 @@
 {
-    "wishlist": {
-        "header": "İstək siyahın",
-        "total-product": "ümumi məhsul",
-        "emptyWishList": {
-            "header": "İstək siyahın boşdur",
-            "content-1": "İstək siyahınıza hələ heç bir kitab əlavə etməmisiniz. Kolleksiyamızı nəzərdən keçirin və daha sonra oxumaq üçün sevdiyiniz hekayələri əlavə edin!",
-            "start": "Alış verişə başlayın"
-        }
-    },
-    "basket": {
-        "header": "Səbət",
-        "total-product": "ümumi məhsul",
-        "emptyBasket": {
-            "header": "Səbətin boşdur",
-            "content-1": "Siz hələ alış-veriş səbətinizə heç bir kitab əlavə etməmisiniz. Yeni gələn kitablarla tanış olun və rəfinizi əla əsərlərlə doldurun!",
-            "start": "Alış verişə başlayın"
-        },
-        "total": "Ümumi",
-        "productCount": "məhsul",
-        "shopBtn": "Mağaza",
-        "summaryTitle": "Sifarişin xülasəsi",
-        "subtotal": "Məhsulların cəmi:",
-        "shipping": "Çatdırılma xidməti:",
-        "finalTotal": "Yekun qiymət:",
-        "checkout": "Sifarişi tamamla",
-        "decreaseAlert": "Məhsulun sayı azaldıldı",
-        "increaseAlert": "Məhsulun sayı artırıldı",
-        "removeConfirmTitle": "Əminsiniz?",
-        "removeConfirmText": "səbətdən silinsin?",
-        "removeSuccess": "Məhsul səbətdən silindi",
-        "removeError": "Məhsulu silmək mümkün olmadı",
-        "confirmBtn": "Bəli, sil",
-        "cancelBtn": "Ləğv et"
-    },
-    "card": {
-        "addedToCart": "Səbətə əlavə olundu",
-        "addedToWishlist": "İstək siyahısına əlavə olundu",
-        "removedFromWishlist": "İstək siyahısından silindi",
-        "addToCart": "Səbətə əlavə et"
-    },
-    "checkout": {
-        "header": "Ödəniş və Çatdırılma",
-        "backToCart": "Səbətə qayıt",
-        "shippingInfo": "Çatdırılma Ünvanı",
-        "paymentInfo": "Kart Məlumatları",
-        "payNow": "Ödənişi Təsdiqlə",
-        "successMessage": "Sifarişiniz uğurla rəsmiləşdirildi!",
-        "successTitle": "Ödəniş Uğurla Tamamlandı!",
-        "successDesc": "Sifarişiniz qəbul olundu. Tezliklə çatdırılma üçün hazırlanacaq.",
-        "orderNumber": "Sifariş Nömrəsi",
-        "continueShopping": "Alış-verişə davam et"
+  "wishlist": {
+    "header": "İstək siyahınız",
+    "total-product": "ümumi məhsul",
+    "emptyWishList": {
+      "header": "İstək siyahınız boşdur",
+      "content-1": "Hələ ki istək siyahınıza heç bir kitab əlavə etməmisiniz. Kolleksiyamıza göz gəzdirin və bəyəndiyiniz kitabları sonra oxumaq üçün bura əlavə edin!",
+      "start": "Alış-verişə başla"
     }
+  },
+  "basket": {
+    "header": "Səbət",
+    "total-product": "ümumi məhsul",
+    "emptyBasket": {
+      "header": "Səbətiniz boşdur",
+      "content-1": "Hələ ki səbətinizə heç bir kitab əlavə etməmisiniz. Yeni gələn kitablarımıza baxın və rəfinizi möhtəşəm əsərlərlə doldurun!",
+      "start": "Alış-verişə başla"
+    },
+    "total": "Cəmi",
+    "productCount": "məhsul",
+    "shopBtn": "Alış-veriş",
+    "summaryTitle": "Sifarişin xülasəsi",
+    "subtotal": "Məhsulların cəmi:",
+    "shipping": "Çatdırılma haqqı:",
+    "finalTotal": "Yekun məbləğ:",
+    "checkout": "Sifarişi tamamla",
+    "decreaseAlert": "Məhsul sayı azaldıldı",
+    "increaseAlert": "Məhsul sayı artırıldı",
+    "removeConfirmTitle": "Əminsiniz?",
+    "removeConfirmText": "səbətdən silinəcək?",
+    "removeSuccess": "Məhsul səbətdən silindi",
+    "removeError": "Məhsul silinə bilmədi",
+    "confirmBtn": "Bəli, sil",
+    "cancelBtn": "Ləğv et"
+  },
+  "card": {
+    "addedToCart": "Səbətə əlavə olundu",
+    "addedToWishlist": "İstək siyahısına əlavə olundu",
+    "removedFromWishlist": "İstək siyahısından silindi",
+    "addToCart": "Səbətə əlavə et"
+  },
+  "checkout": {
+    "header": "Ödəniş və Çatdırılma",
+    "backToCart": "Səbətə qayıt",
+    "shippingInfo": "Çatdırılma Ünvanı",
+    "paymentInfo": "Kart Məlumatları",
+    "payNow": "Ödənişi Təsdiqlə",
+    "confirmTitle": "Sifarişi təsdiqləyirsiniz?",
+    "confirmText": "Ödəniş kartınızdan silinəcək və sifariş rəsmiləşdiriləcək.",
+    "confirmYes": "Bəli, təsdiqləyirəm",
+    "confirmNo": "Xeyr, ləğv et",
+    "successMessage": "Sifarişiniz uğurla rəsmiləşdirildi!",
+    "successTitle": "Ödəniş Uğurla Tamamlandı!",
+    "successDesc": "Sifarişiniz qəbul olundu. Tezliklə çatdırılma üçün hazırlanacaq.",
+    "swalSuccessTitle": "Sifarişiniz Uğurla Qəbul Olundu!",
+    "swalOk": "Əla!",
+    "orderNumber": "Sifariş Nömrəsi",
+    "continueShopping": "Alış-verişə davam et"
+  }
 }
