@@ -38,5 +38,13 @@
         "addedToWishlist": "İstək siyahısına əlavə olundu",
         "removedFromWishlist": "İstək siyahısından silindi",
         "addToCart": "Səbətə əlavə et"
-    }
+    },
+    "checkout": {
+    "header": "Ödəniş və Çatdırılma",
+    "backToCart": "Səbətə qayıt",
+    "shippingInfo": "Çatdırılma Ünvanı",
+    "paymentInfo": "Kart Məlumatları",
+    "payNow": "Ödənişi Təsdiqlə",
+    "successMessage": "Sifarişiniz uğurla rəsmiləşdirildi!"
+}
 }
