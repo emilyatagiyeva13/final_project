@@ -73,7 +73,7 @@ const Basket = () => {
   return (
     <div className="basket-page">
       <div className="basket-page__header">
-        <div className="basket-page__title-wrapper">
+        <div className="basket-page__title-wrapper d-flex">
           <h1 className="basket-page__title">{t('basket.header')}</h1>
           {items.length > 0 && (
             <span className="basket-count-badge">
@@ -106,7 +106,6 @@ const Basket = () => {
                   className="basket-item__qty-btn"
                   onClick={() => handleDecrease(item)}
                   disabled={item.quantity <= 1}
-                  aria-label="Azalt"
                 >
                   −
                 </button>
@@ -115,7 +114,6 @@ const Basket = () => {
                   className="basket-item__qty-btn"
                   onClick={() => handleIncrease(item)}
                   disabled={item.stock != null && item.quantity >= item.stock}
-                  aria-label="Artır"
                 >
                   +
                 </button>
@@ -128,7 +126,6 @@ const Basket = () => {
               <button
                 className="basket-item__remove"
                 onClick={() => handleRemove(item)}
-                aria-label="Sil"
               >
                 ✕
               </button>
