@@ -41,7 +41,6 @@ const Basket = () => {
 
     await removeItem(item.id);
 
-    // removeItem xəta olarsa məhsulu geri qaytarır, ona görə yoxlayırıq
     const stillInBasket = useCartStore.getState().items.some((i) => i.id === item.id);
     if (stillInBasket) {
       toast.error('Məhsulu silmək mümkün olmadı');
@@ -62,72 +61,103 @@ const Basket = () => {
     );
   }
 
+  // Hesablamalar: Çatdırılma minimum 2 AZN olaraq təyin edildi
+  const subTotal = totalPrice();
+  const shippingCost = 2.00; 
+  const finalTotal = subTotal + shippingCost;
+  const totalItemsCount = items.reduce((acc, item) => acc + item.quantity, 0);
+
   return (
     <div className="basket-page">
       <div className="basket-page__header">
-        <h1 className="basket-page__title">Basket</h1>
+        <div className="basket-page__title-wrapper">
+          <h1 className="basket-page__title">Basket</h1>
+          {items.length > 0 && (
+            <span className="basket-count-badge">
+              Ümumi: <span>{totalItemsCount} məhsul</span>
+            </span>
+          )}
+        </div>
         <Link to="/shop" className="basket-page__shop-btn">
           Shop
         </Link>
       </div>
 
-      <div className="basket-page__list">
-        {items.map((item) => (
-          <div className="basket-item" key={item.id}>
-            <img
-              className="basket-item__image"
-              src={item.image}
-              alt={item.title}
-            />
+      <div className="basket-page__content-grid">
+        <div className="basket-page__list">
+          {items.map((item) => (
+            <div className="basket-item" key={item.id}>
+              <img
+                className="basket-item__image"
+                src={item.image}
+                alt={item.title}
+              />
 
-            <div className="basket-item__info">
-              <h3 className="basket-item__title">{item.title}</h3>
-              <span className="basket-item__price">{item.price} ₼</span>
-            </div>
+              <div className="basket-item__info">
+                <h3 className="basket-item__title">{item.title}</h3>
+                <span className="basket-item__price">{item.price} ₼</span>
+              </div>
 
-            <div className="basket-item__quantity">
+              <div className="basket-item__quantity">
+                <button
+                  className="basket-item__qty-btn"
+                  onClick={() => handleDecrease(item)}
+                  disabled={item.quantity <= 1}
+                  aria-label="Azalt"
+                >
+                  −
+                </button>
+                <span className="basket-item__qty-value">{item.quantity}</span>
+                <button
+                  className="basket-item__qty-btn"
+                  onClick={() => handleIncrease(item)}
+                  disabled={item.stock != null && item.quantity >= item.stock}
+                  aria-label="Artır"
+                >
+                  +
+                </button>
+              </div>
+
+              <div className="basket-item__subtotal">
+                {(item.price * item.quantity).toFixed(2)} ₼
+              </div>
+
               <button
-                className="basket-item__qty-btn"
-                onClick={() => handleDecrease(item)}
-                disabled={item.quantity <= 1}
-                aria-label="Azalt"
+                className="basket-item__remove"
+                onClick={() => handleRemove(item)}
+                aria-label="Sil"
               >
-                −
-              </button>
-              <span className="basket-item__qty-value">{item.quantity}</span>
-              <button
-                className="basket-item__qty-btn"
-                onClick={() => handleIncrease(item)}
-                disabled={item.stock != null && item.quantity >= item.stock}
-                aria-label="Artır"
-              >
-                +
+                ✕
               </button>
             </div>
+          ))}
+        </div>
 
-            <div className="basket-item__subtotal">
-              {(item.price * item.quantity).toFixed(2)} ₼
-            </div>
-
-            <button
-              className="basket-item__remove"
-              onClick={() => handleRemove(item)}
-              aria-label="Sil"
-            >
-              ✕
-            </button>
+        {/* Sağ tərəfdəki Sifariş Xülasəsi Paneli */}
+        <div className="basket-summary-card">
+          <h3>Sifarişin xülasəsi</h3>
+          
+          <div className="summary-row">
+            <span>Məhsulların cəmi:</span>
+            <span>{subTotal.toFixed(2)} ₼</span>
           </div>
-        ))}
-      </div>
 
-      <div className="basket-page__summary">
-        <span className="basket-page__summary-label">Ümumi:</span>
-        <span className="basket-page__summary-total">
-          {totalPrice().toFixed(2)} ₼
-        </span>
-        <button className="basket-page__checkout-btn">
-          <NavLink className="nav-link" to="/checkout">Sifarişi tamamla</NavLink>
-        </button>
+          <div className="summary-row">
+            <span>Çatdırılma xidməti:</span>
+            <span>{shippingCost.toFixed(2)} ₼</span>
+          </div>
+
+          <div className="summary-divider"></div>
+
+          <div className="summary-row total-row">
+            <span>Yekun qiymət:</span>
+            <span className="basket-page__summary-total">{finalTotal.toFixed(2)} ₼</span>
+          </div>
+
+          <button className="basket-page__checkout-btn">
+            <NavLink className="nav-link" to="/checkout">Sifarişi tamamla</NavLink>
+          </button>
+        </div>
       </div>
     </div>
   );

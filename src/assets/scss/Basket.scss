@@ -1,9 +1,8 @@
 .basket-page {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 48px 24px 80px 24px;
   min-height: 70vh;
-  // background-color: var(--bg-primary);
   transition: background-color 0.3s ease;
 
   &__header {
@@ -15,6 +14,34 @@
 
     @media (max-width: 768px) {
       margin-bottom: 24px;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+
+  .basket-count-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 14px;
+    background-color: var(--bg-secondary, #f3f4f6);
+    color: var(--text-secondary, #4b5563);
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    span {
+      font-weight: 700;
+      color: var(--accent-color, #306D36);
+      margin-left: 5px;
     }
   }
 
@@ -54,10 +81,6 @@
       color: var(--text-dark, var(--text-primary, #1a1a1a));
       margin-bottom: 0.5rem;
       transition: color 0.3s ease;
-
-      @media (max-width: 576px) {
-        font-size: 1.35rem;
-      }
     }
 
     p {
@@ -67,21 +90,10 @@
       margin-bottom: 2rem;
       line-height: 1.5;
       transition: color 0.3s ease;
-
-      @media (max-width: 576px) {
-        font-size: 0.875rem;
-        margin-bottom: 1.5rem;
-      }
     }
 
     .basket-page__shop-btn {
       width: auto;
-      
-      @media (max-width: 576px) {
-        width: 100%;
-        padding: 10px 20px;
-        font-size: 0.9375rem;
-      }
     }
   }
 
@@ -114,12 +126,18 @@
       background-color: #25552a;
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(48, 109, 54, 0.35);
-      opacity: 0.95;
     }
+  }
 
-    &:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 8px rgba(48, 109, 54, 0.2);
+  /* Grid Layout: Siyahı və Sağdakı Xülasə kartı */
+  &__content-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 30px;
+    align-items: start;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
     }
   }
 
@@ -127,55 +145,88 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    margin-bottom: 32px;
   }
 
-  &__summary {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 20px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border-color);
-    transition: border-color 0.3s ease;
+  /* Sağdakı Xülasə Kartının Dizaynı */
+  .basket-summary-card {
+    background-color: var(--bg-primary, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    position: sticky;
+    top: 20px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 
-    @media (max-width: 576px) {
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 12px;
-    }
-
-    &-label {
-      font-family: "Inter", sans-serif;
-      font-size: 16px;
-      color: var(--text-secondary);
+    h3 {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 20px;
       transition: color 0.3s ease;
     }
 
-    &-total {
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
       font-family: "Inter", sans-serif;
-      font-size: 22px;
+      font-size: 15px;
+      color: var(--text-secondary, #6b7280);
+
+      .free-shipping {
+        color: var(--accent-color, #306D36);
+        font-weight: 600;
+      }
+    }
+
+    .summary-divider {
+      height: 1px;
+      background-color: var(--border-color, #e5e7eb);
+      margin: 16px 0;
+    }
+
+    .total-row {
       font-weight: 700;
-      color: var(--accent-color);
-      transition: color 0.3s ease;
+      color: var(--text-primary);
+      font-size: 17px;
+      margin-bottom: 20px;
+    }
+
+    .basket-page__summary-total {
+      font-size: 22px;
+      color: var(--accent-color, #306D36);
     }
   }
 
   &__checkout-btn {
-    padding: 12px 32px;
+    width: 100%;
+    padding: 14px 20px;
     background-color: var(--accent-color, #306D36);
     color: #ffffff;
     font-family: "Inter", sans-serif;
     font-size: 15px;
     font-weight: 600;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(48, 109, 54, 0.2);
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+
+    a {
+      color: #ffffff;
+      text-decoration: none;
+      display: block;
+      width: 100%;
+    }
 
     &:hover {
+      background-color: #25552a;
       transform: translateY(-2px);
-      opacity: 0.9;
+      box-shadow: 0 6px 16px rgba(48, 109, 54, 0.3);
     }
   }
 }
@@ -185,12 +236,18 @@
   grid-template-columns: 80px 1fr auto auto auto;
   align-items: center;
   gap: 16px;
-  padding: 16px;
+  padding: 18px;
   background-color: var(--bg-primary);
   border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px var(--shadow-color);
-  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px var(--shadow-color, rgba(0, 0, 0, 0.02));
+  /* İstədiyiniz yumşaq böyümə və keçid effekti */
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  }
 
   @media (max-width: 640px) {
     grid-template-columns: 60px 1fr auto;
@@ -210,7 +267,7 @@
     width: 80px;
     height: 100px;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
 
     @media (max-width: 640px) {
       width: 60px;
@@ -246,12 +303,12 @@
   }
 
   &__qty-btn {
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border: 1px solid var(--accent-color, #306D36);
     background: transparent;
     color: var(--accent-color, #306D36);
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 16px;
     display: flex;
