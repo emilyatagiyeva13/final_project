@@ -3,10 +3,12 @@ import { supabase } from "../supabaseClient.js";
 import { useWishlistStore } from "../store/useWishlistStore.js";
 import SingleCard from "../components/SingleCard";
 import Loader from "../components/Loader";
-import "../assets/scss/Wishlist.scss";
+import "../assets/scss/WishList.scss";
 import EmptyWishlist from "../components/EmptyWishList.jsx";
+import { useTranslation } from "react-i18next";
 
 const Wishlist = () => {
+  const { t } = useTranslation("common")
   const wishlist = useWishlistStore((state) => state.wishlist);
   const wishlistLoading = useWishlistStore((state) => state.loading);
   const fetchWishlist = useWishlistStore((state) => state.fetchWishlist);
@@ -70,7 +72,16 @@ const Wishlist = () => {
   return (
     <div className="wishlist-page">
       <div className="container">
-        <h1>My Wishlist</h1>
+        {/* Başlıq və məhsul sayı göstəricisi */}
+        <div className="wishlist-header">
+          <h1>{t('wishlist.header')}</h1>
+          {products.length > 0 && (
+            <div className="wishlist-count-badge">
+            {t('wishlist.total-product')}: <span>{products.length}</span>
+            </div>
+          )}
+        </div>
+
         {products.length === 0 ? (
           <div className="wishlist-empty">
             <EmptyWishlist />
