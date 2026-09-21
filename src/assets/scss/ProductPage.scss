@@ -106,77 +106,55 @@ body {
     }
   }
 
+  // Cədvəlin mobil cihazlarda horizontal scroll olması üçün qablaşdırma
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+
   .products-table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
+    border-collapse: collapse;
+    min-width: 700px;
     background: var(--card-bg);
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    border: 1px solid var(--border-color);
-    transition: background-color 0.4s ease, border-color 0.4s ease;
+    table-layout: fixed; // Başlıqlar və xanaların enini sərt şəkildə bir-birinə bağlayır
+
+    // Sütunların genişliklərini bərabər və ya ehtiyaca görə bölüşdürürük
+    th:nth-child(1), td:nth-child(1) { width: 25%; } // İstifadəçi adı
+    th:nth-child(2), td:nth-child(2) { width: 35%; } // E-poçt
+    th:nth-child(3), td:nth-child(3) { width: 15%; } // Rol
+    th:nth-child(4), td:nth-child(4) { width: 25%; } // Qeydiyyat tarixi
 
     th, td {
       text-align: left;
       padding: 1rem 1.2rem;
       font-size: 0.92rem;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; // Uzun mətnlər daşmasın deyə nöqtələrlə kəsir
     }
 
     th {
       background: var(--table-header-bg);
       font-weight: 600;
       color: var(--text-muted);
-      border-bottom: 1px solid var(--border-color);
       text-transform: uppercase;
       font-size: 0.75rem;
       letter-spacing: 0.5px;
     }
 
     td {
-      border-bottom: 1px solid var(--border-color);
       color: var(--text-main);
       vertical-align: middle;
-
-      &:last-child {
-        text-align: right;
-      }
-    }
-
-    tr:last-child td {
-      border-bottom: none;
     }
 
     tr:hover td {
       background-color: var(--table-hover-bg);
-    }
-
-    td button {
-      margin-left: 0.5rem;
-      padding: 0.45rem 0.9rem;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      background: var(--card-bg);
-      cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 500;
-      color: var(--text-main);
-      transition: all 0.2s;
-
-      &:hover {
-        background: var(--table-header-bg);
-        border-color: var(--text-muted);
-      }
-
-      &:last-child {
-        color: #e55353;
-        border-color: rgba(229, 83, 83, 0.3);
-        background: rgba(229, 83, 83, 0.05);
-
-        &:hover {
-          background: rgba(229, 83, 83, 0.15);
-        }
-      }
     }
   }
 
@@ -283,7 +261,7 @@ body {
       border: none;
       transition: all 0.2s;
 
-      &:first-child {
+      &.btn-cancel {
         background: var(--alt-btn-bg);
         color: var(--text-muted);
 
@@ -292,7 +270,7 @@ body {
         }
       }
 
-      &:last-child {
+      &.btn-save {
         background: var(--btn-primary-bg);
         color: var(--btn-primary-color);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
