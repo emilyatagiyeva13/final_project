@@ -55,6 +55,7 @@
     "swalSuccessTitle": "Order Received Successfully!",
     "swalOk": "Great!",
     "orderNumber": "Order Number",
-    "continueShopping": "Continue Shopping"
+    "continueShopping": "Continue Shopping",
+    "recommended":"Suggested for you"
   }
 }

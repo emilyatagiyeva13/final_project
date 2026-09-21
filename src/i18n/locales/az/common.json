@@ -55,6 +55,8 @@
     "swalSuccessTitle": "Sifarişiniz Uğurla Qəbul Olundu!",
     "swalOk": "Əla!",
     "orderNumber": "Sifariş Nömrəsi",
-    "continueShopping": "Alış-verişə davam et"
+    "continueShopping": "Alış-verişə davam et",
+    "recommended":"Sizin üçün tövsiyələr"
+
   }
 }

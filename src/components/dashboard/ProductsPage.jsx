@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '../../supabaseClient.js';
+import { useProductStore } from '../../store/useProductStore.js';
+import { useLanguage } from '../../context/LangContext.jsx';
 import '../../assets/scss/ProductPage.scss';
 
 const ProductsPage = () => {
-    const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [authors, setAuthors] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { products, categories, authors, loading, fetchAll, addProduct, updateProduct, deleteProduct } =
+        useProductStore();
+    const { currentLang } = useLanguage();
+
     const [editingProduct, setEditingProduct] = useState(null);
     const [form, setForm] = useState({});
 
@@ -14,18 +15,9 @@ const ProductsPage = () => {
         fetchAll();
     }, []);
 
-    const fetchAll = async () => {
-        setLoading(true);
-        const [{ data: prods }, { data: cats }, { data: auths }] = await Promise.all([
-            supabase.from('products').select('*, categories(name_az), authors(name)').order('created_at', { ascending: false }),
-            supabase.from('categories').select('id, name_az'),
-            supabase.from('authors').select('id, name'),
-        ]);
-        setProducts(prods || []);
-        setCategories(cats || []);
-        setAuthors(auths || []);
-        setLoading(false);
-    };
+    // currentLang "az" / "en" kimi gəlir, sütunlar "title_az" / "title_en" formatındadır
+    const lang = currentLang?.split('-')[0] || 'az';
+    const t = (p, field) => p?.[`${field}_${lang}`] ?? p?.[`${field}_az`] ?? '';
 
     const openNew = () => {
         setForm({
@@ -64,19 +56,17 @@ const ProductsPage = () => {
         delete payload.authors;
 
         if (editingProduct?.id) {
-            await supabase.from('products').update(payload).eq('id', editingProduct.id);
+            await updateProduct(editingProduct.id, payload);
         } else {
-            await supabase.from('products').insert(payload);
+            await addProduct(payload);
         }
 
         closeForm();
-        fetchAll();
     };
 
     const handleDelete = async (id) => {
         if (!confirm('Silmək istədiyinizə əminsiniz?')) return;
-        await supabase.from('products').delete().eq('id', id);
-        fetchAll();
+        await deleteProduct(id);
     };
 
     if (loading) return <p>Yüklənir...</p>;
@@ -99,7 +89,7 @@ const ProductsPage = () => {
                     {products.map((p) => (
                         <tr key={p.id}>
                             <td><img src={p.image_url} alt="" className="product-thumb" /></td>
-                            <td>{p.title_az}</td>
+                            <td>{t(p, 'title')}</td>
                             <td>{p.categories?.name_az || '—'}</td>
                             <td>{p.authors?.name || '—'}</td>
                             <td>{p.price} ₼</td>

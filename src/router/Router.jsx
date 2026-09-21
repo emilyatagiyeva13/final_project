@@ -24,7 +24,6 @@ import Checkout from "../pages/Checkout"
 import NotFound from "../components/NotFound"
 import Success from "../components/Success"
 // import AdminLayout from "../pages/admin/AdminLayout"
-// import ProductsPage from "../pages/admin/ProductsPage"
 // import CategoriesPage from "../pages/admin/CategoriesPage"
 // import AuthorsPage from "../pages/admin/AuthorsPage"
 
@@ -70,8 +69,10 @@ const Router = () => {
               </ProtectedRoute>
             }
           >
-            <Route path="products" element={<ProductsPage />} />
 
+            <Route path="products" element={<ProductsPage />} />
+            {/* <Route path="categories" element={<CategoriesPage />} /> */}
+            {/* <Route path="authors" element={<AuthorsPage />} /> */}
           </Route>
 
 

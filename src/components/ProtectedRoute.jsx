@@ -4,7 +4,8 @@ import { useAuthStore } from "../store/authStore";
 const ProtectedRoute = ({ children, requiredRole }) => {
   const { user, profile, loading } = useAuthStore();
 
-  if (loading) {
+  // Hələ əsas yüklənmə gedirsə VƏ YA istifadəçi daxil olub amma hələ profil məlumatı bazadan çəkilməyibsə
+  if (loading || (user && requiredRole && !profile)) {
     return <div>Yüklənir...</div>;
   }
 

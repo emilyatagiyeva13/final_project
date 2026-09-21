@@ -83,7 +83,7 @@ const RecommendedProducts = ({ limit = 8 }) => {
   return (
     <section>
       <div className="book-cards-1 container my-4">
-        <h1>{t('checkout.recommended', { defaultValue: 'Sizin üçün tövsiyələr' })}</h1>
+        <h1>{t('checkout.recommended')}</h1>
         <div className="row g-3 single-card my-2">
           <Swiper
             slidesPerView={4.3}
