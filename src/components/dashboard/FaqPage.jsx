@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useFaqStore } from '../../store/useFaqStore.js';
 import { useLanguage } from '../../context/LangContext.jsx';
 import '../../assets/scss/ProductPage.scss';
+import Swal from 'sweetalert2';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const FaqPage = () => {
+    const { t } = useTranslation("dashboard");
     const {
         faqs, faqCategories, loading, fetchAll,
         addFaq, updateFaq, deleteFaq,
@@ -22,8 +27,9 @@ const FaqPage = () => {
     }, []);
 
     const lang = currentLang?.split('-')[0] || 'az';
-    const t = (obj, field) => (lang === 'az' ? (obj?.[`${field}_az`] || obj?.[field]) : obj?.[field]) ?? '';
+    const textTranslate = (obj, field) => (lang === 'az' ? (obj?.[`${field}_az`] || obj?.[field]) : obj?.[field]) ?? '';
 
+    // FAQ Handler-ləri
     const openNewFaq = () => {
         setFaqForm({ question: '', question_az: '', answer: '', answer_az: '', category_id: '', sort_order: 0 });
         setEditingFaq({});
@@ -46,29 +52,52 @@ const FaqPage = () => {
 
     const handleFaqSave = async (e) => {
         e.preventDefault();
-        const payload = {
-            question: faqForm.question,
-            question_az: faqForm.question_az,
-            answer: faqForm.answer,
-            answer_az: faqForm.answer_az,
-            category_id: faqForm.category_id || null,
-            sort_order: Number(faqForm.sort_order) || 0,
-        };
+        try {
+            const payload = {
+                question: faqForm.question,
+                question_az: faqForm.question_az,
+                answer: faqForm.answer,
+                answer_az: faqForm.answer_az,
+                category_id: faqForm.category_id || null,
+                sort_order: Number(faqForm.sort_order) || 0,
+            };
 
-        if (editingFaq?.id) {
-            await updateFaq(editingFaq.id, payload);
-        } else {
-            await addFaq(payload);
+            if (editingFaq?.id) {
+                await updateFaq(editingFaq.id, payload);
+                toast.success(t('faq.successUpdateFaq') || 'Sual uğurla yeniləndi!');
+            } else {
+                await addFaq(payload);
+                toast.success(t('faq.successAddFaq') || 'Sual uğurla əlavə olundu!');
+            }
+
+            closeFaqForm();
+        } catch (error) {
+            toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
         }
-
-        closeFaqForm();
     };
 
     const handleFaqDelete = async (id) => {
-        if (!confirm('Sualı silmək istədiyinizə əminsiniz?')) return;
-        await deleteFaq(id);
+        const result = await Swal.fire({
+            title: t('faq.confirmDeleteFaq') || 'Sualı silmək istədiyinizə əminsiniz?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: t('faq.yesDelete') || 'Bəli, sil!',
+            cancelButtonText: t('faq.cancel') || 'Ləğv et'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await deleteFaq(id);
+                toast.success(t('faq.successDeleteFaq') || 'Sual uğurla silindi!');
+            } catch (error) {
+                toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
+            }
+        }
     };
 
+    // Kateqoriya Handler-ləri
     const openNewCat = () => {
         setCatForm({ title: '', title_az: '', description: '', description_az: '', slug: '', sort_order: 0 });
         setEditingCategory({});
@@ -91,118 +120,152 @@ const FaqPage = () => {
 
     const handleCatSave = async (e) => {
         e.preventDefault();
-        const payload = { ...catForm, sort_order: Number(catForm.sort_order) || 0 };
+        try {
+            const payload = { ...catForm, sort_order: Number(catForm.sort_order) || 0 };
 
-        if (editingCategory?.id) {
-            await updateFaqCategory(editingCategory.id, payload);
-        } else {
-            await addFaqCategory(payload);
+            if (editingCategory?.id) {
+                await updateFaqCategory(editingCategory.id, payload);
+                toast.success(t('faq.successUpdateCat') || 'Kateqoriya uğurla yeniləndi!');
+            } else {
+                await addFaqCategory(payload);
+                toast.success(t('faq.successAddCat') || 'Kateqoriya uğurla əlavə olundu!');
+            }
+
+            closeCatForm();
+        } catch (error) {
+            toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
         }
-
-        closeCatForm();
     };
 
     const handleCatDelete = async (id) => {
-        if (!confirm('Kateqoriyanı silmək istədiyinizə əminsiniz? Bağlı suallar da silinəcək.')) return;
-        await deleteFaqCategory(id);
+        const result = await Swal.fire({
+            title: t('faq.confirmDeleteCat') || 'Kateqoriyanı silmək istədiyinizə əminsiniz? Bağlı suallar da silinəcək.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: t('faq.yesDelete') || 'Bəli, sil!',
+            cancelButtonText: t('faq.cancel') || 'Ləğv et'
+        });
+
+        if (result.isConfirmed) {
+            try {
+                await deleteFaqCategory(id);
+                toast.success(t('faq.successDeleteCat') || 'Kateqoriya uğurla silindi!');
+            } catch (error) {
+                toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
+            }
+        }
     };
 
-    if (loading) return <p>Yüklənir...</p>;
+    if (loading) return <p className="loading-text">{t('faq.loading')}</p>;
 
     return (
         <div className="products-page">
+            {/* Kateqoriyalar bölməsi */}
             <div className="products-header">
-                <h1>FAQ Kateqoriyaları</h1>
-                <button onClick={openNewCat}>+ Yeni kateqoriya</button>
+                <h1>{t('faq.categoriesTitle')}</h1>
+                <button className="btn-primary" onClick={openNewCat}>{t('faq.newCategory')}</button>
             </div>
 
-            <table className="products-table">
-                <thead>
-                    <tr>
-                        <th>Başlıq</th><th>Slug</th><th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {faqCategories.map((c) => (
-                        <tr key={c.id}>
-                            <td>{t(c, 'title')}</td>
-                            <td>{c.slug}</td>
-                            <td>
-                                <button onClick={() => openEditCat(c)}>Redaktə</button>
-                                <button onClick={() => handleCatDelete(c.id)}>Sil</button>
-                            </td>
+            <div className="table-responsive">
+                <table className="products-table">
+                    <thead>
+                        <tr>
+                            <th>{t('faq.tableTitle')}</th>
+                            <th>{t('faq.tableSlug')}</th>
+                            <th className="actions-th"></th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <div className="products-header" style={{ marginTop: '2rem' }}>
-                <h1>Suallar (FAQ)</h1>
-                <button onClick={openNewFaq}>+ Yeni sual</button>
+                    </thead>
+                    <tbody>
+                        {faqCategories.map((c) => (
+                            <tr key={c.id}>
+                                <td>{textTranslate(c, 'title')}</td>
+                                <td>{c.slug}</td>
+                                <td className="actions-cell">
+                                    <button className="btn-edit" onClick={() => openEditCat(c)}>{t('faq.edit')}</button>
+                                    <button className="btn-delete" onClick={() => handleCatDelete(c.id)}>{t('faq.delete')}</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
 
-            <table className="products-table">
-                <thead>
-                    <tr>
-                        <th>Sual</th><th>Kateqoriya</th><th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {faqs.map((f) => (
-                        <tr key={f.id}>
-                            <td>{t(f, 'question')}</td>
-                            <td>{t(f.faq_categories, 'title') || '—'}</td>
-                            <td>
-                                <button onClick={() => openEditFaq(f)}>Redaktə</button>
-                                <button onClick={() => handleFaqDelete(f.id)}>Sil</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            {/* Suallar bölməsi */}
+            <div className="products-header" style={{ marginTop: '2.5rem' }}>
+                <h1>{t('faq.questionsTitle')}</h1>
+                <button className="btn-primary" onClick={openNewFaq}>{t('faq.newQuestion')}</button>
+            </div>
 
+            <div className="table-responsive">
+                <table className="products-table">
+                    <thead>
+                        <tr>
+                            <th>{t('faq.tableQuestion')}</th>
+                            <th>{t('faq.tableCategory')}</th>
+                            <th className="actions-th"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {faqs.map((f) => (
+                            <tr key={f.id}>
+                                <td>{textTranslate(f, 'question')}</td>
+                                <td>{textTranslate(f.faq_categories, 'title') || '—'}</td>
+                                <td className="actions-cell">
+                                    <button className="btn-edit" onClick={() => openEditFaq(f)}>{t('faq.edit')}</button>
+                                    <button className="btn-delete" onClick={() => handleFaqDelete(f.id)}>{t('faq.delete')}</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {/* Sual Modal */}
             {editingFaq !== null && (
                 <div className="modal-overlay" onClick={closeFaqForm}>
                     <form className="form-modal" onClick={(e) => e.stopPropagation()} onSubmit={handleFaqSave}>
-                        <h2>{editingFaq?.id ? 'Sualı redaktə et' : 'Yeni sual'}</h2>
+                        <h2>{editingFaq?.id ? t('faq.editQuestionTitle') : t('faq.newQuestionTitle')}</h2>
 
-                        <textarea name="question" placeholder="Sual (EN)" value={faqForm.question} onChange={handleFaqChange} />
-                        <textarea name="question_az" placeholder="Sual (AZ)" value={faqForm.question_az} onChange={handleFaqChange} />
-                        <textarea name="answer" placeholder="Cavab (EN)" rows="4" value={faqForm.answer} onChange={handleFaqChange} />
-                        <textarea name="answer_az" placeholder="Cavab (AZ)" rows="4" value={faqForm.answer_az} onChange={handleFaqChange} />
+                        <textarea name="question" placeholder={t('faq.placeholderQuestionEn')} value={faqForm.question || ''} onChange={handleFaqChange} />
+                        <textarea name="question_az" placeholder={t('faq.placeholderQuestionAz')} value={faqForm.question_az || ''} onChange={handleFaqChange} />
+                        <textarea name="answer" placeholder={t('faq.placeholderAnswerEn')} rows="4" value={faqForm.answer || ''} onChange={handleFaqChange} />
+                        <textarea name="answer_az" placeholder={t('faq.placeholderAnswerAz')} rows="4" value={faqForm.answer_az || ''} onChange={handleFaqChange} />
 
-                        <select name="category_id" value={faqForm.category_id} onChange={handleFaqChange}>
-                            <option value="">Kateqoriya seç</option>
+                        <select name="category_id" value={faqForm.category_id || ''} onChange={handleFaqChange}>
+                            <option value="">{t('faq.selectCategory')}</option>
                             {faqCategories.map((c) => (
-                                <option key={c.id} value={c.id}>{t(c, 'title')}</option>
+                                <option key={c.id} value={c.id}>{textTranslate(c, 'title')}</option>
                             ))}
                         </select>
 
-                        <input name="sort_order" type="number" placeholder="Sıra" value={faqForm.sort_order} onChange={handleFaqChange} />
+                        <input name="sort_order" type="number" placeholder={t('faq.placeholderSortOrder')} value={faqForm.sort_order ?? 0} onChange={handleFaqChange} />
 
                         <div className="form-actions">
-                            <button type="button" onClick={closeFaqForm}>Ləğv et</button>
-                            <button type="submit">Yadda saxla</button>
+                            <button type="button" className="btn-cancel" onClick={closeFaqForm}>{t('faq.cancel')}</button>
+                            <button type="submit" className="btn-save">{t('faq.save')}</button>
                         </div>
                     </form>
                 </div>
             )}
 
+            {/* Kateqoriya Modal */}
             {editingCategory !== null && (
                 <div className="modal-overlay" onClick={closeCatForm}>
                     <form className="form-modal" onClick={(e) => e.stopPropagation()} onSubmit={handleCatSave}>
-                        <h2>{editingCategory?.id ? 'Kateqoriyanı redaktə et' : 'Yeni kateqoriya'}</h2>
+                        <h2>{editingCategory?.id ? t('faq.editCategoryTitle') : t('faq.newCategoryTitle')}</h2>
 
-                        <input name="title" placeholder="Başlıq (EN)" value={catForm.title} onChange={handleCatChange} />
-                        <input name="title_az" placeholder="Başlıq (AZ)" value={catForm.title_az} onChange={handleCatChange} />
-                        <input name="slug" placeholder="slug" value={catForm.slug} onChange={handleCatChange} />
-                        <textarea name="description" placeholder="Təsvir (EN)" value={catForm.description} onChange={handleCatChange} />
-                        <textarea name="description_az" placeholder="Təsvir (AZ)" value={catForm.description_az} onChange={handleCatChange} />
-                        <input name="sort_order" type="number" placeholder="Sıra" value={catForm.sort_order} onChange={handleCatChange} />
+                        <input name="title" placeholder={t('faq.placeholderCatTitleEn')} value={catForm.title || ''} onChange={handleCatChange} />
+                        <input name="title_az" placeholder={t('faq.placeholderCatTitleAz')} value={catForm.title_az || ''} onChange={handleCatChange} />
+                        <input name="slug" placeholder={t('faq.placeholderSlug')} value={catForm.slug || ''} onChange={handleCatChange} />
+                        <textarea name="description" placeholder={t('faq.placeholderDescEn')} value={catForm.description || ''} onChange={handleCatChange} />
+                        <textarea name="description_az" placeholder={t('faq.placeholderDescAz')} value={catForm.description_az || ''} onChange={handleCatChange} />
+                        <input name="sort_order" type="number" placeholder={t('faq.placeholderSortOrder')} value={catForm.sort_order ?? 0} onChange={handleCatChange} />
 
                         <div className="form-actions">
-                            <button type="button" onClick={closeCatForm}>Ləğv et</button>
-                            <button type="submit">Yadda saxla</button>
+                            <button type="button" className="btn-cancel" onClick={closeCatForm}>{t('faq.cancel')}</button>
+                            <button type="submit" className="btn-save">{t('faq.save')}</button>
                         </div>
                     </form>
                 </div>
