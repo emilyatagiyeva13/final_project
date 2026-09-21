@@ -1,0 +1,24 @@
+{
+    "authors": {
+        "loading": "Loading...",
+        "title": "Authors",
+        "newAuthor": "+ New author",
+        "image": "Image",
+        "name": "Name",
+        "edit": "Edit",
+        "delete": "Delete",
+        "confirmDelete": "Are you sure you want to delete?",
+        "editTitle": "Edit Author",
+        "newTitle": "New Author",
+        "placeholderNameEn": "Name (EN)",
+        "placeholderNameAz": "Name (AZ)",
+        "placeholderImgUrl": "Image URL",
+        "cancel": "Cancel",
+        "save": "Save",
+        "successUpdate": "Successfully updated!",
+        "successAdd": "Successfully added!",
+        "successDelete": "Successfully deleted!",
+        "errorOccurred": "An error occurred!",
+        "yesDelete": "Yes, delete!"
+    }
+}

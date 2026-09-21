@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFaqStore } from '../../store/useFaqStore.js';
+import { useLanguage } from '../../context/LangContext.jsx';
 import '../../assets/scss/ProductPage.scss';
 
 const FaqPage = () => {
@@ -8,6 +9,7 @@ const FaqPage = () => {
         addFaq, updateFaq, deleteFaq,
         addFaqCategory, updateFaqCategory, deleteFaqCategory,
     } = useFaqStore();
+    const { currentLang } = useLanguage();
 
     const [editingFaq, setEditingFaq] = useState(null);
     const [faqForm, setFaqForm] = useState({});
@@ -19,7 +21,9 @@ const FaqPage = () => {
         fetchAll();
     }, []);
 
-    // ---------- faqs ----------
+    const lang = currentLang?.split('-')[0] || 'az';
+    const t = (obj, field) => (lang === 'az' ? (obj?.[`${field}_az`] || obj?.[field]) : obj?.[field]) ?? '';
+
     const openNewFaq = () => {
         setFaqForm({ question: '', question_az: '', answer: '', answer_az: '', category_id: '', sort_order: 0 });
         setEditingFaq({});
@@ -65,7 +69,6 @@ const FaqPage = () => {
         await deleteFaq(id);
     };
 
-    // ---------- faq categories ----------
     const openNewCat = () => {
         setCatForm({ title: '', title_az: '', description: '', description_az: '', slug: '', sort_order: 0 });
         setEditingCategory({});
@@ -122,7 +125,7 @@ const FaqPage = () => {
                 <tbody>
                     {faqCategories.map((c) => (
                         <tr key={c.id}>
-                            <td>{c.title_az || c.title}</td>
+                            <td>{t(c, 'title')}</td>
                             <td>{c.slug}</td>
                             <td>
                                 <button onClick={() => openEditCat(c)}>Redaktə</button>
@@ -147,8 +150,8 @@ const FaqPage = () => {
                 <tbody>
                     {faqs.map((f) => (
                         <tr key={f.id}>
-                            <td>{f.question_az || f.question}</td>
-                            <td>{f.faq_categories?.title_az || f.faq_categories?.title || '—'}</td>
+                            <td>{t(f, 'question')}</td>
+                            <td>{t(f.faq_categories, 'title') || '—'}</td>
                             <td>
                                 <button onClick={() => openEditFaq(f)}>Redaktə</button>
                                 <button onClick={() => handleFaqDelete(f.id)}>Sil</button>
@@ -171,7 +174,7 @@ const FaqPage = () => {
                         <select name="category_id" value={faqForm.category_id} onChange={handleFaqChange}>
                             <option value="">Kateqoriya seç</option>
                             {faqCategories.map((c) => (
-                                <option key={c.id} value={c.id}>{c.title_az || c.title}</option>
+                                <option key={c.id} value={c.id}>{t(c, 'title')}</option>
                             ))}
                         </select>
 

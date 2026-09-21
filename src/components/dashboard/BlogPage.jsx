@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useBlogStore } from '../../store/useBlogStore.js';
+import { useLanguage } from '../../context/LangContext.jsx';
 import '../../assets/scss/ProductPage.scss';
 
 const BlogPage = () => {
     const { posts, loading, fetchPosts, addPost, updatePost, deletePost } = useBlogStore();
+    const { currentLang } = useLanguage();
 
     const [editingPost, setEditingPost] = useState(null);
     const [form, setForm] = useState({});
@@ -11,6 +13,9 @@ const BlogPage = () => {
     useEffect(() => {
         fetchPosts();
     }, []);
+
+    const lang = currentLang?.split('-')[0] || 'az';
+    const t = (p, field) => (lang === 'az' ? (p?.[`${field}_az`] || p?.[field]) : p?.[field]) ?? '';
 
     const openNew = () => {
         setForm({
@@ -75,7 +80,7 @@ const BlogPage = () => {
                     {posts.map((p) => (
                         <tr key={p.id}>
                             <td><img src={p.banner_url} alt="" className="product-thumb" /></td>
-                            <td>{p.title_az || p.title}</td>
+                            <td>{t(p, 'title')}</td>
                             <td>{p.author_name || '—'}</td>
                             <td>{p.post_date || '—'}</td>
                             <td>

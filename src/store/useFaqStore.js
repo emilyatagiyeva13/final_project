@@ -26,7 +26,6 @@ export const useFaqStore = create((set) => ({
         set({ faqs: faqs || [], faqCategories: faqCategories || [], loading: false });
     },
 
-    // ---------- faqs ----------
     addFaq: async (payload) => {
         set({ error: null });
         const { data, error } = await supabase
@@ -62,7 +61,6 @@ export const useFaqStore = create((set) => ({
         return { success: true };
     },
 
-    // ---------- faq_categories ----------
     addFaqCategory: async (payload) => {
         set({ error: null });
         const { data, error } = await supabase

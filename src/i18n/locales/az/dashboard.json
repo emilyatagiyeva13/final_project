@@ -1,0 +1,24 @@
+{
+    "authors": {
+        "loading": "Yüklənir...",
+        "title": "Müəlliflər",
+        "newAuthor": "+ Yeni müəllif",
+        "image": "Şəkil",
+        "name": "Ad",
+        "edit": "Redaktə",
+        "delete": "Sil",
+        "confirmDelete": "Silmək istədiyinizə əminsiniz?",
+        "editTitle": "Redaktə et",
+        "newTitle": "Yeni müəllif",
+        "placeholderNameEn": "Ad (EN)",
+        "placeholderNameAz": "Ad (AZ)",
+        "placeholderImgUrl": "Şəkil URL",
+        "cancel": "Ləğv et",
+        "save": "Yadda saxla",
+        "successUpdate": "Uğurla yeniləndi!",
+        "successAdd": "Uğurla əlavə olundu!",
+        "successDelete": "Uğurla silindi!",
+        "errorOccurred": "Xəta baş verdi!",
+        "yesDelete": "Bəli, sil!"
+    }
+}
