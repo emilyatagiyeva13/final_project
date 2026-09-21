@@ -30,6 +30,20 @@ const Login = () => {
     setSubmitting(true);
     setError("");
 
+    // 1. İstədiyiniz xüsusi admin yoxlaması
+    if (form.email === "admin@bokifa.com" && form.password === "123456") {
+      setSubmitting(false);
+      // İstəsəniz Supabase üzərindən də giriş edə bilərsiniz və ya birbaşa yönləndirə bilərsiniz:
+      await supabase.auth.signInWithPassword({
+        email: form.email,
+        password: form.password,
+      });
+      
+      navigate("/admin/products"); // Birbaşa admin panelə atır
+      return;
+    }
+
+    // 2. Digər adi istifadəçilər üçün Supabase girişi
     const { data, error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
@@ -42,7 +56,8 @@ const Login = () => {
       return;
     }
 
-    navigate("/"); // və ya "/admin", məntiqinə görə
+    // Adi istifadəçilər daxil olanda gedəcəyi yer
+    navigate("/"); 
   };
 
   if (pageLoading) {
@@ -117,8 +132,8 @@ const Login = () => {
             </NavLink>
           </div>
 
-          <button type="submit" className="submit-btn">
-            Log in
+          <button type="submit" className="submit-btn" disabled={submitting}>
+            {submitting ? "Giriş edilir..." : "Log in"}
           </button>
 
           <p className="form-footer">

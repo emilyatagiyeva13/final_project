@@ -1,4 +1,22 @@
 {
+    "common": {
+        "brand": "Bokifa Admin",
+        "menu": "Menu",
+        "logout": "Logout"
+    },
+    "nav": {
+        "products": "Products",
+        "categories": "Categories",
+        "authors": "Authors",
+        "customers": "Customers",
+        "blogs": "Blogs",
+        "faqs": "FAQs"
+    },
+    "welcome": {
+        "badge": "MANAGEMENT PORTAL",
+        "title": "WELCOME TO YOUR ADMIN PANEL",
+        "subtitle": "Select a section from the left sidebar to manage and make updates."
+    },
     "authors": {
         "loading": "Loading...",
         "title": "Authors",
