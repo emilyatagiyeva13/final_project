@@ -1,73 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Jim+Nightshade&family=Josefin+Sans:ital@1&family=Lexend+Deca:wght@100..900&family=Oswald:wght@200..700&family=Playfair:ital,opsz,wght@0,5..1200,300..900;1,5..1200,300..900&family=Stoke:wght@300;400&display=swap');
-
-:root[data-theme="light"] {
-  --body-bg: #ffffff;
-  --body-text: #1a1a1a;
-  
-  // Admin səhifəsi üçün Light dəyişənləri
-  --page-bg: #faf9f6;
-  --card-bg: #ffffff;
-  --text-main: #2c2c2c;
-  --text-muted: #555555;
-  --border-color: #eae8e4;
-  --table-header-bg: #f4f2ec;
-  --table-hover-bg: #fbfaf7;
-  --btn-primary-bg: #2c2c2c;
-  --btn-primary-color: #ffffff;
-  --btn-primary-hover: #444444;
-  --input-bg: #faf9f6;
-  --input-border: #dedad0;
-  --input-focus-border: #2c2c2c;
-  --modal-overlay: rgba(20, 20, 20, 0.6);
-  --alt-btn-bg: #f0ede6;
-  --alt-btn-hover: #e4e0d5;
-}
-
-:root[data-theme="dark"] {
-  --body-bg: #0f1215;
-  --body-text: #f0f0f0;
-
-  // Admin səhifəsi üçün Dark dəyişənləri
-  --page-bg: #121619;
-  --card-bg: #1b2126;
-  --text-main: #f0f0f0;
-  --text-muted: #a0aab0;
-  --border-color: #2d3741;
-  --table-header-bg: #222930;
-  --table-hover-bg: #252e36;
-  --btn-primary-bg: #e2ded6;
-  --btn-primary-color: #121619;
-  --btn-primary-hover: #ffffff;
-  --input-bg: #121619;
-  --input-border: #34414d;
-  --input-focus-border: #e2ded6;
-  --modal-overlay: rgba(0, 0, 0, 0.75);
-  --alt-btn-bg: #252e36;
-  --alt-btn-hover: #303d49;
-}
-
-body {
-  background-color: var(--body-bg);
-  color: var(--body-text);
-  transition: background-color 0.4s ease, color 0.4s ease;
-  margin: 0;
-}
-
-::selection {
-  background-color: var(--accent-color, #306D36);
-  color: #ffffff;
-}
-
-::-moz-selection {
-  background-color: var(--accent-color, #306D36);
-  color: #ffffff;
-}
-
 .products-page {
   padding: 2.5rem;
-  background-color: var(--page-bg);
+  background-color: #faf9f6; // Yüngül isti/parçament tonu (saytınızın üslubuna uyğunlaşdıra bilərsiniz)
   min-height: 100vh;
-  transition: background-color 0.4s ease;
 
   .products-header {
     display: flex;
@@ -78,14 +12,14 @@ body {
     h1 {
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--text-main);
+      color: #2c2c2c;
       letter-spacing: -0.5px;
     }
 
     button {
       padding: 0.75rem 1.4rem;
-      background: var(--btn-primary-bg);
-      color: var(--btn-primary-color);
+      background: #2c2c2c;
+      color: #fff;
       border: none;
       border-radius: 10px;
       cursor: pointer;
@@ -95,7 +29,7 @@ body {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
       &:hover {
-        background: var(--btn-primary-hover);
+        background: #444;
         transform: translateY(-1px);
         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12);
       }
@@ -106,55 +40,76 @@ body {
     }
   }
 
-  // Cədvəlin mobil cihazlarda horizontal scroll olması üçün qablaşdırma
-  .table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    border-radius: 14px;
-    border: 1px solid var(--border-color);
-    background: var(--card-bg);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  }
-
   .products-table {
     width: 100%;
-    border-collapse: collapse;
-    min-width: 700px;
-    background: var(--card-bg);
-    table-layout: fixed; // Başlıqlar və xanaların enini sərt şəkildə bir-birinə bağlayır
-
-    // Sütunların genişliklərini bərabər və ya ehtiyaca görə bölüşdürürük
-    th:nth-child(1), td:nth-child(1) { width: 25%; } // İstifadəçi adı
-    th:nth-child(2), td:nth-child(2) { width: 35%; } // E-poçt
-    th:nth-child(3), td:nth-child(3) { width: 15%; } // Rol
-    th:nth-child(4), td:nth-child(4) { width: 25%; } // Qeydiyyat tarixi
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #ffffff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid #eae8e4;
 
     th, td {
       text-align: left;
       padding: 1rem 1.2rem;
       font-size: 0.92rem;
-      border-bottom: 1px solid var(--border-color);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; // Uzun mətnlər daşmasın deyə nöqtələrlə kəsir
     }
 
     th {
-      background: var(--table-header-bg);
+      background: #f4f2ec;
       font-weight: 600;
-      color: var(--text-muted);
+      color: #555;
+      border-bottom: 1px solid #eae8e4;
       text-transform: uppercase;
       font-size: 0.75rem;
       letter-spacing: 0.5px;
     }
 
     td {
-      color: var(--text-main);
+      border-bottom: 1px solid #f0ede6;
+      color: #333;
       vertical-align: middle;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+
+    tr:last-child td {
+      border-bottom: none;
     }
 
     tr:hover td {
-      background-color: var(--table-hover-bg);
+      background-color: #fbfaf7;
+    }
+
+    td button {
+      margin-left: 0.5rem;
+      padding: 0.45rem 0.9rem;
+      border: 1px solid #e0dcd3;
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #444;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #f4f2ec;
+        border-color: #ccc;
+      }
+
+      &:last-child {
+        color: #d93838;
+        border-color: #f7d4d4;
+        background: #fff8f8;
+
+        &:hover {
+          background: #fde8e8;
+        }
+      }
     }
   }
 
@@ -163,14 +118,14 @@ body {
     height: 58px;
     object-fit: cover;
     border-radius: 6px;
-    background: var(--border-color);
+    background: #eee;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
 
   .modal-overlay {
     position: fixed;
     inset: 0;
-    background: var(--modal-overlay);
+    background: rgba(20, 20, 20, 0.6);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -181,7 +136,7 @@ body {
   }
 
   .form-modal {
-    background: var(--card-bg);
+    background: #ffffff;
     border-radius: 16px;
     padding: 2.2rem;
     width: 100%;
@@ -192,32 +147,31 @@ body {
     flex-direction: column;
     gap: 1rem;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-    border: 1px solid var(--border-color);
+    border: 1px solid #eae8e4;
     animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    transition: background-color 0.4s ease, border-color 0.4s ease;
 
     h2 {
       font-size: 1.4rem;
       font-weight: 700;
-      color: var(--text-main);
+      color: #222;
       margin-bottom: 0.5rem;
     }
 
     input, select, textarea {
       padding: 0.75rem 1rem;
-      border: 1px solid var(--input-border);
+      border: 1px solid #dedad0;
       border-radius: 10px;
       font-size: 0.92rem;
       font-family: inherit;
-      background: var(--input-bg);
-      color: var(--text-main);
+      background: #faf9f6;
+      color: #333;
       transition: all 0.2s;
 
       &:focus {
         outline: none;
-        border-color: var(--input-focus-border);
-        background: var(--card-bg);
-        box-shadow: 0 0 0 3px rgba(120, 120, 120, 0.1);
+        border-color: #2c2c2c;
+        background: #fff;
+        box-shadow: 0 0 0 3px rgba(44, 44, 44, 0.08);
       }
     }
 
@@ -231,14 +185,14 @@ body {
       align-items: center;
       gap: 0.7rem;
       font-size: 0.91rem;
-      color: var(--text-main);
+      color: #444;
       cursor: pointer;
       user-select: none;
 
       input[type="checkbox"] {
         width: 18px;
         height: 18px;
-        accent-color: var(--btn-primary-bg);
+        accent-color: #2c2c2c;
         cursor: pointer;
       }
     }
@@ -250,7 +204,7 @@ body {
     gap: 0.8rem;
     margin-top: 1rem;
     padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid #f0ede6;
 
     button {
       padding: 0.7rem 1.3rem;
@@ -261,22 +215,22 @@ body {
       border: none;
       transition: all 0.2s;
 
-      &.btn-cancel {
-        background: var(--alt-btn-bg);
-        color: var(--text-muted);
+      &:first-child {
+        background: #f0ede6;
+        color: #555;
 
         &:hover {
-          background: var(--alt-btn-hover);
+          background: #e4e0d5;
         }
       }
 
-      &.btn-save {
-        background: var(--btn-primary-bg);
-        color: var(--btn-primary-color);
+      &:last-child {
+        background: #2c2c2c;
+        color: #fff;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
         &:hover {
-          background: var(--btn-primary-hover);
+          background: #444;
         }
       }
     }
