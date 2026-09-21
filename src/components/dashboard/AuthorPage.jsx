@@ -1,35 +1,36 @@
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../context/LangContext.jsx';
 import '../../assets/scss/ProductPage.scss';
-import { useCategoryStore } from '../../store/useCategoryStore.js';
+import { useAuthorStore } from '../../store/useAuthorStore.js';
 
-const CategoriesPage = () => {
-    const { categories, loading, fetchCategories, addCategory, updateCategory, deleteCategory } =
-        useCategoryStore();
+const AuthorsPage = () => {
+    const { authors, loading, fetchAuthors, addAuthor, updateAuthor, deleteAuthor } =
+        useAuthorStore();
     const { currentLang } = useLanguage();
 
-    const [editingCategory, setEditingCategory] = useState(null);
+    const [editingAuthor, setEditingAuthor] = useState(null);
     const [form, setForm] = useState({});
 
     useEffect(() => {
-        fetchCategories();
+        fetchAuthors();
     }, []);
 
+    // authors cədvəlində "name_en" yoxdur — "name" default/EN kimi istifadə olunur
     const lang = currentLang?.split('-')[0] || 'az';
-    const t = (c, field) => c?.[`${field}_${lang}`] ?? c?.[`${field}_az`] ?? '';
+    const t = (a) => (lang === 'az' ? (a?.name_az || a?.name) : a?.name) ?? '';
 
     const openNew = () => {
-        setForm({ name_az: '', name_en: '', slug: '' });
-        setEditingCategory({});
+        setForm({ name: '', name_az: '', slug: '', img_url: '' });
+        setEditingAuthor({});
     };
 
-    const openEdit = (category) => {
-        setForm({ ...category });
-        setEditingCategory(category);
+    const openEdit = (author) => {
+        setForm({ ...author });
+        setEditingAuthor(author);
     };
 
     const closeForm = () => {
-        setEditingCategory(null);
+        setEditingAuthor(null);
         setForm({});
     };
 
@@ -42,10 +43,10 @@ const CategoriesPage = () => {
         e.preventDefault();
         const payload = { ...form };
 
-        if (editingCategory?.id) {
-            await updateCategory(editingCategory.id, payload);
+        if (editingAuthor?.id) {
+            await updateAuthor(editingAuthor.id, payload);
         } else {
-            await addCategory(payload);
+            await addAuthor(payload);
         }
 
         closeForm();
@@ -53,7 +54,7 @@ const CategoriesPage = () => {
 
     const handleDelete = async (id) => {
         if (!confirm('Silmək istədiyinizə əminsiniz?')) return;
-        await deleteCategory(id);
+        await deleteAuthor(id);
     };
 
     if (loading) return <p>Yüklənir...</p>;
@@ -61,38 +62,38 @@ const CategoriesPage = () => {
     return (
         <div className="products-page">
             <div className="products-header">
-                <h1>Kateqoriyalar</h1>
-                <button onClick={openNew}>+ Yeni kateqoriya</button>
+                <h1>Müəlliflər</h1>
+                <button onClick={openNew}>+ Yeni müəllif</button>
             </div>
 
             <table className="products-table">
                 <thead>
                     <tr>
-                        <th>Ad</th><th>Slug</th><th></th>
+                        <th>Şəkil</th><th>Ad</th><th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {categories.map((c) => (
-                        <tr key={c.id}>
-                            <td>{t(c, 'name')}</td>
-                            <td>{c.slug}</td>
+                    {authors.map((a) => (
+                        <tr key={a.id}>
+                            <td><img src={a.img_url} alt="" className="product-thumb" /></td>
+                            <td>{t(a)}</td>
                             <td>
-                                <button onClick={() => openEdit(c)}>Redaktə</button>
-                                <button onClick={() => handleDelete(c.id)}>Sil</button>
+                                <button onClick={() => openEdit(a)}>Redaktə</button>
+                                <button onClick={() => handleDelete(a.id)}>Sil</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            {editingCategory !== null && (
+            {editingAuthor !== null && (
                 <div className="modal-overlay" onClick={closeForm}>
                     <form className="form-modal" onClick={(e) => e.stopPropagation()} onSubmit={handleSave}>
-                        <h2>{editingCategory?.id ? 'Redaktə et' : 'Yeni kateqoriya'}</h2>
+                        <h2>{editingAuthor?.id ? 'Redaktə et' : 'Yeni müəllif'}</h2>
 
+                        <input name="name" placeholder="Ad (EN)" value={form.name} onChange={handleChange} />
                         <input name="name_az" placeholder="Ad (AZ)" value={form.name_az} onChange={handleChange} />
-                        <input name="name_en" placeholder="Ad (EN)" value={form.name_en} onChange={handleChange} />
-                        <input name="slug" placeholder="slug" value={form.slug} onChange={handleChange} />
+                        <input name="img_url" placeholder="Şəkil URL" value={form.img_url} onChange={handleChange} />
 
                         <div className="form-actions">
                             <button type="button" onClick={closeForm}>Ləğv et</button>
@@ -105,4 +106,4 @@ const CategoriesPage = () => {
     );
 };
 
-export default CategoriesPage;
+export default AuthorsPage;

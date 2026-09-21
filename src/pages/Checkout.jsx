@@ -5,18 +5,23 @@ import { CreditCard, Lock, ArrowLeft } from 'lucide-react';
 import toast from 'react-hot-toast';
 import Swal from 'sweetalert2';
 import useCartStore from '../store/useCartStore';
+import { useAuthStore } from '../store/authStore.js';
 import { useLocalize } from '../components/hooks/useLocalise';
 import '../assets/scss/Checkout.scss';
 import Loader from '../components/Loader';
+import { useOrderStore } from '../store/useOrderStore.js';
 
 const Checkout = () => {
     const { t } = useTranslation('common');
     const { localize } = useLocalize();
     const navigate = useNavigate();
     const { items = [], totalPrice, clearBasket } = useCartStore();
+    const { confirmOrder } = useOrderStore();
+    const user = useAuthStore((s) => s.user);
 
     const [isFlipped, setIsFlipped] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [submitting, setSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',
@@ -64,6 +69,11 @@ const Checkout = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!user?.id) {
+            toast.error(t('checkout.mustBeLoggedIn') || 'Sifariş vermək üçün daxil olmalısınız.');
+            return;
+        }
+
         // SweetAlert ilə istifadəçidən təsdiq almaq
         const result = await Swal.fire({
             title: t('checkout.confirmTitle') || 'Sifarişi təsdiqləyirsiniz?',
@@ -78,6 +88,38 @@ const Checkout = () => {
 
         // İstifadəçi "Bəli" dedikdə
         if (result.isConfirmed) {
+            setSubmitting(true);
+
+            const { error } = await confirmOrder(
+                user.id,
+                {
+                    fullName: formData.fullName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    address: formData.address,
+                },
+                items.map((item) => ({
+                    id: item.id,
+                    title_az: item.title_az,
+                    title_en: item.title_en,
+                    price: item.price,
+                    quantity: item.quantity,
+                    image: item.image,
+                })),
+                {
+                    subtotal: subTotal,
+                    shippingCost,
+                    total: finalTotal,
+                }
+            );
+
+            setSubmitting(false);
+
+            if (error) {
+                toast.error(t('checkout.orderFailed') || 'Sifariş yadda saxlanmadı, yenidən cəhd edin.');
+                return;
+            }
+
             if (clearBasket) await clearBasket();
             toast.success(t('checkout.successMessage') || 'Sifarişiniz uğurla rəsmiləşdirildi!');
             navigate('/success');
@@ -241,8 +283,8 @@ const Checkout = () => {
                         </div>
                     </div>
 
-                    <button type="submit" className="checkout-submit-btn">
-                        <Lock size={18} /> {finalTotal.toFixed(2)} ₼ — {t('checkout.payNow') || 'Ödənişi Təsdiqlə'}
+                    <button type="submit" className="checkout-submit-btn" disabled={submitting}>
+                        <Lock size={18} /> {finalTotal.toFixed(2)} ₼ — {submitting ? (t('checkout.processing') || 'Göndərilir...') : (t('checkout.payNow') || 'Ödənişi Təsdiqlə')}
                     </button>
                 </form>
 

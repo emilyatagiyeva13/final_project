@@ -23,6 +23,9 @@ import { ToastContainer } from "react-toastify"
 import Checkout from "../pages/Checkout"
 import NotFound from "../components/NotFound"
 import Success from "../components/Success"
+import CategoriesPage from "../components/dashboard/CategoriesPage"
+import AuthorsPage from "../components/dashboard/AuthorPage"
+import CustomersPage from "../components/dashboard/CustomersPage"
 // import AdminLayout from "../pages/admin/AdminLayout"
 // import CategoriesPage from "../pages/admin/CategoriesPage"
 // import AuthorsPage from "../pages/admin/AuthorsPage"
@@ -71,8 +74,9 @@ const Router = () => {
           >
 
             <Route path="products" element={<ProductsPage />} />
-            {/* <Route path="categories" element={<CategoriesPage />} /> */}
-            {/* <Route path="authors" element={<AuthorsPage />} /> */}
+            <Route path="categories" element={<CategoriesPage />} />
+            <Route path="authors" element={<AuthorsPage />} />
+            <Route path="customers" element={<CustomersPage />} />
           </Route>
 
 

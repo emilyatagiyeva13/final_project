@@ -14,10 +14,10 @@ export const useProductStore = create((set, get) => ({
             await Promise.all([
                 supabase
                     .from('products')
-                    .select('*, categories(name_az), authors(name)')
+                    .select('*, categories(name_az, name_en, img_url), authors(name, name_az, img_url)')
                     .order('created_at', { ascending: false }),
-                supabase.from('categories').select('id, name_az'),
-                supabase.from('authors').select('id, name'),
+                supabase.from('categories').select('*').order('created_at', { ascending: false }),
+                supabase.from('authors').select('*').order('created_at', { ascending: false }),
             ]);
 
         const error = prodErr || catErr || authErr;
@@ -39,7 +39,7 @@ export const useProductStore = create((set, get) => ({
         const { data, error } = await supabase
             .from('products')
             .insert(payload)
-            .select('*, categories(name_az), authors(name)')
+            .select('*, categories(name_az, name_en, img_url), authors(name, name_az, img_url)')
             .single();
 
         if (error) {
@@ -57,7 +57,7 @@ export const useProductStore = create((set, get) => ({
             .from('products')
             .update(payload)
             .eq('id', id)
-            .select('*, categories(name_az), authors(name)')
+            .select('*, categories(name_az, name_en, img_url), authors(name, name_az, img_url)')
             .single();
 
         if (error) {
