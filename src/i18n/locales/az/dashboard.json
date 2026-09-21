@@ -20,5 +20,27 @@
         "successDelete": "Uğurla silindi!",
         "errorOccurred": "Xəta baş verdi!",
         "yesDelete": "Bəli, sil!"
-    }
+    },
+    "categories": {
+  "loading": "Yüklənir...",
+  "title": "Kateqoriyalar",
+  "newCategory": "+ Yeni kateqoriya",
+  "name": "Ad",
+  "slug": "Slug",
+  "edit": "Redaktə",
+  "delete": "Sil",
+  "confirmDelete": "Silmək istədiyinizə əminsiniz?",
+  "editTitle": "Redaktə et",
+  "newTitle": "Yeni kateqoriya",
+  "placeholderNameAz": "Ad (AZ)",
+  "placeholderNameEn": "Ad (EN)",
+  "placeholderSlug": "Slug",
+  "cancel": "Ləğv et",
+  "save": "Yadda saxla",
+  "successUpdate": "Uğurla yeniləndi!",
+  "successAdd": "Uğurla əlavə olundu!",
+  "successDelete": "Uğurla silindi!",
+  "errorOccurred": "Xəta baş verdi!",
+  "yesDelete": "Bəli, sil!"
+}
 }

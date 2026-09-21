@@ -20,5 +20,27 @@
         "successDelete": "Successfully deleted!",
         "errorOccurred": "An error occurred!",
         "yesDelete": "Yes, delete!"
+    },
+    "categories": {
+        "loading": "Loading...",
+        "title": "Categories",
+        "newCategory": "+ New Category",
+        "name": "Name",
+        "slug": "Slug",
+        "edit": "Edit",
+        "delete": "Delete",
+        "confirmDelete": "Are you sure you want to delete?",
+        "editTitle": "Edit Category",
+        "newTitle": "New Category",
+        "placeholderNameAz": "Name (AZ)",
+        "placeholderNameEn": "Name (EN)",
+        "placeholderSlug": "Slug",
+        "cancel": "Cancel",
+        "save": "Save",
+        "successUpdate": "Successfully updated!",
+        "successAdd": "Successfully added!",
+        "successDelete": "Successfully deleted!",
+        "errorOccurred": "An error occurred!",
+        "yesDelete": "Yes, delete!"
     }
 }
