@@ -63,6 +63,8 @@ const BlogPage = () => {
 
             closeForm();
         } catch (error) {
+            console.error(error)
+
             toast.error(t('blog.errorOccurred') || 'Xəta baş verdi!');
         }
     };
@@ -83,6 +85,8 @@ const BlogPage = () => {
                 await deletePost(id);
                 toast.success(t('blog.successDelete') || 'Uğurla silindi!');
             } catch (error) {
+                console.error(error)
+
                 toast.error(t('blog.errorOccurred') || 'Xəta baş verdi!');
             }
         }

@@ -58,6 +58,8 @@ const CategoriesPage = () => {
 
             closeForm();
         } catch (error) {
+                console.error(error)
+
             toast.error(t('categories.errorOccurred') || 'Xəta baş verdi!');
         }
     };
@@ -78,6 +80,8 @@ const CategoriesPage = () => {
                 await deleteCategory(id);
                 toast.success(t('categories.successDelete') || 'Uğurla silindi!');
             } catch (error) {
+                console.error(error)
+
                 toast.error(t('categories.errorOccurred') || 'Xəta baş verdi!');
             }
         }

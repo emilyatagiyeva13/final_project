@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const AuthorsPage = () => {
-    const { t } = useTranslation("dashboard"); 
+    const { t } = useTranslation("dashboard");
     const { authors, loading, fetchAuthors, addAuthor, updateAuthor, deleteAuthor } =
         useAuthorStore();
     const { currentLang } = useLanguage();
@@ -58,6 +58,7 @@ const AuthorsPage = () => {
 
             closeForm();
         } catch (error) {
+            console.error(error)
             toast.error(t('authors.errorOccurred') || 'Xəta baş verdi!');
         }
     };
@@ -78,6 +79,7 @@ const AuthorsPage = () => {
                 await deleteAuthor(id);
                 toast.success(t('authors.successDelete') || 'Uğurla silindi!');
             } catch (error) {
+                console.error(error)
                 toast.error(t('authors.errorOccurred') || 'Xəta baş verdi!');
             }
         }

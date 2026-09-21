@@ -72,6 +72,8 @@ const FaqPage = () => {
 
             closeFaqForm();
         } catch (error) {
+            console.error(error)
+
             toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
         }
     };
@@ -92,6 +94,8 @@ const FaqPage = () => {
                 await deleteFaq(id);
                 toast.success(t('faq.successDeleteFaq') || 'Sual uğurla silindi!');
             } catch (error) {
+                console.error(error)
+
                 toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
             }
         }
@@ -133,6 +137,8 @@ const FaqPage = () => {
 
             closeCatForm();
         } catch (error) {
+            console.error(error)
+
             toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
         }
     };
@@ -153,6 +159,8 @@ const FaqPage = () => {
                 await deleteFaqCategory(id);
                 toast.success(t('faq.successDeleteCat') || 'Kateqoriya uğurla silindi!');
             } catch (error) {
+                console.error(error)
+
                 toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
             }
         }

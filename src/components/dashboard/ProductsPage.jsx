@@ -72,6 +72,8 @@ const ProductsPage = () => {
 
             closeForm();
         } catch (error) {
+                console.error(error)
+
             toast.error(t('products.errorOccurred') || 'Xəta baş verdi!');
         }
     };
@@ -92,6 +94,8 @@ const ProductsPage = () => {
                 await deleteProduct(id);
                 toast.success(t('products.successDelete') || 'Uğurla silindi!');
             } catch (error) {
+                console.error(error)
+
                 toast.error(t('products.errorOccurred') || 'Xəta baş verdi!');
             }
         }
