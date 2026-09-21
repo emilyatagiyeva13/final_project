@@ -6,6 +6,7 @@ import { useAuthorStore } from '../../store/useAuthorStore.js';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../Loader.jsx';
 
 const AuthorsPage = () => {
     const { t } = useTranslation("dashboard");
@@ -58,7 +59,7 @@ const AuthorsPage = () => {
 
             closeForm();
         } catch (error) {
-            console.error(error)
+            console.error(error);
             toast.error(t('authors.errorOccurred') || 'Xəta baş verdi!');
         }
     };
@@ -79,13 +80,13 @@ const AuthorsPage = () => {
                 await deleteAuthor(id);
                 toast.success(t('authors.successDelete') || 'Uğurla silindi!');
             } catch (error) {
-                console.error(error)
+                console.error(error);
                 toast.error(t('authors.errorOccurred') || 'Xəta baş verdi!');
             }
         }
     };
 
-    if (loading) return <p className="loading-text">{t('authors.loading')}</p>;
+    if (loading) return <Loader />;
 
     return (
         <div className="products-page">
