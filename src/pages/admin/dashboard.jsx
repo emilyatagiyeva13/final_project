@@ -9,6 +9,9 @@ const Dashboard = () => {
     { path: "/admin/products", label: "Məhsullar" },
     { path: "/admin/categories", label: "Kateqoriyalar" },
     { path: "/admin/authors", label: "Müəlliflər" },
+    { path: "/admin/customers", label: "Müştərilər" },
+    { path: "/admin/blogs", label: "Bloq" },
+    { path: "/admin/faqs", label: "FAQ" },
   ];
 
   return (
