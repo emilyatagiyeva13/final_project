@@ -6,6 +6,7 @@ import '../../assets/scss/ProductPage.scss';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../Loader.jsx';
 
 const BlogPage = () => {
     const { t } = useTranslation("dashboard");
@@ -92,7 +93,7 @@ const BlogPage = () => {
         }
     };
 
-    if (loading) return <p className="loading-text">{t('blog.loading')}</p>;
+    if (loading) return <Loader />;
 
     return (
         <div className="products-page">
