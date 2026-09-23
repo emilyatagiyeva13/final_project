@@ -3,14 +3,14 @@ import { supabase } from "../../supabaseClient.js";
 import "../../assets/scss/Login.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
-import { useTranslation } from "react-i18next"; // i18n əlavə olundu
+import { useTranslation } from "react-i18next";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const { t } = useTranslation('auth');
   const [pageLoading, setPageLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const navigate = useNavigate();
 
@@ -24,13 +24,11 @@ const Login = () => {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError("");
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
-    setError("");
 
     if (form.email === "admin@bokifa.com" && form.password === "123456") {
       setSubmitting(false);
@@ -50,7 +48,12 @@ const Login = () => {
     setSubmitting(false);
 
     if (error) {
-      setError(error.message);
+      Swal.fire({
+        icon: "error",
+        title: t("login.errorTitle", "Xəta!"),
+        text: t("login.invalidCredentials", "E-poçt və ya şifrə yanlışdır."),
+        confirmButtonText: t("login.errorBtn", "Oldu"),
+      });
       return;
     }
 
@@ -84,7 +87,6 @@ const Login = () => {
             {t("login.subtitle")}
           </p>
 
-          {error && <p className="form-error">{error}</p>}
 
           <label className="form-field">
             <span>{t("login.emailLabel")}</span>
@@ -120,10 +122,7 @@ const Login = () => {
           </label>
 
           <div className="form-row">
-            <label className="checkbox-group">
-              <input type="checkbox" />
-              <span>{t("login.rememberMe")}</span>
-            </label>
+            
             <NavLink to="/forgotpassword" className="form-link">
               {t("login.forgotPassword")}
             </NavLink>
