@@ -15,6 +15,8 @@ import commonAZ from "../i18n/locales/az/common.json"
 import commonEN from "../i18n/locales/en/common.json"
 import dashboardAZ from "../i18n/locales/az/dashboard.json"
 import dashboardEN from "../i18n/locales/en/dashboard.json"
+import authAZ from "../i18n/locales/az/auth.json"
+import authEN from "../i18n/locales/en/auth.json"
 
 
 export const SUPPORTED_LANGUAGES = ['az', 'en']
@@ -29,7 +31,8 @@ const resources = {
         shop: shopAZ,
         blog: blogAZ,
         common: commonAZ,
-        dashboard: dashboardAZ
+        dashboard: dashboardAZ,
+        auth: authAZ
     },
     en: {
         header: headerEN,
@@ -38,7 +41,9 @@ const resources = {
         shop: shopEN,
         blog: blogEN,
         common: commonEN,
-        dashboard: dashboardEN
+        dashboard: dashboardEN,
+        auth: authEN
+
 
 
 
@@ -55,7 +60,7 @@ i18n
         resources,
         fallbackLng: 'en',
         supportedLngs: SUPPORTED_LANGUAGES,
-        ns: ['header', 'home', 'contact', 'shop', 'blog', 'common','dashboard'],
+        ns: ['header', 'home', 'contact', 'shop', 'blog', 'common', 'dashboard'],
         defaultNS: 'header',
         interpolation: {
             escapeValue: false,

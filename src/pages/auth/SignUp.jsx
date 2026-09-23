@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../supabaseClient.js"; // öz yolunla uyğunlaşdır
+import { supabase } from "../../supabaseClient.js"; 
 import "../../assets/scss/SignUp.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
+import { useTranslation } from "react-i18next"; // i18n əlavə olundu
 
 const SignUp = () => {
+  const { t } = useTranslation('auth'); // t funksiyası çağırıldı
   const [pageLoading, setPageLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -34,7 +36,7 @@ const SignUp = () => {
       email: form.email,
       password: form.password,
       options: {
-        data: { name: form.name }, // istəsən auth.users metadata-ya adı da yazır
+        data: { name: form.name }, 
       },
     });
 
@@ -45,7 +47,7 @@ const SignUp = () => {
       return;
     }
 
-    navigate("/"); // və ya istədiyin səhifə
+    navigate("/"); 
   };
 
   if (pageLoading) {
@@ -58,7 +60,7 @@ const SignUp = () => {
         <div className="brand-mark">Bokifa</div>
 
         <blockquote className="brand-quote">
-          <p>"Every book is a new door waiting to be opened."</p>
+          <p>"{t("signup.brandQuote")}"</p>
         </blockquote>
 
         <div className="brand-shelf" aria-hidden="true">
@@ -72,19 +74,19 @@ const SignUp = () => {
 
       <div className="form-container">
         <form className="signup-form" onSubmit={handleSubmit}>
-          <h1 className="form-title">Register Now</h1>
+          <h1 className="form-title">{t("signup.title")}</h1>
           <p className="form-subtitle">
-            Create your account and manage your wishes.
+            {t("signup.subtitle")}
           </p>
 
           {error && <p className="form-error">{error}</p>}
 
           <label className="form-field">
-            <span>Ad</span>
+            <span>{t("signup.nameLabel")}</span>
             <input
               type="text"
               name="name"
-              placeholder="Name"
+              placeholder={t("signup.namePlaceholder")}
               value={form.name}
               onChange={handleChange}
               required
@@ -92,11 +94,11 @@ const SignUp = () => {
           </label>
 
           <label className="form-field">
-            <span>Email</span>
+            <span>{t("signup.emailLabel")}</span>
             <input
               type="email"
               name="email"
-              placeholder="example@mail.com"
+              placeholder={t("signup.emailPlaceholder")}
               value={form.email}
               onChange={handleChange}
               required
@@ -104,12 +106,12 @@ const SignUp = () => {
           </label>
 
           <label className="form-field">
-            <span>Password</span>
+            <span>{t("signup.passwordLabel")}</span>
             <div className="password-field">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="••••••••"
+                placeholder={t("signup.passwordPlaceholder")}
                 value={form.password}
                 onChange={handleChange}
                 minLength={6}
@@ -120,20 +122,20 @@ const SignUp = () => {
                 className="toggle-btn"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? t("signup.hide") : t("signup.show")}
               </button>
             </div>
           </label>
-          <p className="form-hint">At least 6 symbols.</p>
+          <p className="form-hint">{t("signup.passwordHint")}</p>
 
-          <button type="submit" className="submit-btn">
-            Sign Up
+          <button type="submit" className="submit-btn" disabled={submitting}>
+            {submitting ? t("signup.submittingBtn") : t("signup.submitBtn")}
           </button>
 
           <p className="form-footer">
-            Already have an account?{" "}
+            {t("signup.hasAccount")}{" "}
             <NavLink to="/login" className="form-link">
-              Log in.
+              {t("signup.logIn")}
             </NavLink>
           </p>
         </form>

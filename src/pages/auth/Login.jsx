@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../../supabaseClient.js"; // öz yolunla uyğunlaşdır
+import { supabase } from "../../supabaseClient.js"; 
 import "../../assets/scss/Login.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
+import { useTranslation } from "react-i18next"; // i18n əlavə olundu
 
 const Login = () => {
+  const { t } = useTranslation('auth');
   const [pageLoading, setPageLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
@@ -30,20 +32,16 @@ const Login = () => {
     setSubmitting(true);
     setError("");
 
-    // 1. İstədiyiniz xüsusi admin yoxlaması
     if (form.email === "admin@bokifa.com" && form.password === "123456") {
       setSubmitting(false);
-      // İstəsəniz Supabase üzərindən də giriş edə bilərsiniz və ya birbaşa yönləndirə bilərsiniz:
       await supabase.auth.signInWithPassword({
         email: form.email,
         password: form.password,
       });
-      
-      navigate("/admin/products"); // Birbaşa admin panelə atır
+      navigate("/admin/products"); 
       return;
     }
 
-    // 2. Digər adi istifadəçilər üçün Supabase girişi
     const { data, error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
@@ -56,7 +54,6 @@ const Login = () => {
       return;
     }
 
-    // Adi istifadəçilər daxil olanda gedəcəyi yer
     navigate("/"); 
   };
 
@@ -70,7 +67,7 @@ const Login = () => {
         <div className="brand-mark">Bokifa</div>
 
         <blockquote className="brand-quote">
-          <p>"Reading one book is living a thousand lives."</p>
+          <p>"{t("login.brandQuote")}"</p>
         </blockquote>
 
         <div className="brand-pages" aria-hidden="true">
@@ -82,19 +79,19 @@ const Login = () => {
 
       <div className="form-container">
         <form className="login-form" onSubmit={handleSubmit}>
-          <h1 className="form-title">Log In</h1>
+          <h1 className="form-title">{t("login.title")}</h1>
           <p className="form-subtitle">
-            Log in to your account now.
+            {t("login.subtitle")}
           </p>
 
           {error && <p className="form-error">{error}</p>}
 
           <label className="form-field">
-            <span>Email</span>
+            <span>{t("login.emailLabel")}</span>
             <input
               type="email"
               name="email"
-              placeholder="example@mail.com"
+              placeholder={t("login.emailPlaceholder")}
               value={form.email}
               onChange={handleChange}
               required
@@ -102,12 +99,12 @@ const Login = () => {
           </label>
 
           <label className="form-field">
-            <span>Password</span>
+            <span>{t("login.passwordLabel")}</span>
             <div className="password-field">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="••••••••"
+                placeholder={t("login.passwordPlaceholder")}
                 value={form.password}
                 onChange={handleChange}
                 required
@@ -117,7 +114,7 @@ const Login = () => {
                 className="toggle-btn"
                 onClick={() => setShowPassword((prev) => !prev)}
               >
-                {showPassword ? "Hide" : "Show"}
+                {showPassword ? t("login.hide") : t("login.show")}
               </button>
             </div>
           </label>
@@ -125,21 +122,21 @@ const Login = () => {
           <div className="form-row">
             <label className="checkbox-group">
               <input type="checkbox" />
-              <span>Remember me</span>
+              <span>{t("login.rememberMe")}</span>
             </label>
             <NavLink to="/forgotpassword" className="form-link">
-              Forgot password?
+              {t("login.forgotPassword")}
             </NavLink>
           </div>
 
           <button type="submit" className="submit-btn" disabled={submitting}>
-            {submitting ? "Giriş edilir..." : "Log in"}
+            {submitting ? t("login.submittingBtn") : t("login.submitBtn")}
           </button>
 
           <p className="form-footer">
-            Don't have an account?{" "}
+            {t("login.noAccount")}{" "}
             <NavLink to="/signup" className="form-link">
-              Register now.
+              {t("login.registerNow")}
             </NavLink>
           </p>
         </form>

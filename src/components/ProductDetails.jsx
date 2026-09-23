@@ -1,44 +1,54 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { supabase } from "../supabaseClient";
+import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 import "../assets/scss/ProductDetails.scss";
+import Loader from "../components/Loader.jsx";
+import useCartStore from "../store/useCartStore.js";
+
+// Statik JSON məlumatı (və ya import edə bilərsiniz)
+import staticProduct from "../data/productData.json";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language?.startsWith("en") ? "en" : "az";
+
+  const cartItems = useCartStore((state) => state.items);
+  const addItem = useCartStore((state) => state.addItem);
+  const updateQuantity = useCartStore((state) => state.updateQuantity);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+  const [theme, setTheme] = useState("light");
+
+  // Tema dəyişdirici funksiya
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      setLoading(true);
-      setError(null);
-
-      const { data, error } = await supabase
-        .from("products")
-        .select(`
-          *,
-          categories ( name_az, name_en, slug ),
-          authors ( name, slug, img_url )
-        `)
-        .eq("id", id)
-        .single();
-
-      if (error) {
-        console.error(error);
-        setError(error);
+    // Statik datanı simulyasiya edirik
+    setLoading(true);
+    setTimeout(() => {
+      if (staticProduct) {
+        setProduct(staticProduct);
       } else {
-        setProduct(data);
+        setError(true);
       }
-
       setLoading(false);
-    };
-
-    fetchProduct();
+    }, 500);
   }, [id]);
+
+  useEffect(() => {
+    if (!product) return;
+    const existing = cartItems.find((i) => i.id === product.id);
+    setQuantity(existing ? existing.quantity : 1);
+  }, [product, cartItems]);
 
   const handleQuantityChange = (type) => {
     if (type === "decrease" && quantity > 1) {
@@ -48,121 +58,157 @@ const ProductDetails = () => {
     }
   };
 
+  const handleAddToCart = async () => {
+    if (!product || product.stock === 0) return;
+
+    if (quantity > product.stock) {
+      Swal.fire({
+        icon: "warning",
+        title: t("product.notEnoughStock", "Kifayət qədər stok yoxdur"),
+        text: `${t("product.available", "Mövcud")}: ${product.stock}`,
+      });
+      return;
+    }
+
+    try {
+      const existing = cartItems.find((i) => i.id === product.id);
+      if (existing) {
+        await updateQuantity(product.id, quantity);
+      } else {
+        await addItem(product);
+        if (quantity > 1) {
+          await updateQuantity(product.id, quantity);
+        }
+      }
+
+      toast.success(
+        t("product.addedToCart", "Səbətə əlavə edildi") +
+          ` (${quantity} ${t("product.pcs", "ədəd")})`
+      );
+    } catch (err) {
+      console.error(err);
+      toast.error(t("product.addToCartError", "Səbətə əlavə edilərkən xəta baş verdi"));
+    }
+  };
+
   if (loading) {
     return (
-      <div className="product-status-wrapper">
-        <div className="spinner"></div>
-        <p>Kitab məlumatları yüklənir...</p>
+      <div className={`product-status-wrapper ${theme}`}>
+        <Loader />
       </div>
     );
   }
 
   if (error || !product) {
     return (
-      <div className="product-status-wrapper error">
-        <h3>Axtardığınız kitab tapılmadı</h3>
+      <div className={`product-status-wrapper error ${theme}`}>
+        <h3>{t("product.notFound", "Axtardığınız kitab tapılmadı")}</h3>
         <button onClick={() => navigate("/")} className="btn-back">
-          Ana Səhifəyə Qayıt
+          {t("product.backHome", "Ana Səhifəyə Qayıt")}
         </button>
       </div>
     );
   }
 
+  const title = lang === "en" ? (product.title_en || product.title_az) : (product.title_az || product.title_en);
+  const description = lang === "en"
+    ? (product.description_en || product.description_az)
+    : (product.description_az || product.description_en);
+  const categoryName = lang === "en"
+    ? (product.categories?.name_en || product.categories?.name_az)
+    : (product.categories?.name_az || product.categories?.name_en);
+
+  const inCart = cartItems.find((i) => i.id === product.id);
+
   return (
-    <section className="product-details">
-      <div className="container">
-        <div className="row g-5 align-items-center">
-          {/* Sol: Şəkil Qalereyası/Sferası */}
-          <div className="col-12 col-lg-5">
-            <div className="product-img-wrapper">
-              <img
-                src={product.image_url}
-                alt={product.title_az}
-                className="product-img"
-              />
+    <section className={`modern-product-section ${theme}`}>
+      <div className="theme-toggle-container">
+        <button className="theme-toggle-btn" onClick={toggleTheme}>
+          {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
+        </button>
+      </div>
+
+      <div className="modern-container">
+        <div className="product-grid">
+          {/* Sol: Premium Şəkil Bloku */}
+          <div className="product-gallery">
+            <div className="image-card">
+              <img src={product.image_url} alt={title} />
               {product.stock === 0 && (
-                <div className="out-of-stock-badge">Tükəndi</div>
+                <span className="badge-status out">{t("product.outOfStock", "Tükəndi")}</span>
+              )}
+              {product.stock > 0 && (
+                <span className="badge-status in">{t("product.inStock", "Stokda var")}</span>
               )}
             </div>
           </div>
 
-          {/* Sağ: Məhsul Məlumatları */}
-          <div className="col-12 col-lg-7">
-            <div className="product-info">
-              {product.categories?.name_az && (
-                <span className="category-badge">
-                  {product.categories.name_az}
-                </span>
-              )}
+          {/* Sağ: Məlumat və Alqı-Satqı Paneli */}
+          <div className="product-content">
+            <div className="category-tag">{categoryName}</div>
+            <h1 className="product-heading">{title}</h1>
 
-              <h1 className="product-title">{product.title_az}</h1>
+            {product.authors && (
+              <div className="author-box" onClick={() => navigate(`/author/${product.authors.slug}`)}>
+                <img src={product.authors.img_url} alt={product.authors.name} />
+                <div>
+                  <span className="author-label">Müəllif / Author</span>
+                  <h4 className="author-title">{product.authors.name}</h4>
+                </div>
+              </div>
+            )}
 
-              {product.authors && (
-                <div
-                  className="author-card"
-                  onClick={() => navigate(`/author/${product.authors.slug}`)}
-                >
-                  {product.authors.img_url && (
-                    <img
-                      src={product.authors.img_url}
-                      alt={product.authors.name}
-                      className="author-avatar"
-                    />
-                  )}
-                  <span className="author-name">{product.authors.name}</span>
+            <div className="price-review-row">
+              <div className="price-box">
+                <span className="currency">₼</span>
+                <span className="amount">{product.price}</span>
+              </div>
+              {product.rating && (
+                <div className="review-box">
+                  ⭐ <span className="score">{product.rating}</span>
                 </div>
               )}
+            </div>
 
-              <div className="price-rating-wrapper">
-                <div className="price-tag">{product.price} ₼</div>
-                {product.rating && (
-                  <div className="rating-badge">
-                    <span className="star">★</span>
-                    <span>{product.rating}</span>
-                  </div>
-                )}
+            <p className="product-description">{description}</p>
+
+            <div className="stats-row">
+              <div className="stat-item">
+                <span>Satılıb / Sold:</span>
+                <strong>{product.sold_count}</strong>
               </div>
+              <div className="stat-item">
+                <span>Stok / Stock:</span>
+                <strong>{product.stock} {t("product.pcs", "ədəd")}</strong>
+              </div>
+            </div>
 
-              <p className="description">{product.description_az}</p>
+            {inCart && (
+              <div className="cart-alert">
+                🛒 {t("product.alreadyInCart", "Səbətdə artıq var")}: <strong>{inCart.quantity} {t("product.pcs", "ədəd")}</strong>
+              </div>
+            )}
 
-              <div className="meta-info">
-                <div className={`meta-item ${product.stock > 0 ? "in-stock" : "no-stock"}`}>
-                  <span className="dot"></span>
-                  <span>{product.stock > 0 ? `Stokda var (${product.stock} ədəd)` : "Stokda yoxdur"}</span>
+            <div className="purchase-actions">
+              {product.stock > 0 && (
+                <div className="counter-box">
+                  <button onClick={() => handleQuantityChange("decrease")} disabled={quantity <= 1}>-</button>
+                  <span>{quantity}</span>
+                  <button onClick={() => handleQuantityChange("increase")} disabled={quantity >= product.stock}>+</button>
                 </div>
-                <div className="meta-item">
-                  <span className="label">Satılıb:</span>
-                  <span className="value">{product.sold_count ?? 0}</span>
-                </div>
-              </div>
+              )}
 
-              {/* Miqdar və Əməliyyatlar */}
-              <div className="actions-wrapper">
-                {product.stock > 0 && (
-                  <div className="quantity-selector">
-                    <button
-                      onClick={() => handleQuantityChange("decrease")}
-                      disabled={quantity <= 1}
-                    >
-                      -
-                    </button>
-                    <span>{quantity}</span>
-                    <button
-                      onClick={() => handleQuantityChange("increase")}
-                      disabled={quantity >= product.stock}
-                    >
-                      +
-                    </button>
-                  </div>
-                )}
-
-                <button
-                  className="add-to-cart-btn"
-                  disabled={product.stock === 0}
-                >
-                  {product.stock === 0 ? "Stokda yoxdur" : "Səbətə əlavə et"}
-                </button>
-              </div>
+              <button 
+                className="checkout-btn" 
+                disabled={product.stock === 0}
+                onClick={handleAddToCart}
+              >
+                {product.stock === 0
+                  ? t("product.noStock", "Stokda yoxdur")
+                  : inCart
+                  ? t("product.updateCart", "Səbəti yenilə")
+                  : t("product.addToCart", "Səbətə əlavə et")}
+              </button>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { useCategoryStore } from '../../store/useCategoryStore.js';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../Loader.jsx';
 
 const CategoriesPage = () => {
     const { t } = useTranslation("dashboard");
@@ -58,7 +59,7 @@ const CategoriesPage = () => {
 
             closeForm();
         } catch (error) {
-                console.error(error)
+            console.error(error)
 
             toast.error(t('categories.errorOccurred') || 'Xəta baş verdi!');
         }
@@ -87,7 +88,8 @@ const CategoriesPage = () => {
         }
     };
 
-    if (loading) return <p className="loading-text">{t('categories.loading')}</p>;
+    if (loading) return <Loader />;
+
 
     return (
         <div className="products-page">

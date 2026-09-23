@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import '../../assets/scss/ProductPage.scss';
 import { useCustomerStore } from '../../store/useCustomers';
+import Loader from '../Loader';
 
 const formatDate = (iso, locale = 'az-AZ') => {
     if (!iso) return '—';
@@ -19,7 +20,8 @@ const CustomersPage = () => {
         fetchCustomers();
     }, []);
 
-    if (loading) return <p className="loading-text">{t('customers.loading')}</p>;
+    if (loading) return <Loader />;
+
 
     const dateLocale = i18n.language?.startsWith('en') ? 'en-US' : 'az-AZ';
 
