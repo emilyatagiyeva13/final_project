@@ -68,10 +68,13 @@
       font-family: "Inter", sans-serif;
       font-size: 15px;
       font-weight: 500;
-      color: #111111;
+      color: black;
       margin: 0;
       text-transform: lowercase;
       letter-spacing: 0.2px;
+      [data-theme="dark"] & {
+    color: #fff;
+  }
     }
   }
 }
