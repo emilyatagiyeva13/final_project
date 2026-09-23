@@ -69,7 +69,7 @@ const Success = () => {
 
         {orderedItems.length > 0 && (
           <div className="success-reviews">
-            <h2>{t('checkout.reviewPrompt') || 'Aldığın məhsullar haqqında fikrini bölüş'}</h2>
+            <h2>{t('checkout.reviewPrompt')}</h2>
 
             {orderedItems.map((item) => (
               <div key={item.id} className="success-reviews__item">

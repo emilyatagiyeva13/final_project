@@ -73,7 +73,8 @@
     "swalOk": "Əla!",
     "orderNumber": "Sifariş Nömrəsi",
     "continueShopping": "Alış-verişə davam et",
-    "recommended": "Sizin üçün tövsiyələr"
+    "recommended": "Sizin üçün tövsiyələr",
+    "reviewPrompt":"Aldığın məhsullar haqqında fikrini bölüş"
   },
   "reviews": {
     "loginRequired": "Rəy yazmaq üçün daxil olmalısan.",

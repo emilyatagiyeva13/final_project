@@ -73,7 +73,9 @@
     "swalOk": "Great!",
     "orderNumber": "Order Number",
     "continueShopping": "Continue Shopping",
-    "recommended": "Recommended for You"
+    "recommended": "Recommended for You",
+    "reviewPrompt":"Share your thoughts on the products you purchased."
+
   },
   "reviews": {
     "loginRequired": "You must be logged in to write a review.",
