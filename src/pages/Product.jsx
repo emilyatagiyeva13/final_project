@@ -19,14 +19,12 @@ const buildContentMap = (rows, localize) => {
   return map;
 };
 
-// Mətni sözlərə ayırıb normallaşdırır: durğu işarələri boşluğa çevrilir
 const normalizeText = (text) =>
   (text || "")
     .toLowerCase()
     .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim();
 
-// Sözün əvvəlindən uyğunluq: "se" -> "Sea of ...", amma "Sapiens"/"Silent" yox
 const matchesWordStart = (text, normalizedQuery) => {
   if (!text) return false;
   const normalizedText = " " + normalizeText(text);
@@ -49,7 +47,6 @@ const Product = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // URL Parameters
   const categoryParam = searchParams.get("category");
   const [selectedCategories, setSelectedCategories] = useState(
     categoryParam ? categoryParam.split(",") : []
@@ -68,7 +65,6 @@ const Product = () => {
   const sortParam = searchParams.get("sort");
   const [sortBy, setSortBy] = useState(sortParam || "");
 
-  // Header-dən gələn axtarış parametri: ?q=... (köhnə ?search=... də dəstəklənir)
   const searchQueryParam = searchParams.get("q") ?? searchParams.get("search");
   const [searchQuery, setSearchQuery] = useState(searchQueryParam || "");
 
@@ -268,7 +264,6 @@ const Product = () => {
     const matchesMinPrice = !minPriceParam || book.price >= Number(minPriceParam);
     const matchesMaxPrice = !maxPriceParam || book.price <= Number(maxPriceParam);
 
-    // Yalnız kitab adı (AZ/EN) və müəllif adı (AZ/EN), sözün əvvəlindən
     const matchesSearch =
       !normalizedSearch ||
       matchesWordStart(book.title_az, normalizedSearch) ||
@@ -327,7 +322,8 @@ const Product = () => {
         </p>
       </section>
 
-      <section className="d-flex gap-3 p-3">
+      {/* Burada orijinal d-flex gap-3 p-3 əvəzinə yeni shop-container istifadə olundu */}
+      <section className="shop-container">
         <div className="filter-box d-flex flex-column gap-3">
 
           <div className="category">
@@ -434,7 +430,7 @@ const Product = () => {
 
         <div className="main-shop d-flex flex-column align-items-center">
 
-          <div className="sorting ">
+          <div className="sorting">
             <div className="sort-grid-books">
               <button className={`grid-books ${viewMode === "grid" ? "active" : ""}`}
                 onClick={() => setViewMode("grid")}><CiGrid41 /></button>
@@ -442,7 +438,7 @@ const Product = () => {
                 onClick={() => setViewMode("list")}><CiBoxList /></button>
             </div>
 
-            <p className="results-count">
+            <p className="results-count m-0">
               {t('showing')} {sortedBooks.length === 0 ? 0 : (safePage - 1) * PAGE_SIZE + 1}-
               {Math.min(safePage * PAGE_SIZE, sortedBooks.length)} {t('of')} {sortedBooks.length} {t('results')}
             </p>
@@ -495,7 +491,7 @@ const Product = () => {
                 </div>
               ))
             ) : (
-              <div className="text-center my-5">
+              <div className="text-center my-5 w-100">
                 <h5>Məhsul tapılmadı.</h5>
               </div>
             )}

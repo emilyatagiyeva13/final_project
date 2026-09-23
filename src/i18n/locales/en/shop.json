@@ -23,7 +23,11 @@
         "updateCart": "Update Cart",
         "addToCart": "Add to cart"
     },
-    "reviews":{
+    "reviews": {
         "sectionTitle": "Comments "
+    },
+    "pagination": {
+        "prev": "Back",
+        "next": "Next"
     }
 }

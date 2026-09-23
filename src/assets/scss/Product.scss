@@ -27,12 +27,28 @@ $text-color: #333;
 $muted-color: #777;
 $spacing: 20px;
 
+// Əsas Responsive Konteyner
+.shop-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    
+    @media (max-width: 992px) {
+        flex-direction: column;
+        padding: 10px;
+    }
+}
+
 .book-header {
     text-align: center;
     padding: 60px 20px;
     max-width: 800px;
     margin: 0 auto;
     font-family: $font-main;
+
+    @media (max-width: 768px) {
+        padding: 30px 10px;
+    }
 
     .breadcrumb {
         font-size: 14px;
@@ -69,6 +85,10 @@ $spacing: 20px;
         color: var(--shop-text);
         line-height: 1.2;
         transition: color 0.4s ease;
+
+        @media (max-width: 768px) {
+            font-size: 36px;
+        }
     }
 
     .description {
@@ -78,6 +98,20 @@ $spacing: 20px;
         max-width: 650px;
         margin: 0 auto;
         transition: color 0.4s ease;
+
+        @media (max-width: 768px) {
+            font-size: 0.95rem;
+        }
+    }
+}
+
+.filter-box {
+    align-self: flex-start;
+    width: 340px;
+    flex-shrink: 0;
+
+    @media (max-width: 992px) {
+        width: 100%;
     }
 }
 
@@ -103,6 +137,9 @@ $spacing: 20px;
             background-color: var(--shop-card-bg);
             border: 1px solid var(--shop-border);
             color: var(--shop-text);
+            cursor: pointer;
+            border-radius: 6px;
+            padding: 4px 8px;
 
             &.open {
                 transform: rotate(180deg);
@@ -124,32 +161,42 @@ $spacing: 20px;
     }
 }
 
-.collapse-wrapper {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s ease;
-    overflow: hidden;
-
-    &.open {
-        grid-template-rows: 1fr;
-    }
-
-    ul {
-        min-height: 0;
-    }
-}
-
 .main-shop {
     background-color: var(--shop-bg);
     transition: background-color 0.4s ease;
     flex: 1;
     min-width: 0;
+    width: 100%;
 
     .sorting {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
         z-index: 10;
         width: 100%;
+
+        @media (max-width: 576px) {
+            flex-direction: column;
+            align-items: stretch;
+            
+            .sort-grid-books, .results-count {
+                justify-content: center;
+                width: 100%;
+                text-align: center;
+            }
+
+            .dropdown {
+                width: 100%;
+                display: block;
+
+                .dropbtn {
+                    width: 100%;
+                    justify-content: space-between;
+                }
+            }
+        }
 
         .sort-grid-books {
             display: flex;
@@ -171,6 +218,7 @@ $spacing: 20px;
                 z-index: 5;
                 border: 1px solid var(--shop-border);
                 color: var(--shop-text);
+                cursor: pointer;
 
                 &:hover {
                     color: $green;
@@ -302,7 +350,7 @@ $spacing: 20px;
         font-size: 14px;
         color: var(--shop-text);
         gap: 10px;
-        width: 300px;
+        width: 100%; // Sabit 300px əvəzinə 100% (Responsive üçün)
         padding: 5px 0;
         transition: color 0.3s;
 
@@ -351,12 +399,6 @@ $spacing: 20px;
     }
 }
 
-.filter-box {
-    align-self: flex-start;
-    width: 340px;
-    flex-shrink: 0;
-}
-
 // ─── PAGINATION ─────────────────────────────────────────────────────────
 .pagination-box {
     flex-wrap: wrap;
@@ -395,6 +437,7 @@ $spacing: 20px;
         }
     }
 }
+
 .price-range {
     font-weight: 500;
 
@@ -430,14 +473,12 @@ $spacing: 20px;
         border-radius: 8px;
         transition: border-color 0.3s ease, background-color 0.4s ease;
 
-        // Chrome/Safari number arrows
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
 
-        // Firefox number arrows
         -moz-appearance: textfield;
 
         &:focus {
@@ -463,7 +504,6 @@ $spacing: 20px;
         transition: background-color 0.3s ease, transform 0.2s ease;
 
         &:hover {
-            background-color: darken($green, 8%);
             transform: scale(1.02);
         }
 

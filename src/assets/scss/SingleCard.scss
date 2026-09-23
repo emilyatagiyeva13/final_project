@@ -236,12 +236,13 @@ $gold-bright: #e6c877;
     }
 
     // LIST VIEW ************************************
+    // LIST VIEW ************************************
     &.book-card-list {
         width: 100%;
         flex-direction: row;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 30px;
+        align-items: center; // Məhsulları mərkəzdə tənzimləyirik
+        justify-content: space-between; // Elementləri uclara və araya paylayırıq
+        gap: 20px;
         padding: 1.5rem;
         margin-bottom: 20px;
 
@@ -251,39 +252,42 @@ $gold-bright: #e6c877;
         }
 
         .book-card-image {
-            width: 180px;
-            height: 260px;
+            width: 140px;
+            height: 200px;
         }
 
+        // Məlumat hissəsi (orta hissə)
         .book-card-info {
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             flex: 1;
-            gap: 6px;
+            gap: 4px;
+            padding: 0 10px;
         }
 
         .book-card-stars {
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .book-card-title {
             text-align: left;
-            font-size: 28px;
-            margin: 4px 0;
+            font-size: 22px;
+            margin: 2px 0;
         }
 
         .book-card-author {
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             text-decoration: underline;
+            font-size: 16px;
         }
 
         .book-card-description {
             font-family: 'Oswald', sans-serif;
-            font-size: 15px;
-            line-height: 1.6;
+            font-size: 14px;
+            line-height: 1.5;
             color: var(--card-desc);
-            margin: 8px 0 12px;
+            margin: 4px 0 8px;
             transition: color 0.4s ease;
 
             display: -webkit-box;
@@ -297,25 +301,61 @@ $gold-bright: #e6c877;
         }
 
         .book-card-price {
-            font-size: 22px;
-            margin-bottom: 12px;
+            font-size: 20px;
+            margin-top: 4px;
         }
 
+        // Ürək və baxış ikonları sətrin sağ tərəfinə səliqəli düzülür
         .view-heart-col {
             position: static;
-            flex-direction: row;
-            margin-left: auto;
+            flex-direction: column; // İstəsəniz row da edə bilərsiniz
+            gap: 8px;
+            margin-left: 0;
             order: 2;
         }
 
+        // Səbətə at düyməsi sağ tərəfdə qərarlaşır
         .add-to-cart {
             width: auto;
             margin: 0;
             order: 3;
+            flex-shrink: 0;
 
             .button {
-                width: 200px;
-                padding: 0 24px;
+                width: 180px;
+                height: 45px;
+                padding: 0 16px;
+                font-size: 14px;
+            }
+        }
+
+        // Mobil ekranlar üçün list görünüşünün tənzimlənməsi
+        @media (max-width: 768px) {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+
+            .book-card-info {
+                align-items: center;
+                width: 100%;
+            }
+
+            .book-card-title {
+                text-align: center;
+            }
+
+            .view-heart-col {
+                flex-direction: row;
+                justify-content: center;
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .add-to-cart {
+                width: 100%;
+                .button {
+                    width: 100%;
+                }
             }
         }
     }

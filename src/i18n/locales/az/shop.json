@@ -25,5 +25,9 @@
     },
     "reviews":{
         "sectionTitle":"Rəylər"
+    },
+    "pagination":{
+        "prev":"Geri",
+        "next":"İrəli"
     }
 }
