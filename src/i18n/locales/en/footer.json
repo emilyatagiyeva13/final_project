@@ -1,0 +1,25 @@
+{
+  "brandText": "Bokifa draws book lovers of all ages into a community, engage with booklovers and meet their favourite literary personalities.",
+  "categories": "Categories",
+  "support": {
+    "title": "Customer Support",
+    "storeList": "Store List",
+    "openingHours": "Opening Hours",
+    "contactUs": "Contact Us",
+    "returnPolicy": "Return Policy"
+  },
+  "explore": {
+    "title": "Explore",
+    "aboutUs": "About us",
+    "storeLocator": "Store Locator",
+    "blogs": "Blogs"
+  },
+  "subscribe": {
+    "placeholder": "Your email address",
+    "button": "Subscribe",
+    "invalid": "Please enter a valid email address",
+    "exists": "This email is already subscribed",
+    "error": "An error occurred, please try again later",
+    "success": "Thank you for subscribing!"
+  }
+}

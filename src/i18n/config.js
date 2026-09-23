@@ -17,6 +17,8 @@ import dashboardAZ from "../i18n/locales/az/dashboard.json"
 import dashboardEN from "../i18n/locales/en/dashboard.json"
 import authAZ from "../i18n/locales/az/auth.json"
 import authEN from "../i18n/locales/en/auth.json"
+import footerAZ from "../i18n/locales/az/footer.json"
+import footerEN from "../i18n/locales/en/footer.json"
 
 
 export const SUPPORTED_LANGUAGES = ['az', 'en']
@@ -26,6 +28,7 @@ export const LANGUAGE_STORAGE_KEY = 'bokifa_lang'
 const resources = {
     az: {
         header: headerAZ,
+        footer: footerAZ,
         home: homeAZ,
         contact: contactAZ,
         shop: shopAZ,
@@ -36,6 +39,8 @@ const resources = {
     },
     en: {
         header: headerEN,
+        footer: footerEN,
+
         home: homeEN,
         contact: contactEN,
         shop: shopEN,
@@ -60,7 +65,7 @@ i18n
         resources,
         fallbackLng: 'en',
         supportedLngs: SUPPORTED_LANGUAGES,
-        ns: ['header', 'home', 'contact', 'shop', 'blog', 'common', 'dashboard'],
+        ns: ['header', 'home', 'contact', 'shop', 'blog', 'common', 'dashboard','footer'],
         defaultNS: 'header',
         interpolation: {
             escapeValue: false,

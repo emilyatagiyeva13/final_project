@@ -1,0 +1,25 @@
+{
+  "brandText": "Bokifa hər yaşdan olan kitabsevərləri bir icmada birləşdirir, digər oxucularla ünsiyyət qurmağa və sevimli ədəbi şəxsiyyətlərlə tanış olmağa imkan yaradır.",
+  "categories": "Kateqoriyalar",
+  "support": {
+    "title": "Müştəri Xidmətləri",
+    "storeList": "Mağazalarımız",
+    "openingHours": "İş Saatları",
+    "contactUs": "Əlaqə",
+    "returnPolicy": "Qaytarılma Siyasəti"
+  },
+  "explore": {
+    "title": "Kəşf Et",
+    "aboutUs": "Haqqımızda",
+    "storeLocator": "Xəritədə Mağazalar",
+    "blogs": "Bloqlar"
+  },
+  "subscribe": {
+    "placeholder": "Email ünvanınız",
+    "button": "Abunə ol",
+    "invalid": "Zəhmət olmasa düzgün email daxil edin",
+    "exists": "Bu email artıq abunə olub",
+    "error": "Xəta baş verdi, bir az sonra yenidən cəhd edin",
+    "success": "Abunə olduğunuz üçün təşəkkürlər!"
+  }
+}
