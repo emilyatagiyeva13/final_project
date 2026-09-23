@@ -1,3 +1,29 @@
+// 1. Kök değişkenlere eklenen liste renkleri (Light tema varsayılan)
+:root {
+  --review-bg: #faf9f6;
+  --review-border: #eeebe4;
+  --review-text-author: #2c3e50;
+  --review-text-comment: #444444;
+  --review-text-date: #888888;
+  --review-text-status: #666666;
+  --review-error: #d32f2f;
+  --review-shadow: rgba(0, 0, 0, 0.04);
+}
+
+// 2. Dark Tema Tanımlaması
+[data-theme="dark"],
+.dark {
+  --review-bg: #161b22;
+  --review-border: #30363d;
+  --review-text-author: #f0f6fc;
+  --review-text-comment: #c9d1d9;
+  --review-text-date: #8b949e;
+  --review-text-status: #8b949e;
+  --review-error: #f87171;
+  --review-shadow: rgba(0, 0, 0, 0.4);
+}
+
+// 3. Yorum Listesi Komponenti
 .review-list {
   list-style: none;
   margin: 0;
@@ -7,25 +33,25 @@
   gap: 1.25rem;
 
   &__status {
-    color: #666;
+    color: var(--review-text-status);
     font-style: italic;
     font-size: 0.95rem;
 
     &--error {
-      color: #d32f2f;
+      color: var(--review-error);
       font-weight: 500;
     }
   }
 
   &__item {
-    background-color: #faf9f6;
-    border: 1px solid #eeebe4;
+    background-color: var(--review-bg);
+    border: 1px solid var(--review-border);
     border-radius: 8px;
     padding: 1rem 1.25rem;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow 0.2s ease, background-color 0.3s ease, border-color 0.3s ease;
 
     &:hover {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 4px 12px var(--review-shadow);
     }
   }
 
@@ -39,12 +65,10 @@
   &__author {
     font-weight: 700;
     font-size: 1rem;
-    // İstifadəçi adının rəngi (istəsən dəyişə bilərsən)
-    color: #2c3e50; 
+    color: var(--review-text-author); 
   }
 
   &__stars {
-    // Reytinq ulduzlarının rəngi (Canlı qızılı / sarı ton)
     color: #f39c12; 
     font-size: 1.05rem;
     letter-spacing: 2px;
@@ -54,13 +78,13 @@
   &__comment {
     margin: 0.5rem 0 0.75rem;
     line-height: 1.6;
-    color: #444;
+    color: var(--review-text-comment);
     font-size: 0.95rem;
   }
 
   &__date {
     font-size: 0.75rem;
-    color: #888;
+    color: var(--review-text-date);
     display: inline-block;
   }
 }

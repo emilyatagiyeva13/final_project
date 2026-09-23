@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { supabase } from "../../supabaseClient"; // öz layihəndəki path-ə uyğunlaşdır
+import { supabase } from "../../supabaseClient";
 import { useTranslation } from "react-i18next";
 import "../../assets/scss/ReviewList.scss";
 
 export default function ReviewList({ productId, refreshKey }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation('common');
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -55,14 +55,14 @@ export default function ReviewList({ productId, refreshKey }) {
             <span className="review-list__author">
               {review.profiles?.username || t("reviews.anonymous", "İstifadəçi")}
             </span>
-            <span className="review-list__stars" aria-label={`${review.rating} / 5`}>
+            <span className="review-list__stars" aria-label={t("reviews.ratingAria", "{{rating}} / 5", { rating: review.rating })}>
               {"★".repeat(review.rating)}
               {"☆".repeat(5 - review.rating)}
             </span>
           </div>
           {review.comment && <p className="review-list__comment">{review.comment}</p>}
           <span className="review-list__date">
-            {new Date(review.created_at).toLocaleDateString()}
+            {new Date(review.created_at).toLocaleDateString(i18n.language === 'az' ? 'az-AZ' : 'en-US')}
           </span>
         </li>
       ))}

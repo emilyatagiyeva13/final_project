@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 1. useNavigate-i import edirik
-import { supabase } from "../../supabaseClient"; 
+import { useNavigate } from "react-router-dom";
+import { supabase } from "../../supabaseClient";
 import { useTranslation } from "react-i18next";
 import "../../assets/scss/ReviewForm.scss";
 
 export default function ReviewForm({ productId, userId, onSubmitted }) {
-  const { t } = useTranslation();
-  const navigate = useNavigate(); // 2. navigate funksiyasını təyin edirik
+  const { t } = useTranslation('common');
+  const navigate = useNavigate();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -57,7 +57,6 @@ export default function ReviewForm({ productId, userId, onSubmitted }) {
     setComment("");
     onSubmitted?.();
 
-    // 3. Rəy uğurla göndərildikdən sonra /shop səhifəsinə yönləndiririk
     navigate("/shop");
   };
 
@@ -72,7 +71,7 @@ export default function ReviewForm({ productId, userId, onSubmitted }) {
             onClick={() => setRating(star)}
             onMouseEnter={() => setHoverRating(star)}
             onMouseLeave={() => setHoverRating(0)}
-            aria-label={`${star} ulduz`}
+            aria-label={t("reviews.starAriaLabel", "{{star}} ulduz", { star })}
           >
             {star <= (hoverRating || rating) ? "★" : "☆"}
           </button>

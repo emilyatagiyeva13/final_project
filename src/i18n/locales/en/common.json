@@ -1,11 +1,11 @@
 {
   "wishlist": {
-    "header": "Your wishlist",
+    "header": "Your Wishlist",
     "total-product": "total products",
     "emptyWishList": {
       "header": "Your wishlist is empty",
-      "content-1": "You haven't added any books to your wishlist yet. Browse our collection and add your favorite stories to read later!",
-      "start": "Start shopping"
+      "content-1": "You haven't added any books to your wishlist yet. Browse our collection and add your favorite books here to read later!",
+      "start": "Start Shopping"
     }
   },
   "basket": {
@@ -13,49 +13,79 @@
     "total-product": "total products",
     "emptyBasket": {
       "header": "Your cart is empty",
-      "content-1": "You haven't added any books to your shopping cart yet. Check out our new arrivals and fill your shelf with great works!",
-      "start": "Start shopping"
+      "content-1": "You haven't added any books to your cart yet. Check out our new arrivals and fill your shelf with wonderful works!",
+      "start": "Start Shopping"
     },
     "total": "Total",
     "productCount": "products",
-    "shopBtn": "Shop",
+    "shopBtn": "Shopping",
     "summaryTitle": "Order Summary",
     "subtotal": "Subtotal:",
-    "shipping": "Shipping fee:",
-    "finalTotal": "Total amount:",
-    "checkout": "Complete order",
+    "shipping": "Shipping Fee:",
+    "finalTotal": "Final Total:",
+    "checkout": "Complete Order",
     "decreaseAlert": "Product quantity decreased",
     "increaseAlert": "Product quantity increased",
     "removeConfirmTitle": "Are you sure?",
-    "removeConfirmText": "will be removed from cart?",
+    "removeConfirmText": "will be removed from the cart?",
     "removeSuccess": "Product removed from cart",
     "removeError": "Could not remove product",
-    "confirmBtn": "Yes, delete",
+    "confirmBtn": "Yes, remove",
     "cancelBtn": "Cancel"
   },
   "card": {
     "addedToCart": "Added to cart",
     "addedToWishlist": "Added to wishlist",
     "removedFromWishlist": "Removed from wishlist",
-    "addToCart": "Add to cart"
+    "addToCart": "Add to Cart"
   },
   "checkout": {
-    "header": "Checkout & Payment",
-    "backToCart": "Back to cart",
+    "header": "Payment and Delivery",
+    "backToCart": "Back to Cart",
     "shippingInfo": "Shipping Address",
-    "paymentInfo": "Payment Details",
+    "paymentInfo": "Card Details",
     "payNow": "Confirm Payment",
+    "processing": "Processing...",
+    "fullNameLabel": "Full Name",
+    "fullNamePlaceholder": "John Doe",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "example@mail.com",
+    "phoneLabel": "Phone",
+    "addressLabel": "Address",
+    "addressPlaceholder": "City, street, building, apartment",
+    "cardHolderLabelCard": "CARD HOLDER",
+    "cardHolderPlaceholderCard": "FULL NAME",
+    "expiryLabelCard": "EXPIRES",
+    "cardNameLabel": "Name on Card",
+    "cardNumberLabel": "Card Number",
+    "expiryLabel": "Expiration Date",
+    "itemUnit": "pcs",
+    "mustBeLoggedIn": "You must be logged in to place an order.",
     "confirmTitle": "Confirm your order?",
-    "confirmText": "Payment will be deducted from your card and your order will be processed.",
-    "confirmYes": "Yes, confirm",
+    "confirmText": "Payment will be deducted from your card and the order will be processed.",
+    "confirmYes": "Yes, I confirm",
     "confirmNo": "No, cancel",
-    "successMessage": "Your order has been placed successfully!",
+    "orderFailed": "Order could not be saved, please try again.",
+    "successMessage": "Your order has been successfully placed!",
     "successTitle": "Payment Completed Successfully!",
-    "successDesc": "Your order has been received and will be processed shortly.",
-    "swalSuccessTitle": "Order Received Successfully!",
+    "successDesc": "Your order has been received. It will be prepared for delivery soon.",
+    "swalSuccessTitle": "Your Order Was Successfully Received!",
     "swalOk": "Great!",
     "orderNumber": "Order Number",
     "continueShopping": "Continue Shopping",
-    "recommended":"Suggested for you"
+    "recommended": "Recommended for You"
+  },
+  "reviews": {
+    "loginRequired": "You must be logged in to write a review.",
+    "ratingRequired": "Please select a rating.",
+    "alreadyReviewed": "You have already reviewed this product.",
+    "notPurchased": "To write a review, you must first purchase this product and complete the order.",
+    "starAriaLabel": "{{star}} star",
+    "placeholder": "Write your review (optional)...",
+    "sending": "Sending...",
+    "submit": "Submit Review",
+    "loading": "Loading...",
+    "empty": "There is no comment! Write you comment",
+    "anonymous": "User"
   }
 }

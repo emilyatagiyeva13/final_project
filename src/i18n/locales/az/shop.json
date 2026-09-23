@@ -20,6 +20,10 @@
         "totalPages": "Səhifə sayı",
         "country": "Ölkə",
         "language": "Dil",
-        "updateCart": "Səbəti yenilə"
+        "updateCart": "Səbəti yenilə",
+        "addToCart": "Səbətə əlavə et"
+    },
+    "reviews":{
+        "sectionTitle":"Rəylər"
     }
 }

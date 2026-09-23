@@ -283,11 +283,8 @@ const ProductDetails = () => {
           <div className="col-12">
             <div className="product-reviews">
               <h2 className="product-reviews__title">
-                {t("reviews.sectionTitle", "Rəylər")}
+                {t("reviews.sectionTitle")}
               </h2>
-              <p className="review-list__status">
-                {t("reviews.loginToReview", "Rəy yazmaq üçün daxil olun.")}
-              </p>
               <ReviewList productId={product.id} refreshKey={reviewsRefreshKey} />
             </div>
           </div>

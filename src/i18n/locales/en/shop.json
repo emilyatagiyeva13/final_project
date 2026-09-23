@@ -20,6 +20,10 @@
         "totalPages": "Total pages",
         "country": "Country",
         "language": "Language",
-        "updateCart": "Update Cart"
+        "updateCart": "Update Cart",
+        "addToCart": "Add to cart"
+    },
+    "reviews":{
+        "sectionTitle": "Comments "
     }
 }

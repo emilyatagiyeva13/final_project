@@ -74,7 +74,6 @@ const Checkout = () => {
             return;
         }
 
-        // SweetAlert ilə istifadəçidən təsdiq almaq
         const result = await Swal.fire({
             title: t('checkout.confirmTitle') || 'Sifarişi təsdiqləyirsiniz?',
             text: t('checkout.confirmText') || 'Ödəniş kartınızdan silinəcək və sifariş rəsmiləşdiriləcək.',
@@ -86,7 +85,6 @@ const Checkout = () => {
             cancelButtonText: t('checkout.confirmNo') || 'Xeyr, ləğv et'
         });
 
-        // İstifadəçi "Bəli" dedikdə
         if (result.isConfirmed) {
             setSubmitting(true);
 
@@ -131,8 +129,6 @@ const Checkout = () => {
             toast.success(t('checkout.successMessage') || 'Sifarişiniz uğurla rəsmiləşdirildi!');
             navigate('/success', { state: { items: orderedItems } });
         }
-
-
     };
 
     if (loading) {
@@ -147,40 +143,40 @@ const Checkout = () => {
         <div className="checkout-page">
             <div className="checkout-page__header">
                 <button className="back-btn" onClick={() => navigate('/basket')}>
-                    <ArrowLeft size={18} /> {t('checkout.backToCart') || 'Səbətə qayıt'}
+                    <ArrowLeft size={18} /> {t('checkout.backToCart')}
                 </button>
-                <h1 className="checkout-page__title">{t('checkout.header') || 'Ödəniş və Çatdırılma'}</h1>
+                <h1 className="checkout-page__title">{t('checkout.header')}</h1>
             </div>
 
             <div className="checkout-page__grid">
                 <form className="checkout-form" onSubmit={handleSubmit}>
                     <div className="form-section">
-                        <h3>{t('checkout.shippingInfo') || 'Çatdırılma Ünvanı'}</h3>
+                        <h3>{t('checkout.shippingInfo')}</h3>
                         <div className="input-group full">
-                            <label>Ad və Soyad</label>
+                            <label>{t('checkout.fullNameLabel')}</label>
                             <input
                                 type="text"
                                 name="fullName"
                                 required
-                                placeholder="Əli Əliyev"
+                                placeholder={t('checkout.fullNamePlaceholder')}
                                 value={formData.fullName}
                                 onChange={handleChange}
                             />
                         </div>
                         <div className="input-row">
                             <div className="input-group">
-                                <label>E-poçt</label>
+                                <label>{t('checkout.emailLabel')}</label>
                                 <input
                                     type="email"
                                     name="email"
                                     required
-                                    placeholder="example@mail.com"
+                                    placeholder={t('checkout.emailPlaceholder')}
                                     value={formData.email}
                                     onChange={handleChange}
                                 />
                             </div>
                             <div className="input-group">
-                                <label>Telefon</label>
+                                <label>{t('checkout.phoneLabel')}</label>
                                 <input
                                     type="tel"
                                     name="phone"
@@ -192,12 +188,12 @@ const Checkout = () => {
                             </div>
                         </div>
                         <div className="input-group full">
-                            <label>Ünvan</label>
+                            <label>{t('checkout.addressLabel')}</label>
                             <textarea
                                 name="address"
                                 rows="2"
                                 required
-                                placeholder="Şəhər, küçə, bina, mənzil"
+                                placeholder={t('checkout.addressPlaceholder')}
                                 value={formData.address}
                                 onChange={handleChange}
                             ></textarea>
@@ -205,7 +201,7 @@ const Checkout = () => {
                     </div>
 
                     <div className="form-section">
-                        <h3>{t('checkout.paymentInfo') || 'Kart Məlumatları'}</h3>
+                        <h3>{t('checkout.paymentInfo')}</h3>
 
                         <div className="card-wrapper">
                             <div className={`interactive-card ${isFlipped ? 'is-flipped' : ''}`}>
@@ -219,11 +215,11 @@ const Checkout = () => {
                                     </div>
                                     <div className="card-bottom">
                                         <div className="card-holder">
-                                            <span className="label">KART SAHİBİ</span>
-                                            <span className="value">{formData.cardName || 'AD SOYAD'}</span>
+                                            <span className="label">{t('checkout.cardHolderLabelCard')}</span>
+                                            <span className="value">{formData.cardName || t('checkout.cardHolderPlaceholderCard')}</span>
                                         </div>
                                         <div className="card-expiry">
-                                            <span className="label">BİTMƏ TARİXİ</span>
+                                            <span className="label">{t('checkout.expiryLabelCard')}</span>
                                             <span className="value">{formData.expiry || 'MM/YY'}</span>
                                         </div>
                                     </div>
@@ -240,7 +236,7 @@ const Checkout = () => {
                         </div>
 
                         <div className="input-group full">
-                            <label>Kart üzərindəki ad</label>
+                            <label>{t('checkout.cardNameLabel')}</label>
                             <input
                                 type="text"
                                 name="cardName"
@@ -252,7 +248,7 @@ const Checkout = () => {
                             />
                         </div>
                         <div className="input-group full">
-                            <label>Kart Nömrəsi</label>
+                            <label>{t('checkout.cardNumberLabel')}</label>
                             <input
                                 type="text"
                                 name="cardNumber"
@@ -265,7 +261,7 @@ const Checkout = () => {
                         </div>
                         <div className="input-row">
                             <div className="input-group">
-                                <label>Son İstifadə Tarixi</label>
+                                <label>{t('checkout.expiryLabel')}</label>
                                 <input
                                     type="text"
                                     name="expiry"
@@ -293,12 +289,12 @@ const Checkout = () => {
                     </div>
 
                     <button type="submit" className="checkout-submit-btn" disabled={submitting}>
-                        <Lock size={18} /> {finalTotal.toFixed(2)} $ — {submitting ? (t('checkout.processing') || 'Göndərilir...') : (t('checkout.payNow') || 'Ödənişi Təsdiqlə')}
+                        <Lock size={18} /> {finalTotal.toFixed(2)} $ — {submitting ? t('checkout.processing') : t('checkout.payNow')}
                     </button>
                 </form>
 
                 <div className="checkout-summary">
-                    <h3>{t('basket.summaryTitle') || 'Sifarişin xülasəsi'}</h3>
+                    <h3>{t('basket.summaryTitle')}</h3>
 
                     <div className="checkout-items-list">
                         {items.map((item) => (
@@ -306,7 +302,7 @@ const Checkout = () => {
                                 <img src={item.image} alt={localize(item, 'title')} />
                                 <div className="summary-item__info">
                                     <h4>{localize(item, 'title')}</h4>
-                                    <p>{item.quantity} ədəd × {item.price} $</p>
+                                    <p>{item.quantity} {t('checkout.itemUnit')} × {item.price} $</p>
                                 </div>
                                 <span className="summary-item__price">
                                     {(item.price * item.quantity).toFixed(2)} $
@@ -316,19 +312,19 @@ const Checkout = () => {
                     </div>
 
                     <div className="summary-row">
-                        <span>{t('basket.subtotal') || 'Məhsulların cəmi:'}</span>
+                        <span>{t('basket.subtotal')}</span>
                         <span>{subTotal.toFixed(2)} $</span>
                     </div>
 
                     <div className="summary-row">
-                        <span>{t('basket.shipping') || 'Çatdırılma xidməti:'}</span>
+                        <span>{t('basket.shipping')}</span>
                         <span>{shippingCost.toFixed(2)} $</span>
                     </div>
 
                     <div className="summary-divider"></div>
 
                     <div className="summary-row total-row">
-                        <span>{t('basket.finalTotal') || 'Yekun qiymət:'}</span>
+                        <span>{t('basket.finalTotal')}</span>
                         <span className="total-amount">{finalTotal.toFixed(2)} $</span>
                     </div>
                 </div>

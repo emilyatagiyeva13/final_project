@@ -1,6 +1,4 @@
-/* ==========================================
-   Modern ProductDetails SCSS (Brand: #027A36)
-   ================================---------- */
+
 
 :root {
   --bg-primary: #f4f6f5;
@@ -53,7 +51,6 @@
   }
 }
 
-/* Sol Tərəf: Şəkil Qalereyası (Border-radius əlavə olundu) */
 .product-img-wrapper {
   position: relative;
   background-color: var(--bg-card);
@@ -65,7 +62,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  width: 100%;
+  width: 90%;
 
   .product-img {
     width: 100%;
