@@ -9,7 +9,8 @@
       "kids": "Kids Books",
       "nonFiction": "Non Fiction",
       "youngAdult": "Young Adult"
-    }
+    },
+    "viewAll": "See all results"
   },
   "nav": {
     "home": "Home",

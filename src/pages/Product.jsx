@@ -19,6 +19,20 @@ const buildContentMap = (rows, localize) => {
   return map;
 };
 
+// Mətni sözlərə ayırıb normallaşdırır: durğu işarələri boşluğa çevrilir
+const normalizeText = (text) =>
+  (text || "")
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+
+// Sözün əvvəlindən uyğunluq: "se" -> "Sea of ...", amma "Sapiens"/"Silent" yox
+const matchesWordStart = (text, normalizedQuery) => {
+  if (!text) return false;
+  const normalizedText = " " + normalizeText(text);
+  return normalizedText.includes(" " + normalizedQuery);
+};
+
 const Product = () => {
   const { t } = useTranslation("shop");
   const { localize } = useLocalize();
@@ -54,8 +68,8 @@ const Product = () => {
   const sortParam = searchParams.get("sort");
   const [sortBy, setSortBy] = useState(sortParam || "");
 
-  // Header-dən gələn axtarış parametridir
-  const searchQueryParam = searchParams.get("search");
+  // Header-dən gələn axtarış parametri: ?q=... (köhnə ?search=... də dəstəklənir)
+  const searchQueryParam = searchParams.get("q") ?? searchParams.get("search");
   const [searchQuery, setSearchQuery] = useState(searchQueryParam || "");
 
   const PAGE_SIZE = 7;
@@ -244,6 +258,8 @@ const Product = () => {
     count: booksData.filter((b) => b.categorySlug === cat.slug).length,
   }));
 
+  const normalizedSearch = normalizeText(searchQuery);
+
   const filteredBooks = booksData.filter((book) => {
     const matchesCategory =
       selectedCategories.length === 0 || selectedCategories.includes(book.categorySlug);
@@ -252,12 +268,13 @@ const Product = () => {
     const matchesMinPrice = !minPriceParam || book.price >= Number(minPriceParam);
     const matchesMaxPrice = !maxPriceParam || book.price <= Number(maxPriceParam);
 
-    const cleanSearch = searchQuery.trim().toLowerCase();
+    // Yalnız kitab adı (AZ/EN) və müəllif adı (AZ/EN), sözün əvvəlindən
     const matchesSearch =
-      !cleanSearch ||
-      book.title?.toLowerCase().includes(cleanSearch) ||
-      book.author?.toLowerCase().includes(cleanSearch) ||
-      book.description?.toLowerCase().includes(cleanSearch);
+      !normalizedSearch ||
+      matchesWordStart(book.title_az, normalizedSearch) ||
+      matchesWordStart(book.title_en, normalizedSearch) ||
+      matchesWordStart(book.authors?.name, normalizedSearch) ||
+      matchesWordStart(book.authors?.name_az, normalizedSearch);
 
     return (
       matchesCategory &&

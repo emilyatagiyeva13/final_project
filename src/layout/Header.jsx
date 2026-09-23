@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next"
 import { CiHeart, CiShoppingBasket, CiUser, CiSearch, CiLogout } from "react-icons/ci"
 import logo from "../assets/Images/logo-bokifa.svg"
 import "../assets/scss/Header.scss"
-import { NavLink, useNavigate } from "react-router-dom"
+import { Link, NavLink, useNavigate } from "react-router-dom"
 import ThemeToggle from "../components/ThemeToggle"
 import LanguageSwitchButton from "../components/LangButton.jsx"
 import { useAuthStore } from "../store/authStore.js"
@@ -30,6 +30,9 @@ const Header = () => {
         state.items.reduce((sum, item) => sum + item.quantity, 0)
     )
 
+    // Menyunu bağlamaq üçün köməkçi funksiya
+    const closeMenu = () => setMenuOpen(false)
+
     // --- Search state ---
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("all")
@@ -39,7 +42,6 @@ const Header = () => {
     const [searchLoading, setSearchLoading] = useState(false)
     const searchWrapperRef = useRef(null)
 
-    // Kateqoriyaları Supabase-dən çəkirik
     useEffect(() => {
         const fetchCategories = async () => {
             const { data, error } = await supabase
@@ -52,17 +54,34 @@ const Header = () => {
         fetchCategories()
     }, [])
 
-    // Canlı axtarış: 2 hərfdən sonra, 300ms debounce
     useEffect(() => {
-        const trimmed = query.trim()
+        // .or() filtrini pozan simvolları təmizləyirik
+        const trimmed = query.trim().replace(/[,()%]/g, " ").trim()
 
         if (trimmed.length < 2) {
             setSuggestions([])
             setShowDropdown(false)
+            setSearchLoading(false)
             return
         }
 
+        let cancelled = false
+
         const timer = setTimeout(async () => {
+            // Kateqoriya seçilibsə, mütləq həmin kateqoriya daxilində axtarılmalıdır
+            let categoryId = null
+            if (selectedCategory !== "all") {
+                const cat = categories.find((c) => c.slug === selectedCategory)
+                if (!cat) {
+                    // Kateqoriya tapılmadısa, heç bir nəticə göstərmə
+                    setSuggestions([])
+                    setShowDropdown(true)
+                    setSearchLoading(false)
+                    return
+                }
+                categoryId = cat.id
+            }
+
             setSearchLoading(true)
 
             let dbQuery = supabase
@@ -72,24 +91,29 @@ const Header = () => {
                 .eq("is_active", true)
                 .limit(6)
 
-            if (selectedCategory !== "all") {
-                const cat = categories.find((c) => c.slug === selectedCategory)
-                if (cat) dbQuery = dbQuery.eq("category_id", cat.id)
-            }
+            if (categoryId) dbQuery = dbQuery.eq("category_id", categoryId)
 
             const { data, error } = await dbQuery
 
+            // Köhnə sorğunun cavabı yeni nəticəni əzməsin
+            if (cancelled) return
+
             if (!error) {
                 setSuggestions(data || [])
+                setShowDropdown(true)
+            } else {
+                setSuggestions([])
                 setShowDropdown(true)
             }
             setSearchLoading(false)
         }, 300)
 
-        return () => clearTimeout(timer)
+        return () => {
+            cancelled = true
+            clearTimeout(timer)
+        }
     }, [query, selectedCategory, categories])
 
-    // Dropdown-dan kənara klikləndikdə bağlanması
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (searchWrapperRef.current && !searchWrapperRef.current.contains(e.target)) {
@@ -110,6 +134,10 @@ const Header = () => {
 
         setShowDropdown(false)
         navigate(`/shop?${params.toString()}`)
+
+        // Axtarış icra olunduqdan sonra inputu və seçilmiş kateqoriyanı sıfırlayırıq
+        setQuery("")
+        setSelectedCategory("all")
     }
 
     const handleKeyDown = (e) => {
@@ -120,7 +148,7 @@ const Header = () => {
     const handleSuggestionClick = (product) => {
         setShowDropdown(false)
         setQuery("")
-        navigate(`/product/${product.slug}`)
+        navigate(`/shop/${product.id}`)
     }
 
     const handleLogout = async () => {
@@ -142,7 +170,9 @@ const Header = () => {
             <nav className="navbar">
                 <div className="navbar-top container-fluid">
                     <div className="navbar-brand">
-                        <img src={logo} alt="Bokifa" className="navbar-logo" />
+                        <Link to='/' className="navbar-logo" onClick={closeMenu}>
+                            <img src={logo} alt="Bokifa" />
+                        </Link>
 
                         <div className="navbar-search" ref={searchWrapperRef}>
                             <select
@@ -221,81 +251,97 @@ const Header = () => {
                         </div>
                     </div>
 
-                    <div className="navbar-actions">
-                        <div className="navbar-icon">
-                            <LanguageSwitchButton />
-                        </div>
-                        <div className="navbar-lang-currency d-flex align-items-center">
-                            <div className="lang-button"></div>
-                            <ThemeToggle />
-                        </div>
-                        <div className="navbar-icons d-flex">
-                            <div className="navbar-icon navbar-user-wrapper">
-                                {authLoading || profileResolving ? (
-                                    <div className="navbar-user-skeleton" />
-                                ) : user ? (
-                                    <div className="navbar-user">
-                                        <div className="navbar-user-info">
-                                            <span className="navbar-username" title={username}>{username}</span>
+                    <div className="navbar-actions-wrapper">
+                        <div className="navbar-actions">
+                            <div className="navbar-settings-group">
+                                <div className="navbar-icon">
+                                    <LanguageSwitchButton />
+                                </div>
+                                <div className="navbar-lang-currency d-flex align-items-center">
+                                    <ThemeToggle />
+                                </div>
+                            </div>
+
+                            <div className="navbar-user-actions">
+                                <div className="navbar-icon navbar-user-wrapper">
+                                    {authLoading || profileResolving ? (
+                                        <div className="navbar-user-skeleton" />
+                                    ) : user ? (
+                                        <div className="navbar-user">
+                                            <div className="navbar-user-info">
+                                                <span className="navbar-username" title={username}>{username}</span>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                className="navbar-logout-btn"
+                                                onClick={handleLogout}
+                                                aria-label={t('user.logout')}
+                                                title={t('user.logout')}
+                                            >
+                                                <CiLogout />
+                                            </button>
                                         </div>
-                                        <button
-                                            type="button"
-                                            className="navbar-logout-btn"
-                                            onClick={handleLogout}
-                                            aria-label={t('user.logout')}
-                                            title={t('user.logout')}
-                                        >
-                                            <CiLogout />
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <NavLink to="/login" className="nav-link user-login-icon" aria-label={t('user.login')}>
-                                        <CiUser />
+                                    ) : (
+                                        <NavLink to="/login" className="nav-link user-login-icon" aria-label={t('user.login')} onClick={closeMenu}>
+                                            <CiUser />
+                                        </NavLink>
+                                    )}
+                                </div>
+
+                                <div className="navbar-icon">
+                                    <NavLink to="/wishlist" className="nav-link" aria-label="Wishlist" onClick={closeMenu}>
+                                        <CiHeart />
                                     </NavLink>
-                                )}
-                            </div>
+                                    {wishlistCount > 0 && (
+                                        <span className="navbar-icon-badge">{wishlistCount}</span>
+                                    )}
+                                </div>
 
-                            <div className="navbar-icon">
-                                <NavLink to="/wishlist" className="nav-link" aria-label="Wishlist">
-                                    <CiHeart />
-                                </NavLink>
-                                {wishlistCount > 0 && (
-                                    <span className="navbar-icon-badge">{wishlistCount}</span>
-                                )}
+                                <div className="navbar-icon">
+                                    <NavLink to="/basket" className="nav-link" aria-label="Basket" onClick={closeMenu}>
+                                        <CiShoppingBasket />
+                                    </NavLink>
+                                    {basketCount > 0 && (
+                                        <span className="navbar-icon-badge">{basketCount}</span>
+                                    )}
+                                </div>
                             </div>
+                        </div>
 
-                            <div className="navbar-icon">
-                                <NavLink to="/basket" className="nav-link" aria-label="Basket">
-                                    <CiShoppingBasket />
-                                </NavLink>
-                                {basketCount > 0 && (
-                                    <span className="navbar-icon-badge">{basketCount}</span>
-                                )}
-                            </div>
+                        <div
+                            className="checkboxtoggler"
+                            onClick={() => setMenuOpen(!menuOpen)}
+                            aria-label="Toggle menu"
+                        >
+                            <div className={`line-1 ${menuOpen ? "open" : ""}`} />
+                            <div className={`line-2 ${menuOpen ? "open" : ""}`} />
+                            <div className={`line-3 ${menuOpen ? "open" : ""}`} />
                         </div>
                     </div>
                 </div>
 
                 <div className="navbar-bottom container-fluid">
-                    <div
-                        className="checkboxtoggler"
-                        onClick={() => setMenuOpen(!menuOpen)}
-                        aria-label="Toggle menu"
-                    >
-                        <div className={`line-1 ${menuOpen ? "open" : ""}`} />
-                        <div className={`line-2 ${menuOpen ? "open" : ""}`} />
-                        <div className={`line-3 ${menuOpen ? "open" : ""}`} />
-                    </div>
-
                     <div className="navbar-bottom-right">
                         <div className={`navbar-nav-collapse${menuOpen ? " navbar-nav-collapse--open" : ""}`}>
                             <ul className="navbar-nav-list">
-                                <NavLink to="/" className="navbar-nav-item nav-link"><span>{t('nav.home')}</span></NavLink>
-                                <NavLink to="/shop" className="navbar-nav-item nav-link"><span>{t('nav.shop')}</span></NavLink>
-                                <NavLink to="/blog" className="navbar-nav-item nav-link"><span>{t('nav.blogs')}</span></NavLink>
-                                <NavLink to="/aboutus" className="navbar-nav-item nav-link"><span>{t('nav.aboutUs')}</span></NavLink>
-                                <NavLink to="/contact" className="navbar-nav-item nav-link"><span>{t('nav.contact')}</span></NavLink>
-                                <NavLink to="/faqs" className="navbar-nav-item nav-link"><span>{t('nav.faqs')}</span></NavLink>
+                                <li className="navbar-nav-item">
+                                    <NavLink to="/" className="nav-link" onClick={closeMenu}><span>{t('nav.home')}</span></NavLink>
+                                </li>
+                                <li className="navbar-nav-item">
+                                    <NavLink to="/shop" className="nav-link" onClick={closeMenu}><span>{t('nav.shop')}</span></NavLink>
+                                </li>
+                                <li className="navbar-nav-item">
+                                    <NavLink to="/blog" className="nav-link" onClick={closeMenu}><span>{t('nav.blogs')}</span></NavLink>
+                                </li>
+                                <li className="navbar-nav-item">
+                                    <NavLink to="/aboutus" className="nav-link" onClick={closeMenu}><span>{t('nav.aboutUs')}</span></NavLink>
+                                </li>
+                                <li className="navbar-nav-item">
+                                    <NavLink to="/contact" className="nav-link" onClick={closeMenu}><span>{t('nav.contact')}</span></NavLink>
+                                </li>
+                                <li className="navbar-nav-item">
+                                    <NavLink to="/faqs" className="nav-link" onClick={closeMenu}><span>{t('nav.faqs')}</span></NavLink>
+                                </li>
                             </ul>
                         </div>
 

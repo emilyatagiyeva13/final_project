@@ -16,6 +16,8 @@
   --moon-color: #cbd5e1;
   --user-bg: #f9fafb;
   --user-border: #e5e7eb;
+  --dropdown-bg: #ffffff;
+  --dropdown-hover: #f5f5f5;
 }
 
 :root[data-theme="dark"] {
@@ -33,6 +35,8 @@
   --moon-color: #ffffff;
   --user-bg: #1a2026;
   --user-border: #2c3238;
+  --dropdown-bg: #1e2328;
+  --dropdown-hover: #2c3238;
 }
 
 // ==========================================
@@ -82,6 +86,7 @@ $breakpoint-sm: 576px;
     @include responsive($breakpoint-md) {
       flex-wrap: wrap;
       gap: 0.75rem;
+      padding: 12px 16px;
     }
   }
 
@@ -99,10 +104,11 @@ $breakpoint-sm: 576px;
     height: 40px;
     width: auto;
     flex-shrink: 0;
+    cursor: pointer;
   }
 
   // Search bar
-&-search {
+  &-search {
     @include flex(center, flex-start);
     flex: 1;
     max-width: 600px;
@@ -110,37 +116,48 @@ $breakpoint-sm: 576px;
     border-radius: 50px;
     border: 1.5px solid var(--border-color);
     transition: border-color 0.2s, background-color 0.3s ease;
-    position: relative; // dropdown üçün referens nöqtə
+    position: relative;
 
     &:focus-within {
-        border-color: var(--green-primary);
+      border-color: var(--green-primary);
     }
 
     @include responsive($breakpoint-md) {
-        max-width: 100%;
-        order: 3;
+      max-width: 100%;
+      order: 3;
+      width: 100%;
     }
-}
+  }
 
- &-search-select {
+  &-search-select {
     background: transparent;
     border: none;
     border-right: 1.5px solid var(--border-color);
-    border-radius: 50px 0 0 50px; // əlavə edildi
+    border-radius: 50px 0 0 50px;
     padding: 10px 16px;
     font-size: 15px;
     color: var(--text-dark);
     cursor: pointer;
     outline: none;
     white-space: nowrap;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--dropdown-hover);
+    }
 
     @include responsive($breakpoint-sm) {
-        display: none;
+      display: none;
     }
-}
+  }
+
+  &-search-input-wrapper {
+    position: relative;
+    flex: 1;
+  }
 
   &-search-input {
-    flex: 1;
+    width: 100%;
     border: none;
     background: transparent;
     padding: 10px 16px;
@@ -176,21 +193,127 @@ $breakpoint-sm: 576px;
     }
   }
 
-  // Actions & User UI
+  // Search Dropdown List
+  &-search-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    overflow: hidden;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  &-search-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border-color);
+    transition: background 0.2s;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background: var(--dropdown-hover);
+    }
+  }
+
+  &-search-dropdown-img {
+    width: 40px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  &-search-dropdown-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &-search-dropdown-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+  }
+
+  &-search-dropdown-price {
+    font-size: 12px;
+    color: var(--green-primary);
+    font-weight: 600;
+  }
+
+  &-search-dropdown-viewall {
+    text-align: center;
+    font-weight: 600;
+    color: var(--green-primary);
+    justify-content: center;
+    background: var(--bg-light);
+
+    &:hover {
+      background: var(--dropdown-hover);
+    }
+  }
+
+  &-search-dropdown-empty {
+    justify-content: center;
+    color: var(--text-muted);
+    cursor: default;
+    &:hover { background: transparent; }
+  }
+
+  // Actions & Wrapper UI
+  &-actions-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+
+    @include responsive($breakpoint-md) {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
   &-actions {
     @include flex(center, flex-end, 1.5rem);
     flex-shrink: 0;
 
+    .navbar-settings-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-right: 1px solid var(--border-color);
+      padding-right: 15px;
+
+      @include responsive($breakpoint-lg) {
+        gap: 8px;
+        padding-right: 10px;
+      }
+    }
+
+    .navbar-user-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      @include responsive($breakpoint-lg) {
+        gap: 10px;
+      }
+    }
+
     @include responsive($breakpoint-md) {
       gap: 1rem;
-    }
-  }
-
-  &-icons {
-    @include flex(center, flex-start, 1.25rem);
-
-    @include responsive($breakpoint-sm) {
-      gap: 0.85rem;
+      order: 1;
+      flex-wrap: wrap;
     }
   }
 
@@ -394,7 +517,7 @@ $breakpoint-sm: 576px;
     }
   }
 
-  // Mobile Menu Toggler (Checkboxtoggler)
+  // Mobile Menu Toggler
   .checkboxtoggler {
     display: none;
     flex-direction: column;
@@ -408,6 +531,7 @@ $breakpoint-sm: 576px;
 
     @include responsive($breakpoint-md) {
       display: flex;
+      order: 2;
     }
   }
 
@@ -420,7 +544,6 @@ $breakpoint-sm: 576px;
     transform-origin: center;
   }
 
-  // Hamburger X animasiyasının mərkəzlənməsi düzəldildi
   .line-1.open { 
     transform: translateY(0.62em) rotate(45deg); 
   }
@@ -455,7 +578,7 @@ $breakpoint-sm: 576px;
 }
 
 // ==========================================
-// 5. Dark/Light Theme Switch (Orijinal Kod)
+// 5. Dark/Light Theme Switch
 // ==========================================
 .switch {
   font-size: 17px;
@@ -538,70 +661,4 @@ $breakpoint-sm: 576px;
     height: 24px;
     animation: tilt 5s linear infinite;
   }
-}
-.navbar-search-input-wrapper {
-    position: relative;
-    flex: 1;
-}
-
-.navbar-search-dropdown {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-    z-index: 1000;
-    overflow: hidden;
-    max-height: 400px;
-    overflow-y: auto;
-}
-
-.navbar-search-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    cursor: pointer;
-
-    &:hover {
-        background: #f5f5f5;
-    }
-}
-
-.navbar-search-dropdown-img {
-    width: 36px;
-    height: 48px;
-    object-fit: cover;
-    border-radius: 4px;
-}
-
-.navbar-search-dropdown-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.navbar-search-dropdown-title {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.navbar-search-dropdown-price {
-    font-size: 12px;
-    color: #888;
-}
-
-.navbar-search-dropdown-viewall {
-    text-align: center;
-    font-weight: 600;
-    color: var(--primary-color, #333);
-    justify-content: center;
-}
-
-.navbar-search-dropdown-empty {
-    justify-content: center;
-    color: #999;
-    cursor: default;
-    &:hover { background: transparent; }
 }
