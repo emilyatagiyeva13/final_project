@@ -2,6 +2,8 @@
   "search": {
     "placeholder": "Məhsul axtar...",
     "button": "Axtar",
+    "viewAll": "Bütün nəticələrə bax",
+    "noResults": "Nəticə yoxdur",
     "categories": {
       "all": "Hamısı",
       "books": "Kitablar",
@@ -9,9 +11,7 @@
       "kids": "Uşaq kitabları",
       "nonFiction": "Bədii olmayan",
       "youngAdult": "Gənclər üçün"
-    },
-          "viewAll":"Bütün nəticələrə bax"
-
+    }
   },
   "nav": {
     "home": "Ana səhifə",

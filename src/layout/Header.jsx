@@ -232,12 +232,12 @@ const Header = () => {
                                                     className="navbar-search-dropdown-item navbar-search-dropdown-viewall"
                                                     onClick={goToFullResults}
                                                 >
-                                                    {t('search.viewAll', 'Bütün nəticələrə bax')}
+                                                    {t('search.viewAll')}
                                                 </div>
                                             </>
                                         ) : (
                                             <div className="navbar-search-dropdown-item navbar-search-dropdown-empty">
-                                                {t('search.noResults', 'Nəticə tapılmadı')}
+                                                {t('search.noResults')}
                                             </div>
                                         )}
                                     </div>

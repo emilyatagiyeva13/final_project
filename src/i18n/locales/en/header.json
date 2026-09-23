@@ -2,6 +2,8 @@
   "search": {
     "placeholder": "Search products...",
     "button": "Search",
+    "viewAll": "See all results",
+    "noResults":"No results",
     "categories": {
       "all": "All",
       "books": "Books",
@@ -9,8 +11,7 @@
       "kids": "Kids Books",
       "nonFiction": "Non Fiction",
       "youngAdult": "Young Adult"
-    },
-    "viewAll": "See all results"
+    }
   },
   "nav": {
     "home": "Home",
