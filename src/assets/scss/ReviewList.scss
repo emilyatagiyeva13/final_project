@@ -1,0 +1,66 @@
+.review-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+
+  &__status {
+    color: #666;
+    font-style: italic;
+    font-size: 0.95rem;
+
+    &--error {
+      color: #d32f2f;
+      font-weight: 500;
+    }
+  }
+
+  &__item {
+    background-color: #faf9f6;
+    border: 1px solid #eeebe4;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+  }
+
+  &__author {
+    font-weight: 700;
+    font-size: 1rem;
+    // İstifadəçi adının rəngi (istəsən dəyişə bilərsən)
+    color: #2c3e50; 
+  }
+
+  &__stars {
+    // Reytinq ulduzlarının rəngi (Canlı qızılı / sarı ton)
+    color: #f39c12; 
+    font-size: 1.05rem;
+    letter-spacing: 2px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  &__comment {
+    margin: 0.5rem 0 0.75rem;
+    line-height: 1.6;
+    color: #444;
+    font-size: 0.95rem;
+  }
+
+  &__date {
+    font-size: 0.75rem;
+    color: #888;
+    display: inline-block;
+  }
+}

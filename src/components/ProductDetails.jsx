@@ -8,11 +8,13 @@ import { supabase } from "../supabaseClient";
 import "../assets/scss/ProductDetails.scss";
 import Loader from "../components/Loader.jsx";
 import useCartStore from "../store/useCartStore.js";
+import { useAuthStore } from "../store/authStore.js";
+import ReviewList from "../components/Feedback/ReviewList.jsx"; // öz path-inizə uyğunlaşdırın
 
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t} = useTranslation('shop');
+  const { t } = useTranslation('shop');
   const { currentLang } = useLanguage();
   const lang = currentLang?.split("-")[0] === "en" ? "en" : "az";
 
@@ -20,10 +22,15 @@ const ProductDetails = () => {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
 
+  const user = useAuthStore((state) => state.user);
+
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
+
+  // Rəy göndəriləndə ReviewList-i yenidən çəkmək üçün
+  const [reviewsRefreshKey, setReviewsRefreshKey] = useState(0);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -93,7 +100,7 @@ const ProductDetails = () => {
 
       toast.success(
         t("product.addedToCart", "Səbətə əlavə edildi") +
-          ` (${quantity} ${t("product.pcs", "ədəd")})`
+        ` (${quantity} ${t("product.pcs", "ədəd")})`
       );
     } catch (err) {
       console.error(err);
@@ -185,7 +192,7 @@ const ProductDetails = () => {
               )}
 
               <div className="price-rating-wrapper">
-                <div className="price-tag">{product.price} ₼</div>
+                <div className="price-tag">{product.price} $</div>
                 {product.rating && (
                   <div className="rating-badge">
                     <span className="star">★</span>
@@ -263,10 +270,25 @@ const ProductDetails = () => {
                   {product.stock === 0
                     ? t("product.noStock", "Stokda yoxdur")
                     : inCart
-                    ? t("product.updateCart", "Səbəti yenilə")
-                    : t("product.addToCart", "Səbətə əlavə et")}
+                      ? t("product.updateCart", "Səbəti yenilə")
+                      : t("product.addToCart", "Səbətə əlavə et")}
                 </button>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ---- Rəylər bölməsi ---- */}
+        <div className="row">
+          <div className="col-12">
+            <div className="product-reviews">
+              <h2 className="product-reviews__title">
+                {t("reviews.sectionTitle", "Rəylər")}
+              </h2>
+              <p className="review-list__status">
+                {t("reviews.loginToReview", "Rəy yazmaq üçün daxil olun.")}
+              </p>
+              <ReviewList productId={product.id} refreshKey={reviewsRefreshKey} />
             </div>
           </div>
         </div>
@@ -275,4 +297,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails; 
+export default ProductDetails;

@@ -193,7 +193,7 @@ const Header = () => {
                                                                 {i18n.language === 'az' ? product.title_az : product.title_en}
                                                             </span>
                                                             <span className="navbar-search-dropdown-price">
-                                                                {product.price} ₼
+                                                                {product.price} $
                                                             </span>
                                                         </div>
                                                     </div>

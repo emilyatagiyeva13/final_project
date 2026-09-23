@@ -1,84 +1,132 @@
 .success-page {
-  min-height: 80vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 20px;
-  background-color: var(--bg-checkout-summary, #f9fafb);
+  padding: 3rem 1rem;
+  background-color: #fcfbfa;
+  min-height: 80vh;
 
   .success-card {
-    background: var(--bg-checkout-card, #ffffff);
-    border: 1px solid var(--border-color, #e5e7eb);
-    padding: 40px;
-    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid #e5e0d8;
+    border-radius: 12px;
+    padding: 2.5rem 2rem;
     max-width: 500px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    margin-bottom: 2.5rem;
 
     &__icon {
-      color: var(--badge-text, #16a34a);
+      color: #10b981;
+      margin-bottom: 1.25rem;
       display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--badge-bg, #f0fdf4);
-      padding: 16px;
+      padding: 1rem;
+      background-color: rgba(16, 185, 129, 0.1);
       border-radius: 50%;
-      margin-bottom: 20px;
     }
 
     &__title {
-      font-size: 24px;
+      font-size: 1.5rem;
       font-weight: 700;
-      color: var(--text-primary, #1f2937);
-      margin-bottom: 12px;
+      color: #2c3e50;
+      margin-bottom: 0.75rem;
     }
 
     &__description {
-      font-size: 15px;
-      color: var(--text-secondary, #4b5563);
+      color: #666;
+      font-size: 0.95rem;
       line-height: 1.5;
-      margin-bottom: 24px;
+      margin-bottom: 1.5rem;
     }
 
     &__order-info {
-      background: var(--bg-checkout-summary, #f9fafb);
-      border: 1px border-color;
-      padding: 12px 20px;
+      background-color: #faf9f6;
+      padding: 0.75rem 1rem;
       border-radius: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
-      color: var(--text-secondary, #4b5563);
-      margin-bottom: 28px;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      color: #444;
 
       strong {
-        color: var(--accent-color, #306d36);
-        font-size: 16px;
+        color: #2c3e50;
+        font-family: monospace;
+        font-size: 1.1rem;
       }
     }
 
     &__actions {
-      display: flex;
-      gap: 12px;
-      justify-content: center;
-
       .btn-primary {
-        background-color: var(--accent-color, #306d36);
-        color: #ffffff;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background-color: var(--accent-color, #306D36);
+        color: #fff;
         border: none;
-        padding: 12px 24px;
         border-radius: 8px;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
         font-weight: 600;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        transition: background-color 0.2s;
+        width: 100%;
+        transition: opacity 0.2s;
 
         &:hover {
-          background-color: var(--accent-hover, #245329);
+          opacity: 0.9;
+        }
+      }
+    }
+  }
+
+  .success-reviews {
+    max-width: 500px;
+    width: 100%;
+
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      color: #2c3e50;
+      text-align: center;
+    }
+
+    &__item {
+      background: #ffffff;
+      border: 1px solid #e5e0d8;
+      border-radius: 12px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+
+      &-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid #f0eae1;
+
+        img {
+          width: 60px !important;
+          height: 60px !important;
+          min-width: 60px;
+          min-height: 60px;
+          object-fit: cover !important;
+          border-radius: 8px;
+          border: 1px solid #eee;
+          flex-shrink: 0;
+        }
+
+        h4 {
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #333;
+          margin: 0;
+          line-height: 1.4;
         }
       }
     }

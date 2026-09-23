@@ -120,10 +120,19 @@ const Checkout = () => {
                 return;
             }
 
+            const orderedItems = items.map((item) => ({
+                id: item.id,
+                title_az: item.title_az,
+                title_en: item.title_en,
+                image: item.image,
+            }));
+
             if (clearBasket) await clearBasket();
             toast.success(t('checkout.successMessage') || 'Sifarişiniz uğurla rəsmiləşdirildi!');
-            navigate('/success');
+            navigate('/success', { state: { items: orderedItems } });
         }
+
+
     };
 
     if (loading) {
@@ -284,7 +293,7 @@ const Checkout = () => {
                     </div>
 
                     <button type="submit" className="checkout-submit-btn" disabled={submitting}>
-                        <Lock size={18} /> {finalTotal.toFixed(2)} ₼ — {submitting ? (t('checkout.processing') || 'Göndərilir...') : (t('checkout.payNow') || 'Ödənişi Təsdiqlə')}
+                        <Lock size={18} /> {finalTotal.toFixed(2)} $ — {submitting ? (t('checkout.processing') || 'Göndərilir...') : (t('checkout.payNow') || 'Ödənişi Təsdiqlə')}
                     </button>
                 </form>
 
@@ -297,10 +306,10 @@ const Checkout = () => {
                                 <img src={item.image} alt={localize(item, 'title')} />
                                 <div className="summary-item__info">
                                     <h4>{localize(item, 'title')}</h4>
-                                    <p>{item.quantity} ədəd × {item.price} ₼</p>
+                                    <p>{item.quantity} ədəd × {item.price} $</p>
                                 </div>
                                 <span className="summary-item__price">
-                                    {(item.price * item.quantity).toFixed(2)} ₼
+                                    {(item.price * item.quantity).toFixed(2)} $
                                 </span>
                             </div>
                         ))}
@@ -308,19 +317,19 @@ const Checkout = () => {
 
                     <div className="summary-row">
                         <span>{t('basket.subtotal') || 'Məhsulların cəmi:'}</span>
-                        <span>{subTotal.toFixed(2)} ₼</span>
+                        <span>{subTotal.toFixed(2)} $</span>
                     </div>
 
                     <div className="summary-row">
                         <span>{t('basket.shipping') || 'Çatdırılma xidməti:'}</span>
-                        <span>{shippingCost.toFixed(2)} ₼</span>
+                        <span>{shippingCost.toFixed(2)} $</span>
                     </div>
 
                     <div className="summary-divider"></div>
 
                     <div className="summary-row total-row">
                         <span>{t('basket.finalTotal') || 'Yekun qiymət:'}</span>
-                        <span className="total-amount">{finalTotal.toFixed(2)} ₼</span>
+                        <span className="total-amount">{finalTotal.toFixed(2)} $</span>
                     </div>
                 </div>
             </div>

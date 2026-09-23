@@ -1,20 +1,31 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle2, ShoppingBag } from 'lucide-react';
 import Swal from 'sweetalert2';
 import '../assets/scss/Success.scss';
 import RecommendedProducts from '../components/RecommendedProducts';
+import ReviewForm from '../components/Feedback/ReviewForm';
+import { useAuthStore } from '../store/authStore.js';
+import { useLocalize } from '../components/hooks/useLocalise';
 
 const Success = () => {
   const { t } = useTranslation('common');
   const navigate = useNavigate();
+  const location = useLocation();
+  const { localize } = useLocalize();
+  const user = useAuthStore((s) => s.user);
+
+
+  const orderedItems = location.state?.items || [];
 
   // Təsadüfi Sifariş Nömrəsi generatoru
   const orderNumber = Math.floor(100000 + Math.random() * 900000);
 
+  console.log('location.state:', location.state);
+  console.log('orderedItems:', orderedItems);
+
   useEffect(() => {
-    // Səhifə açılan kimi SweetAlert uğur pəncərəsi göstərilir
     Swal.fire({
       icon: 'success',
       title: t('checkout.swalSuccessTitle') || 'Sifarişiniz Uğurla Qəbul Olundu!',
@@ -26,9 +37,10 @@ const Success = () => {
     });
   }, [t, orderNumber]);
 
+
   return (
     <>
-      <div className="success-page">
+      <div className="success-page d-flex flex-column">
         <div className="success-card">
           <div className="success-card__icon">
             <CheckCircle2 size={64} />
@@ -54,6 +66,27 @@ const Success = () => {
             </button>
           </div>
         </div>
+
+        {orderedItems.length > 0 && (
+          <div className="success-reviews">
+            <h2>{t('checkout.reviewPrompt') || 'Aldığın məhsullar haqqında fikrini bölüş'}</h2>
+
+            {orderedItems.map((item) => (
+              <div key={item.id} className="success-reviews__item">
+                <div className="success-reviews__item-header">
+                  <img src={item.image} alt={localize(item, 'title')}  />
+                  <h4>{localize(item, 'title')}</h4>
+                </div>
+
+                <ReviewForm
+                  productId={item.id}
+                  userId={user?.id}
+                  onSubmitted={() => { }}
+                />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <RecommendedProducts />

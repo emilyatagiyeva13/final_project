@@ -34,7 +34,7 @@ export const useOrderStore = create((set) => ({
                 subtotal: totals.subtotal,
                 shipping_cost: totals.shippingCost,
                 total: totals.total,
-                status: 'confirmed',
+                status: 'completed', // sifariş yaradılan kimi review yazmağa icazə versin
             })
             .select('*')
             .single();
