@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import { supabase } from "../supabaseClient";
 import "../assets/scss/ProductDetails.scss";
 import Loader from "../components/Loader.jsx";
 import useCartStore from "../store/useCartStore.js";
-
-// Statik JSON məlumatı (və ya import edə bilərsiniz)
-import staticProduct from "../data/productData.json";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -24,26 +22,36 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const [theme, setTheme] = useState("light");
-
-  // Tema dəyişdirici funksiya
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
 
   useEffect(() => {
-    // Statik datanı simulyasiya edirik
-    setLoading(true);
-    setTimeout(() => {
-      if (staticProduct) {
-        setProduct(staticProduct);
+    const fetchProduct = async () => {
+      setLoading(true);
+      setError(null);
+
+      const { data, error } = await supabase
+        .from("products")
+        .select(`
+          *,
+          categories ( name_az, name_en, slug ),
+          authors ( name, slug, img_url )
+        `)
+        .eq("id", id)
+        .single();
+
+      if (error) {
+        console.error(error);
+        setError(error);
       } else {
-        setError(true);
+        setProduct(data);
       }
+
       setLoading(false);
-    }, 500);
+    };
+
+    fetchProduct();
   }, [id]);
 
+  // Məhsul (və ya səbət) dəyişəndə quantity-ni səbətdəki mövcud say ilə sinxronlaşdır
   useEffect(() => {
     if (!product) return;
     const existing = cartItems.find((i) => i.id === product.id);
@@ -93,15 +101,16 @@ const ProductDetails = () => {
 
   if (loading) {
     return (
-      <div className={`product-status-wrapper ${theme}`}>
-        <Loader />
+      <div className="product-status-wrapper">
+        <div className="spinner"></div>
+        <p><Loader /></p>
       </div>
     );
   }
 
   if (error || !product) {
     return (
-      <div className={`product-status-wrapper error ${theme}`}>
+      <div className="product-status-wrapper error">
         <h3>{t("product.notFound", "Axtardığınız kitab tapılmadı")}</h3>
         <button onClick={() => navigate("/")} className="btn-back">
           {t("product.backHome", "Ana Səhifəyə Qayıt")}
@@ -121,94 +130,103 @@ const ProductDetails = () => {
   const inCart = cartItems.find((i) => i.id === product.id);
 
   return (
-    <section className={`modern-product-section ${theme}`}>
-      <div className="theme-toggle-container">
-        <button className="theme-toggle-btn" onClick={toggleTheme}>
-          {theme === "light" ? "🌙 Dark Mode" : "☀️ Light Mode"}
-        </button>
-      </div>
-
-      <div className="modern-container">
-        <div className="product-grid">
-          {/* Sol: Premium Şəkil Bloku */}
-          <div className="product-gallery">
-            <div className="image-card">
-              <img src={product.image_url} alt={title} />
+    <section className="product-details">
+      <div className="container">
+        <div className="row g-5 align-items-center">
+          {/* Sol: Şəkil Qalereyası/Sferası */}
+          <div className="col-12 col-lg-5">
+            <div className="product-img-wrapper">
+              <img
+                src={product.image_url}
+                alt={title}
+                className="product-img"
+              />
               {product.stock === 0 && (
-                <span className="badge-status out">{t("product.outOfStock", "Tükəndi")}</span>
-              )}
-              {product.stock > 0 && (
-                <span className="badge-status in">{t("product.inStock", "Stokda var")}</span>
+                <div className="out-of-stock-badge">{t("product.outOfStock", "Tükəndi")}</div>
               )}
             </div>
           </div>
 
-          {/* Sağ: Məlumat və Alqı-Satqı Paneli */}
-          <div className="product-content">
-            <div className="category-tag">{categoryName}</div>
-            <h1 className="product-heading">{title}</h1>
-
-            {product.authors && (
-              <div className="author-box" onClick={() => navigate(`/author/${product.authors.slug}`)}>
-                <img src={product.authors.img_url} alt={product.authors.name} />
-                <div>
-                  <span className="author-label">Müəllif / Author</span>
-                  <h4 className="author-title">{product.authors.name}</h4>
-                </div>
-              </div>
-            )}
-
-            <div className="price-review-row">
-              <div className="price-box">
-                <span className="currency">₼</span>
-                <span className="amount">{product.price}</span>
-              </div>
-              {product.rating && (
-                <div className="review-box">
-                  ⭐ <span className="score">{product.rating}</span>
-                </div>
+          {/* Sağ: Məhsul Məlumatları */}
+          <div className="col-12 col-lg-7">
+            <div className="product-info">
+              {categoryName && (
+                <span className="category-badge">{categoryName}</span>
               )}
-            </div>
 
-            <p className="product-description">{description}</p>
+              <h1 className="product-title">{title}</h1>
 
-            <div className="stats-row">
-              <div className="stat-item">
-                <span>Satılıb / Sold:</span>
-                <strong>{product.sold_count}</strong>
-              </div>
-              <div className="stat-item">
-                <span>Stok / Stock:</span>
-                <strong>{product.stock} {t("product.pcs", "ədəd")}</strong>
-              </div>
-            </div>
-
-            {inCart && (
-              <div className="cart-alert">
-                🛒 {t("product.alreadyInCart", "Səbətdə artıq var")}: <strong>{inCart.quantity} {t("product.pcs", "ədəd")}</strong>
-              </div>
-            )}
-
-            <div className="purchase-actions">
-              {product.stock > 0 && (
-                <div className="counter-box">
-                  <button onClick={() => handleQuantityChange("decrease")} disabled={quantity <= 1}>-</button>
-                  <span>{quantity}</span>
-                  <button onClick={() => handleQuantityChange("increase")} disabled={quantity >= product.stock}>+</button>
+              {product.authors && (
+                <div
+                  className="author-card"
+                  onClick={() => navigate(`/author/${product.authors.slug}`)}
+                >
+                  {product.authors.img_url && (
+                    <img
+                      src={product.authors.img_url}
+                      alt={product.authors.name}
+                      className="author-avatar"
+                    />
+                  )}
+                  <span className="author-name">{product.authors.name}</span>
                 </div>
               )}
 
-              <button 
-                className="checkout-btn" 
-                disabled={product.stock === 0}
-                onClick={handleAddToCart}
-              >
-                {product.stock === 0
-                  ? t("product.noStock", "Stokda yoxdur")
-                  : inCart
-                  ? t("product.updateCart", "Səbəti yenilə")
-                  : t("product.addToCart", "Səbətə əlavə et")}
-              </button>
+              <div className="price-rating-wrapper">
+                <div className="price-tag">{product.price} ₼</div>
+                {product.rating && (
+                  <div className="rating-badge">
+                    <span className="star">★</span>
+                    <span>{product.rating}</span>
+                  </div>
+                )}
+              </div>
+
+              <p className="description">{description}</p>
+
+              <div className="meta-info">
+                <div className={`meta-item ${product.stock > 0 ? "in-stock" : "no-stock"}`}>
+                  <span className="dot"></span>
+                  <span>
+                    {product.stock > 0
+                      ? `${t("product.inStock", "Stokda var")} (${product.stock} ${t("product.pcs", "ədəd")})`
+                      : t("product.noStock", "Stokda yoxdur")}
+                  </span>
+                </div>
+              </div>
+
+              {/* Miqdar və Əməliyyatlar */}
+              <div className="actions-wrapper">
+                {product.stock > 0 && (
+                  <div className="quantity-selector">
+                    <button
+                      onClick={() => handleQuantityChange("decrease")}
+                      disabled={quantity <= 1}
+                    >
+                      -
+                    </button>
+                    <span>{quantity}</span>
+                    <button
+                      onClick={() => handleQuantityChange("increase")}
+                      disabled={quantity >= product.stock}
+                    >
+                      +
+                    </button>
+                  </div>
+                )}
+
+                <button
+                  className="add-to-cart-btn"
+                  disabled={product.stock === 0}
+                  onClick={handleAddToCart}
+                >
+                  {product.stock === 0
+                    ? t("product.noStock", "Stokda yoxdur")
+                    : inCart
+                    ? t("product.updateCart", "Səbəti yenilə")
+                    : t("product.addToCart", "Səbətə əlavə et")}
+                </button>
+              </div>
             </div>
           </div>
         </div>
