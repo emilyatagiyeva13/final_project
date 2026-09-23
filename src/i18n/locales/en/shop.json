@@ -1,8 +1,25 @@
 {
-    "card":{
+    "card": {
         "addToCart": "Add to cart"
     },
-    "showing":"Showing:",
-    "of":"of",
-    "results":"results"
+    "showing": "Showing:",
+    "of": "of",
+    "results": "results",
+    "product": {
+        "notEnoughStock": "Not enough stock available",
+        "available": "Available",
+        "addedToCart": "Added to cart",
+        "pcs": "pcs",
+        "addToCartError": "An error occurred while adding to cart",
+        "notFound": "The book you were looking for was not found",
+        "backHome": "Back to Home",
+        "outOfStock": "Out of stock",
+        "inStock": "In stock",
+        "noStock": "Out of stock",
+        "publishedDate": "Published date",
+        "totalPages": "Total pages",
+        "country": "Country",
+        "language": "Language",
+        "updateCart": "Update Cart"
+    }
 }

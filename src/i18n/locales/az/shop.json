@@ -4,5 +4,22 @@
     },
     "showing": "Göstərilir:",
     "of": "-i",
-    "results": "məhsuldan"
+    "results": "məhsuldan",
+    "product": {
+        "notEnoughStock": "Kifayət qədər stok yoxdur",
+        "available": "Mövcud",
+        "addedToCart": "Səbətə əlavə edildi",
+        "pcs": "ədəd",
+        "addToCartError": "Səbətə əlavə edilərkən xəta baş verdi",
+        "notFound": "Axtardığınız kitab tapılmadı",
+        "backHome": "Ana Səhifəyə Qayıt",
+        "outOfStock": "Tükəndi",
+        "inStock": "Stokda var",
+        "noStock": "Stokda yoxdur",
+        "publishedDate": "Nəşr tarixi",
+        "totalPages": "Səhifə sayı",
+        "country": "Ölkə",
+        "language": "Dil",
+        "updateCart": "Səbəti yenilə"
+    }
 }

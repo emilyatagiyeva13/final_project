@@ -31,6 +31,8 @@ const ProductsPage = () => {
             title_az: '', title_en: '', description_az: '', description_en: '',
             price: 0, stock: 0, category_id: '', author_id: '', image_url: '',
             is_active: true, is_weekly_highlight: false, slug: '',
+            published_date: '', total_pages: '',
+            country_az: '', country_en: '', language_az: '', language_en: '',
         });
         setEditingProduct({});
     };
@@ -59,6 +61,14 @@ const ProductsPage = () => {
                 stock: Number(form.stock),
                 category_id: form.category_id || null,
                 author_id: form.author_id || null,
+                total_pages: form.total_pages === '' || form.total_pages === null || form.total_pages === undefined
+                    ? null
+                    : Number(form.total_pages),
+                published_date: form.published_date || null,
+                country_az: form.country_az || null,
+                country_en: form.country_en || null,
+                language_az: form.language_az || null,
+                language_en: form.language_en || null,
             };
             delete payload.categories;
             delete payload.authors;
@@ -170,6 +180,18 @@ const ProductsPage = () => {
                         <input name="price" type="number" step="0.01" placeholder={t('products.price')} value={form.price ?? ''} onChange={handleChange} />
                         <input name="stock" type="number" placeholder={t('products.stock')} value={form.stock ?? ''} onChange={handleChange} />
                         <input name="image_url" placeholder={t('products.placeholderImgUrl')} value={form.image_url || ''} onChange={handleChange} />
+
+                        <label className="field-label">
+                            {t('products.publishedDate') || 'Nəşr tarixi'}
+                            <input name="published_date" type="date" value={form.published_date || ''} onChange={handleChange} />
+                        </label>
+
+                        <input name="total_pages" type="number" min="0" placeholder={t('products.totalPages') || 'Səhifə sayı'} value={form.total_pages ?? ''} onChange={handleChange} />
+
+                        <input name="country_az" placeholder={t('products.countryAz') || 'Ölkə (AZ)'} value={form.country_az || ''} onChange={handleChange} />
+                        <input name="country_en" placeholder={t('products.countryEn') || 'Ölkə (EN)'} value={form.country_en || ''} onChange={handleChange} />
+                        <input name="language_az" placeholder={t('products.languageAz') || 'Dil (AZ)'} value={form.language_az || ''} onChange={handleChange} />
+                        <input name="language_en" placeholder={t('products.languageEn') || 'Dil (EN)'} value={form.language_en || ''} onChange={handleChange} />
 
                         <div className="checkbox-group">
                             <label><input type="checkbox" name="is_active" checked={!!form.is_active} onChange={handleChange} /> {t('products.activeLabel')}</label>

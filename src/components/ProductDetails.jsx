@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useLanguage } from "../context/LangContext.jsx";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { supabase } from "../supabaseClient";
@@ -11,8 +12,9 @@ import useCartStore from "../store/useCartStore.js";
 const ProductDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation();
-  const lang = i18n.language?.startsWith("en") ? "en" : "az";
+  const { t} = useTranslation('shop');
+  const { currentLang } = useLanguage();
+  const lang = currentLang?.split("-")[0] === "en" ? "en" : "az";
 
   const cartItems = useCartStore((state) => state.items);
   const addItem = useCartStore((state) => state.addItem);
@@ -126,14 +128,24 @@ const ProductDetails = () => {
   const categoryName = lang === "en"
     ? (product.categories?.name_en || product.categories?.name_az)
     : (product.categories?.name_az || product.categories?.name_en);
+  const country = lang === "en"
+    ? (product.country_en || product.country_az)
+    : (product.country_az || product.country_en);
+  const language = lang === "en"
+    ? (product.language_en || product.language_az)
+    : (product.language_az || product.language_en);
 
   const inCart = cartItems.find((i) => i.id === product.id);
+
+  const formattedPublishedDate = product.published_date
+    ? new Date(product.published_date).toLocaleDateString(lang === "en" ? "en-GB" : "az-AZ")
+    : null;
 
   return (
     <section className="product-details">
       <div className="container">
         <div className="row g-5 align-items-center">
-          {/* Sol: Şəkil Qalereyası/Sferası */}
+          {/* Sol: Şəkil Qalereyası */}
           <div className="col-12 col-lg-5">
             <div className="product-img-wrapper">
               <img
@@ -193,6 +205,34 @@ const ProductDetails = () => {
                       : t("product.noStock", "Stokda yoxdur")}
                   </span>
                 </div>
+
+                {formattedPublishedDate && (
+                  <div className="meta-item">
+                    <span className="label">{t("product.publishedDate", "Nəşr tarixi")}:</span>
+                    <span className="value">{formattedPublishedDate}</span>
+                  </div>
+                )}
+
+                {product.total_pages != null && (
+                  <div className="meta-item">
+                    <span className="label">{t("product.totalPages", "Səhifə sayı")}:</span>
+                    <span className="value">{product.total_pages}</span>
+                  </div>
+                )}
+
+                {country && (
+                  <div className="meta-item">
+                    <span className="label">{t("product.country", "Ölkə")}:</span>
+                    <span className="value">{country}</span>
+                  </div>
+                )}
+
+                {language && (
+                  <div className="meta-item">
+                    <span className="label">{t("product.language", "Dil")}:</span>
+                    <span className="value">{language}</span>
+                  </div>
+                )}
               </div>
 
               {/* Miqdar və Əməliyyatlar */}
@@ -235,4 +275,4 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+export default ProductDetails; 
