@@ -72,7 +72,6 @@ const Blog = () => {
                 </div>
             </div>
 
-            {/* Blog Cards Section - Mərkəzləşdirilmiş */}
             <div className="container py-5">
                 <div className="blog-cards-box">
                     {loading ? (
