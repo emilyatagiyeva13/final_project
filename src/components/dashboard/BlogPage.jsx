@@ -55,45 +55,45 @@ const BlogPage = () => {
             const payload = { ...form, sort_order: Number(form.sort_order) || 0 };
 
             if (editingPost?.id) {
-    const res = await updatePost(editingPost.id, payload);
-    console.log('update result:', res);
-    toast.success(t('blog.successUpdate') || 'Uğurla yeniləndi!');
-} else {
-    await addPost(payload);
-    toast.success(t('blog.successAdd') || 'Uğurla əlavə olundu!');
-}
+                const res = await updatePost(editingPost.id, payload);
+                console.log('update result:', res);
+                toast.success(t('blog.successUpdate') );
+            } else {
+                await addPost(payload);
+                toast.success(t('blog.successAdd') );
+            }
 
             closeForm();
         } catch (error) {
             console.error(error)
 
-            toast.error(t('blog.errorOccurred') || 'Xəta baş verdi!');
+            toast.error(t('blog.errorOccurred') );
         }
     };
 
     const handleDelete = async (id) => {
         const result = await Swal.fire({
-            title: t('blog.confirmDelete') || 'Silmək istədiyinizə əminsiniz?',
+            title: t('blog.confirmDelete') ,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: t('blog.yesDelete') || 'Bəli, sil!',
-            cancelButtonText: t('blog.cancel') || 'Ləğv et'
+            confirmButtonText: t('blog.yesDelete'),
+            cancelButtonText: t('blog.cancel')
         });
 
         if (result.isConfirmed) {
             try {
                 await deletePost(id);
-                toast.success(t('blog.successDelete') || 'Uğurla silindi!');
+                toast.success(t('blog.successDelete'));
             } catch (error) {
                 console.error(error)
 
-                toast.error(t('blog.errorOccurred') || 'Xəta baş verdi!');
+                toast.error(t('blog.errorOccurred') );
             }
         }
     };
-    
+
 
     if (loading) return <Loader />;
 
