@@ -30,7 +30,6 @@ const FaqPage = () => {
     const lang = currentLang?.split('-')[0] || 'az';
     const textTranslate = (obj, field) => (lang === 'az' ? (obj?.[`${field}_az`] || obj?.[field]) : obj?.[field]) ?? '';
 
-    // FAQ Handler-ləri
     const openNewFaq = () => {
         setFaqForm({ question: '', question_az: '', answer: '', answer_az: '', category_id: '', sort_order: 0 });
         setEditingFaq({});
@@ -65,44 +64,43 @@ const FaqPage = () => {
 
             if (editingFaq?.id) {
                 await updateFaq(editingFaq.id, payload);
-                toast.success(t('faq.successUpdateFaq') || 'Sual uğurla yeniləndi!');
+                toast.success(t('faq.successUpdateFaq') );
             } else {
                 await addFaq(payload);
-                toast.success(t('faq.successAddFaq') || 'Sual uğurla əlavə olundu!');
+                toast.success(t('faq.successAddFaq') );
             }
 
             closeFaqForm();
         } catch (error) {
             console.error(error)
 
-            toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
+            toast.error(t('faq.errorOccurred') );
         }
     };
 
     const handleFaqDelete = async (id) => {
         const result = await Swal.fire({
-            title: t('faq.confirmDeleteFaq') || 'Sualı silmək istədiyinizə əminsiniz?',
+            title: t('faq.confirmDeleteFaq'),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: t('faq.yesDelete') || 'Bəli, sil!',
-            cancelButtonText: t('faq.cancel') || 'Ləğv et'
+            confirmButtonText: t('faq.yesDelete'),
+            cancelButtonText: t('faq.cancel')
         });
 
         if (result.isConfirmed) {
             try {
                 await deleteFaq(id);
-                toast.success(t('faq.successDeleteFaq') || 'Sual uğurla silindi!');
+                toast.success(t('faq.successDeleteFaq'));
             } catch (error) {
                 console.error(error)
 
-                toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
+                toast.error(t('faq.errorOccurred') );
             }
         }
     };
 
-    // Kateqoriya Handler-ləri
     const openNewCat = () => {
         setCatForm({ title: '', title_az: '', description: '', description_az: '', slug: '', sort_order: 0 });
         setEditingCategory({});
@@ -130,39 +128,39 @@ const FaqPage = () => {
 
             if (editingCategory?.id) {
                 await updateFaqCategory(editingCategory.id, payload);
-                toast.success(t('faq.successUpdateCat') || 'Kateqoriya uğurla yeniləndi!');
+                toast.success(t('faq.successUpdateCat'));
             } else {
                 await addFaqCategory(payload);
-                toast.success(t('faq.successAddCat') || 'Kateqoriya uğurla əlavə olundu!');
+                toast.success(t('faq.successAddCat') );
             }
 
             closeCatForm();
         } catch (error) {
             console.error(error)
 
-            toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
+            toast.error(t('faq.errorOccurred'));
         }
     };
 
     const handleCatDelete = async (id) => {
         const result = await Swal.fire({
-            title: t('faq.confirmDeleteCat') || 'Kateqoriyanı silmək istədiyinizə əminsiniz? Bağlı suallar da silinəcək.',
+            title: t('faq.confirmDeleteCat') ,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: t('faq.yesDelete') || 'Bəli, sil!',
-            cancelButtonText: t('faq.cancel') || 'Ləğv et'
+            confirmButtonText: t('faq.yesDelete') ,
+            cancelButtonText: t('faq.cancel') 
         });
 
         if (result.isConfirmed) {
             try {
                 await deleteFaqCategory(id);
-                toast.success(t('faq.successDeleteCat') || 'Kateqoriya uğurla silindi!');
+                toast.success(t('faq.successDeleteCat') );
             } catch (error) {
                 console.error(error)
 
-                toast.error(t('faq.errorOccurred') || 'Xəta baş verdi!');
+                toast.error(t('faq.errorOccurred') );
             }
         }
     };
@@ -172,7 +170,6 @@ const FaqPage = () => {
 
     return (
         <div className="products-page">
-            {/* Kateqoriyalar bölməsi */}
             <div className="products-header">
                 <h1>{t('faq.categoriesTitle')}</h1>
                 <button className="btn-primary" onClick={openNewCat}>{t('faq.newCategory')}</button>
@@ -202,7 +199,6 @@ const FaqPage = () => {
                 </table>
             </div>
 
-            {/* Suallar bölməsi */}
             <div className="products-header" style={{ marginTop: '2.5rem' }}>
                 <h1>{t('faq.questionsTitle')}</h1>
                 <button className="btn-primary" onClick={openNewFaq}>{t('faq.newQuestion')}</button>
@@ -232,7 +228,6 @@ const FaqPage = () => {
                 </table>
             </div>
 
-            {/* Sual Modal */}
             {editingFaq !== null && (
                 <div className="modal-overlay" onClick={closeFaqForm}>
                     <form className="form-modal" onClick={(e) => e.stopPropagation()} onSubmit={handleFaqSave}>
@@ -260,7 +255,6 @@ const FaqPage = () => {
                 </div>
             )}
 
-            {/* Kateqoriya Modal */}
             {editingCategory !== null && (
                 <div className="modal-overlay" onClick={closeCatForm}>
                     <form className="form-modal" onClick={(e) => e.stopPropagation()} onSubmit={handleCatSave}>
