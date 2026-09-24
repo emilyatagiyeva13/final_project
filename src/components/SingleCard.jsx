@@ -21,6 +21,7 @@ const toastOptions = {
 
 const SingleCard = ({
     id,
+    slug,
     image_url,
     title,
     title_az,
@@ -77,7 +78,7 @@ const SingleCard = ({
         <div
             className={`book-card ${viewMode === "list" ? "book-card-list" : ""}`}
             data-aos="fade-up"
-            onClick={() => navigate(`/shop/${id}`)}
+            onClick={() => navigate(`/shop/${slug ?? id}`)}
         >
             <div className="d-flex view-heart-col">
                 <button

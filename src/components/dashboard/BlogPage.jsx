@@ -55,12 +55,13 @@ const BlogPage = () => {
             const payload = { ...form, sort_order: Number(form.sort_order) || 0 };
 
             if (editingPost?.id) {
-                await updatePost(editingPost.id, payload);
-                toast.success(t('blog.successUpdate') || 'Uğurla yeniləndi!');
-            } else {
-                await addPost(payload);
-                toast.success(t('blog.successAdd') || 'Uğurla əlavə olundu!');
-            }
+    const res = await updatePost(editingPost.id, payload);
+    console.log('update result:', res);
+    toast.success(t('blog.successUpdate') || 'Uğurla yeniləndi!');
+} else {
+    await addPost(payload);
+    toast.success(t('blog.successAdd') || 'Uğurla əlavə olundu!');
+}
 
             closeForm();
         } catch (error) {
@@ -92,6 +93,7 @@ const BlogPage = () => {
             }
         }
     };
+    
 
     if (loading) return <Loader />;
 

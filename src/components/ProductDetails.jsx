@@ -12,7 +12,7 @@ import { useAuthStore } from "../store/authStore.js";
 import ReviewList from "../components/Feedback/ReviewList.jsx"; // öz path-inizə uyğunlaşdırın
 
 const ProductDetails = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const navigate = useNavigate();
   const { t } = useTranslation('shop');
   const { currentLang } = useLanguage();
@@ -44,7 +44,7 @@ const ProductDetails = () => {
           categories ( name_az, name_en, slug ),
           authors ( name, slug, img_url )
         `)
-        .eq("id", id)
+        .eq("slug", slug)
         .single();
 
       if (error) {
@@ -58,7 +58,7 @@ const ProductDetails = () => {
     };
 
     fetchProduct();
-  }, [id]);
+  }, [slug]);
 
   // Məhsul (və ya səbət) dəyişəndə quantity-ni səbətdəki mövcud say ilə sinxronlaşdır
   useEffect(() => {
