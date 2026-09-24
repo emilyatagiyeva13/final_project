@@ -532,13 +532,13 @@ body, .mySwiper1, .slide-1, .slide-2, .slide-3, .discover-btn, .marquee-text {
         .slider-books {
             .h1-slider-22 {
                 width: 260px;
-                top: 60px;
+                top: 300px;
             }
 
             .h1-slider-21 {
                 width: 260px;
-                left: 600px;
-                bottom: 260px;
+                left: 750px;
+                bottom: 460px;
             }
         }
     }
@@ -547,15 +547,14 @@ body, .mySwiper1, .slide-1, .slide-2, .slide-3, .discover-btn, .marquee-text {
         height: 580px;
 
         .main-slider-img {
-            width: 500px;
-            right: -140px;
+            display: none;
         }
 
         .off-slider-wrapper {
-            left: 400px;
-            top: 160px;
-            width: 100px;
-            height: 100px;
+            left:560px;
+            top: 200px;
+            width: 200px;
+            height: 200px;
         }
 
         .h1sliderbg3 {

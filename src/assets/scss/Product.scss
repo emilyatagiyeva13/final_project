@@ -27,35 +27,46 @@ $text-color: #333;
 $muted-color: #777;
 $spacing: 20px;
 
-// Əsas Responsive Konteyner
+// Əsas Responsive Konteyner (Mobile-First: 320px-dən başlayır)
 .shop-container {
     display: flex;
-    gap: 20px;
-    padding: 20px;
-    
-    @media (max-width: 992px) {
-        flex-direction: column;
-        padding: 10px;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+
+    @media (min-width: 992px) {
+        flex-direction: row;
+        gap: 20px;
+        padding: 20px;
     }
 }
 
 .book-header {
     text-align: center;
-    padding: 60px 20px;
+    padding: 30px 10px;
     max-width: 800px;
     margin: 0 auto;
     font-family: $font-main;
+    width: 100%;
 
-    @media (max-width: 768px) {
-        padding: 30px 10px;
+    @media (min-width: 768px) {
+        padding: 60px 20px;
     }
 
     .breadcrumb {
-        font-size: 14px;
+        font-size: 13px;
         color: var(--shop-muted);
-        margin-bottom: $spacing;
+        margin-bottom: 15px;
         letter-spacing: 1px;
         transition: color 0.4s ease;
+
+        @media (min-width: 768px) {
+            font-size: 14px;
+            margin-bottom: $spacing;
+        }
 
         a {
             text-decoration: none;
@@ -68,7 +79,7 @@ $spacing: 20px;
         }
 
         span {
-            margin: 0 8px;
+            margin: 0 6px;
         }
 
         .current {
@@ -79,57 +90,72 @@ $spacing: 20px;
 
     .title {
         font-family: $font-serif;
-        font-size: 60px;
+        font-size: 32px;
         font-weight: 400;
-        margin-bottom: $spacing;
+        margin-bottom: 15px;
         color: var(--shop-text);
         line-height: 1.2;
         transition: color 0.4s ease;
 
-        @media (max-width: 768px) {
-            font-size: 36px;
+        @media (min-width: 768px) {
+            font-size: 60px;
+            margin-bottom: $spacing;
         }
     }
 
     .description {
-        font-size: 1.1rem;
-        line-height: 1.6;
+        font-size: 0.9rem;
+        line-height: 1.5;
         color: var(--shop-muted);
         max-width: 650px;
         margin: 0 auto;
         transition: color 0.4s ease;
 
-        @media (max-width: 768px) {
-            font-size: 0.95rem;
+        @media (min-width: 768px) {
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
     }
 }
 
 .filter-box {
-    align-self: flex-start;
-    width: 340px;
-    flex-shrink: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 
-    @media (max-width: 992px) {
-        width: 100%;
+    @media (min-width: 992px) {
+        align-self: flex-start;
+        width: 340px;
+        flex-shrink: 0;
+        gap: 20px;
     }
 }
 
 .filter-card {
     border: 1.5px solid var(--shop-border);
     border-radius: 12px;
-    padding: 17px 20px;
+    padding: 14px 16px;
     background-color: var(--shop-card-bg);
     transition: background-color 0.4s ease, border-color 0.4s ease;
 
+    @media (min-width: 768px) {
+        padding: 17px 20px;
+    }
+
     .filter-card-title {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 500;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
         border-bottom: 0.5px solid var(--shop-border);
         padding: 4px;
         color: var(--shop-text);
         transition: color 0.4s ease, border-color 0.4s ease;
+
+        @media (min-width: 768px) {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
 
         button {
             transition: transform 0.3s ease;
@@ -170,76 +196,48 @@ $spacing: 20px;
 
     .sorting {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
         z-index: 10;
         width: 100%;
 
-        @media (max-width: 576px) {
-            flex-direction: column;
-            align-items: stretch;
-            
-            .sort-grid-books, .results-count {
-                justify-content: center;
-                width: 100%;
-                text-align: center;
-            }
-
-            .dropdown {
-                width: 100%;
-                display: block;
-
-                .dropbtn {
-                    width: 100%;
-                    justify-content: space-between;
-                }
-            }
+        @media (min-width: 576px) {
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
-        .sort-grid-books {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 24px;
+        .sort-grid-books,
+        .results-count {
+            justify-content: center;
+            width: 100%;
+            text-align: center;
 
-            .grid-books,
-            .list-books {
-                width: 35px;
-                height: 35px;
-                background: var(--shop-card-bg);
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-                transition: 0.3s, background-color 0.4s ease, border-color 0.4s ease;
-                z-index: 5;
-                border: 1px solid var(--shop-border);
-                color: var(--shop-text);
-                cursor: pointer;
-
-                &:hover {
-                    color: $green;
-                    transform: scale(1.1);
-                }
-
-                &.active {
-                    background: $green;
-                    color: #fff;
-                    border-color: $green;
-                }
+            @media (min-width: 576px) {
+                width: auto;
+                text-align: left;
+                justify-content: flex-start;
             }
         }
 
         .dropdown {
+            width: 100%;
+            display: block;
             position: relative;
-            display: inline-block;
+
+            @media (min-width: 576px) {
+                width: auto;
+                display: inline-block;
+            }
 
             .dropbtn {
                 display: flex;
                 align-items: center;
+                justify-content: space-between;
+                width: 100%;
                 gap: 8px;
                 color: var(--shop-text);
                 background-color: var(--shop-card-bg);
@@ -251,6 +249,11 @@ $spacing: 20px;
                 cursor: pointer;
                 transition: all 0.3s ease, background-color 0.4s ease, color 0.4s ease;
 
+                @media (min-width: 576px) {
+                    width: auto;
+                    justify-content: flex-start;
+                }
+
                 .dropdown-arrow {
                     font-size: 14px;
                     transition: transform 0.3s ease;
@@ -260,6 +263,7 @@ $spacing: 20px;
             .dropdown-content {
                 position: absolute;
                 top: 100%;
+                left: 0;
                 right: 0;
                 z-index: 999;
                 padding-top: 8px;
@@ -269,14 +273,24 @@ $spacing: 20px;
                 pointer-events: none;
                 transition: max-height 0.35s ease, opacity 0.25s ease, transform 0.25s ease;
 
+                @media (min-width: 576px) {
+                    left: auto;
+                    right: 0;
+                }
+
                 .dropdown-inner {
                     background-color: var(--shop-dropdown-bg);
-                    min-width: 220px;
+                    width: 100%;
                     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
                     border: 1px solid var(--shop-border);
                     border-radius: 10px;
                     overflow: hidden;
                     transition: background-color 0.4s ease, border-color 0.4s ease;
+
+                    @media (min-width: 576px) {
+                        min-width: 220px;
+                        width: auto;
+                    }
 
                     ul {
                         margin: 0;
@@ -286,12 +300,17 @@ $spacing: 20px;
 
                     li {
                         color: var(--shop-text);
-                        padding: 7px 14px;
+                        padding: 10px 14px;
                         font-weight: 500;
-                        font-size: 16px;
+                        font-size: 15px;
                         border-radius: 6px;
                         cursor: pointer;
                         transition: background-color 0.2s ease, color 0.2s ease;
+
+                        @media (min-width: 768px) {
+                            font-size: 16px;
+                            padding: 7px 14px;
+                        }
 
                         &:hover {
                             background-color: var(--shop-hover-bg);
@@ -307,7 +326,9 @@ $spacing: 20px;
                 }
             }
 
-            &:hover {
+            // focus-within: telefonda toxunuşla da menyu açılsın
+            &:hover,
+            &:focus-within {
                 .dropdown-content {
                     max-height: 300px;
                     opacity: 1;
@@ -322,6 +343,47 @@ $spacing: 20px;
                     .dropdown-arrow {
                         transform: rotate(180deg);
                     }
+                }
+            }
+        }
+
+        .sort-grid-books {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 24px;
+
+            .grid-books,
+            .list-books {
+                width: 38px;
+                height: 38px;
+                background: var(--shop-card-bg);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+                transition: 0.3s, background-color 0.4s ease, border-color 0.4s ease;
+                z-index: 5;
+                border: 1px solid var(--shop-border);
+                color: var(--shop-text);
+                cursor: pointer;
+
+                @media (min-width: 768px) {
+                    width: 35px;
+                    height: 35px;
+                }
+
+                &:hover {
+                    color: $green;
+                    transform: scale(1.1);
+                }
+
+                &.active {
+                    background: $green;
+                    color: #fff;
+                    border-color: $green;
                 }
             }
         }
@@ -350,8 +412,8 @@ $spacing: 20px;
         font-size: 14px;
         color: var(--shop-text);
         gap: 10px;
-        width: 100%; // Sabit 300px əvəzinə 100% (Responsive üçün)
-        padding: 5px 0;
+        width: 100%;
+        padding: 6px 0;
         transition: color 0.3s;
 
         &:hover {
@@ -465,7 +527,7 @@ $spacing: 20px;
 
     .price-input {
         width: 100%;
-        padding: 8px 12px;
+        padding: 10px 12px;
         font-size: 14px;
         color: var(--shop-text);
         background-color: var(--shop-card-bg);
@@ -493,7 +555,7 @@ $spacing: 20px;
 
     .price-apply-btn {
         width: 100%;
-        padding: 8px 16px;
+        padding: 10px 16px;
         font-size: 14px;
         font-weight: 500;
         color: #fff;
@@ -512,3 +574,148 @@ $spacing: 20px;
         }
     }
 }
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// ─── RESPONSIVE DÜZƏLİŞLƏR (yalnız layout: ölçü, boşluq, sütun sayı) ────
+// ═══════════════════════════════════════════════════════════════════════
+
+// Uzun siyahılar (müəlliflər/kateqoriyalar) kəsilməsin, öz daxilində scroll olsun
+.filter-card .filter-list.open {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+// Məhsul sütunları flex daxilində taşmasın (kartın içi sütundan geniş ola bilməz)
+.main-shop .product-box {
+    >[class*="col-"] {
+        min-width: 0;
+    }
+
+    img {
+        max-width: 100%;
+    }
+}
+
+// ── Tablet və aşağısı: filterlər məhsulların üstündə ─────────────────────
+@media (max-width: 991.98px) {
+    .filter-card .filter-list.open {
+        max-height: 240px;
+    }
+}
+@media (max-width: 845px) {
+    .main-shop .product-box {
+        // Kartları saxlayan sütunları 50% (2-2) edirik
+        > [class*="col-"] {
+            flex: 0 0 50% !important;
+            max-width: 60% !important;
+            width: 50% !important;
+        }
+    }
+}
+
+// ── Tablet (768px – 991px): 3 filter kartı yan-yana, hündürlük qənaəti ───
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .shop-container .filter-box {
+        
+        flex-direction: row !important; // Bootstrap .flex-column !important olduğu üçün
+        align-items: flex-start;
+
+        >* {
+            flex: 1 1 0;
+            min-width: 0;
+        }
+    }
+}
+
+// ── Kiçik desktop / böyük tablet (992px – 1199px): yan panel daralır,
+//    grid görünüşündə 3 əvəzinə 2 sütun (kartlar sıxılmasın) ──────────────
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .shop-container .filter-box {
+        width: 280px;
+        
+    }
+
+    .main-shop .product-box>.col-lg-4 {
+        flex: 0 0 auto;
+        width: 50%;
+        max-width: 50%;
+        
+    }
+}
+
+// ── Mobil və kiçik tablet (< 768px) ──────────────────────────────────────
+@media (max-width: 767.98px) {
+
+    // iOS-da input-a toxunanda səhifənin zoom olmasının qarşısı (16px)
+    .price-range .price-input {
+        font-size: 16px;
+
+    }
+
+    // Kart sütunları arası boşluq (Bootstrap 5 gutter)
+    .main-shop .product-box {
+        --bs-gutter-x: 0.75rem;
+    }
+}
+
+// ── Telefon (< 576px) ────────────────────────────────────────────────────
+/* Mobil ekranlar üçün tam mərkəzləşdirmə tənzimləmələri */
+@media (max-width: 576px) {
+  /* Row-un mənfi margin-lərini sıfırlayırıq ki, sağa/sola sürüşmə olmasın */
+  .product-box {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Kartın yerləşdiyi sütunu (col-12) mərkəzləşdiririk */
+  .product-box > div {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* SingleCard komponentinin özünü mərkəzləşdiririk */
+  .product-box .single-card, 
+  .product-box > div > * {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    /* Əgər kart çox genişdirsə, ekran sərhədindən kənara çıxmasın */
+    max-width: 100% !important; 
+  }
+}
+
+// ── Çox kiçik telefonlar (< 360px): grid tək sütun ───────────────────────
+@media (max-width: 359.98px) {
+    .main-shop .product-box>.col-6 {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .book-header .title {
+        font-size: 28px;
+    }
+
+}
+
+/* Mobil ekranlarda List/Grid ikonlarını gizlət */
+/* Mobile Responsiveness Rules */
+@media (max-width: 768px) {
+  .sorting {
+    /* İkonlar gizləndikdə sıralama və nəticə sayını balanslaşdırmaq üçün */
+    justify-content: space-between; 
+
+    .sort-grid-books {
+      display: none !important; /* Mobil görünüşdə List və Grid ikonlarını gizlədir */
+    }
+  }
+
+  .shop-container {
+    flex-direction: column; /* Filtrlər və Məhsullar üst-üstə düşsün */
+  }
+}
+

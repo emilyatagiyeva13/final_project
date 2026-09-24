@@ -103,6 +103,7 @@ const Home = () => {
             <Swiper
               slidesPerView={4.3}
               spaceBetween={10}
+              
               pagination={{ clickable: true }}
               modules={[Pagination, FreeMode]}
               freeMode={true}

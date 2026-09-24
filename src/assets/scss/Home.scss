@@ -98,33 +98,35 @@ h1 {
         }
 
         .discover-btn {
-    background: var(--btn-bg); /* Hardcode #2A7A3B yerinə dəyişən */
-    color: var(--btn-text);
-    border: none;
-    padding: 12px 28px;
-    border-radius: 50px;
-    font-weight: 700;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    font-size: 15px;
-    cursor: pointer;
-    font-family: 'Oswald', sans-serif;
+            background: var(--btn-bg);
+            /* Hardcode #2A7A3B yerinə dəyişən */
+            color: var(--btn-text);
+            border: none;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 15px;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
 
-    &:hover {
-        background: var(--btn-hover); /* Artıq :root-da tanımlıdır */
-        transform: scale(1.05);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    }
+            &:hover {
+                background: var(--btn-hover);
+                /* Artıq :root-da tanımlıdır */
+                transform: scale(1.05);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
 
-    span:nth-of-type(2) {
-        font-size: 20px;
-        display: flex;
-        align-items: center;
-    }
-}
+            span:nth-of-type(2) {
+                font-size: 20px;
+                display: flex;
+                align-items: center;
+            }
+        }
     }
 
     .thriller-img {
@@ -163,5 +165,15 @@ h1 {
 @media (max-width: 1024px) {
     .top-fav-thriller {
         display: none !important;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 575px) {
+    .category-swiper {
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }

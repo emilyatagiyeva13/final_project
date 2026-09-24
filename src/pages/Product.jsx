@@ -47,30 +47,49 @@ const Product = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [searchParams, setSearchParams] = useSearchParams();
 
+  // ---- URL-dən birbaşa hesablanan dəyərlər (ayrıca state və useEffect lazım deyil) ----
   const categoryParam = searchParams.get("category");
-  const [selectedCategories, setSelectedCategories] = useState(
-    categoryParam ? categoryParam.split(",") : []
+  const selectedCategories = useMemo(
+    () => (categoryParam ? categoryParam.split(",") : []),
+    [categoryParam]
   );
 
   const authorParam = searchParams.get("author");
-  const [selectedAuthors, setSelectedAuthors] = useState(
-    authorParam ? authorParam.split(",") : []
+  const selectedAuthors = useMemo(
+    () => (authorParam ? authorParam.split(",") : []),
+    [authorParam]
   );
 
+  const sortParam = searchParams.get("sort");
+  const sortBy = sortParam || "";
+
+  const searchQueryParam = searchParams.get("q") ?? searchParams.get("search");
+  const searchQuery = searchQueryParam || "";
+
+  const PAGE_SIZE = 7;
+  const pageParam = searchParams.get("page");
+  const currentPage = Number(pageParam) || 1;
+
+  // ---- Qiymət inputları: Apply basılana qədər "qaralama" dəyərdir, ona görə state qalır ----
   const minPriceParam = searchParams.get("minPrice");
   const maxPriceParam = searchParams.get("maxPrice");
   const [minPrice, setMinPrice] = useState(minPriceParam || "");
   const [maxPrice, setMaxPrice] = useState(maxPriceParam || "");
 
-  const sortParam = searchParams.get("sort");
-  const [sortBy, setSortBy] = useState(sortParam || "");
-
-  const searchQueryParam = searchParams.get("q") ?? searchParams.get("search");
-  const [searchQuery, setSearchQuery] = useState(searchQueryParam || "");
-
-  const PAGE_SIZE = 7;
-  const pageParam = searchParams.get("page");
-  const [currentPage, setCurrentPage] = useState(Number(pageParam) || 1);
+  // URL dəyişəndə (məs. brauzerin "geri" düyməsi) inputları yenilə.
+  // useEffect əvəzinə render zamanı sinxronlaşdırma (React-ın rəsmi tövsiyə etdiyi üsul).
+  const [prevPriceParams, setPrevPriceParams] = useState([
+    minPriceParam,
+    maxPriceParam,
+  ]);
+  if (
+    prevPriceParams[0] !== minPriceParam ||
+    prevPriceParams[1] !== maxPriceParam
+  ) {
+    setPrevPriceParams([minPriceParam, maxPriceParam]);
+    setMinPrice(minPriceParam || "");
+    setMaxPrice(maxPriceParam || "");
+  }
 
   const content = useMemo(
     () => buildContentMap(contentRows, localize),
@@ -154,65 +173,32 @@ const Product = () => {
     setTimeout(() => Aos.refreshHard(), 0);
   }, [viewMode]);
 
-  useEffect(() => {
-    setSelectedCategories(categoryParam ? categoryParam.split(",") : []);
-  }, [categoryParam]);
-
-  useEffect(() => {
-    setSelectedAuthors(authorParam ? authorParam.split(",") : []);
-  }, [authorParam]);
-
-  useEffect(() => {
-    setMinPrice(minPriceParam || "");
-    setMaxPrice(maxPriceParam || "");
-  }, [minPriceParam, maxPriceParam]);
-
-  useEffect(() => {
-    setSortBy(sortParam || "");
-  }, [sortParam]);
-
-  useEffect(() => {
-    setCurrentPage(Number(pageParam) || 1);
-  }, [pageParam]);
-
-  useEffect(() => {
-    setSearchQuery(searchQueryParam || "");
-  }, [searchQueryParam]);
-
   const toggleCategory = (slug) => {
-    setSelectedCategories((prev) => {
-      const next = prev.includes(slug)
-        ? prev.filter((s) => s !== slug)
-        : [...prev, slug];
+    const next = selectedCategories.includes(slug)
+      ? selectedCategories.filter((s) => s !== slug)
+      : [...selectedCategories, slug];
 
-      if (next.length === 0) {
-        searchParams.delete("category");
-      } else {
-        searchParams.set("category", next.join(","));
-      }
-      searchParams.delete("page");
-      setSearchParams(searchParams);
-
-      return next;
-    });
+    if (next.length === 0) {
+      searchParams.delete("category");
+    } else {
+      searchParams.set("category", next.join(","));
+    }
+    searchParams.delete("page");
+    setSearchParams(searchParams);
   };
 
   const toggleAuthor = (authorSlug) => {
-    setSelectedAuthors((prev) => {
-      const next = prev.includes(authorSlug)
-        ? prev.filter((a) => a !== authorSlug)
-        : [...prev, authorSlug];
+    const next = selectedAuthors.includes(authorSlug)
+      ? selectedAuthors.filter((a) => a !== authorSlug)
+      : [...selectedAuthors, authorSlug];
 
-      if (next.length === 0) {
-        searchParams.delete("author");
-      } else {
-        searchParams.set("author", next.join(","));
-      }
-      searchParams.delete("page");
-      setSearchParams(searchParams);
-
-      return next;
-    });
+    if (next.length === 0) {
+      searchParams.delete("author");
+    } else {
+      searchParams.set("author", next.join(","));
+    }
+    searchParams.delete("page");
+    setSearchParams(searchParams);
   };
 
   const applyPriceRange = () => {
@@ -227,7 +213,6 @@ const Product = () => {
   };
 
   const handleSortChange = (value) => {
-    setSortBy(value);
     if (value) searchParams.set("sort", value);
     else searchParams.delete("sort");
 
@@ -480,22 +465,27 @@ const Product = () => {
             </div>
           </div>
 
-          <div className="product-box row my-3">
-            {paginatedBooks.length > 0 ? (
-              paginatedBooks.map((i) => (
-                <div
-                  key={i.id}
-                  className={viewMode === "grid" ? "col-6 col-md-4 col-lg-4 my-2" : "col-12 my-2"}
-                >
-                  <SingleCard {...i} viewMode={viewMode} />
-                </div>
-              ))
-            ) : (
-              <div className="text-center my-5 w-100">
-                <h5>Məhsul tapılmadı.</h5>
-              </div>
-            )}
-          </div>
+          {/* Əvvəlki: <div className="product-box row justify-content-center g-3 my-3 w-100"> */}
+<div className="product-box row justify-content-center align-items-center g-3 my-3">
+  {paginatedBooks.length > 0 ? (
+    paginatedBooks.map((i) => (
+      <div
+        key={i.id}
+        className={
+          viewMode === "grid"
+            ? "col-12 col-sm-6 col-md-4 col-lg-4 d-flex justify-content-center"
+            : "col-12 my-2"
+        }
+      >
+        <SingleCard {...i} viewMode={viewMode} />
+      </div>
+    ))
+  ) : (
+    <div className="text-center my-5 w-100">
+      <h5>No product in this category.</h5>
+    </div>
+  )}
+</div>
 
           {totalPages > 1 && (
             <nav className="pagination-box d-flex justify-content-center gap-2 my-3">

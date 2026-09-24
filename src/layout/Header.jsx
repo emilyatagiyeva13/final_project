@@ -30,7 +30,6 @@ const Header = () => {
         state.items.reduce((sum, item) => sum + item.quantity, 0)
     )
 
-    // Menyunu bağlamaq üçün köməkçi funksiya
     const closeMenu = () => setMenuOpen(false)
 
     // --- Search state ---
@@ -55,9 +54,9 @@ const Header = () => {
     }, [])
 
     useEffect(() => {
-        // .or() filtrini pozan simvolları təmizləyirik
         const trimmed = query.trim().replace(/[,()%]/g, " ").trim()
 
+        // 2 hərfə çatmayıbsa nəticələri sıfırla və dropdown-u bağla
         if (trimmed.length < 2) {
             setSuggestions([])
             setShowDropdown(false)
@@ -68,12 +67,10 @@ const Header = () => {
         let cancelled = false
 
         const timer = setTimeout(async () => {
-            // Kateqoriya seçilibsə, mütləq həmin kateqoriya daxilində axtarılmalıdır
             let categoryId = null
             if (selectedCategory !== "all") {
                 const cat = categories.find((c) => c.slug === selectedCategory)
                 if (!cat) {
-                    // Kateqoriya tapılmadısa, heç bir nəticə göstərmə
                     setSuggestions([])
                     setShowDropdown(true)
                     setSearchLoading(false)
@@ -95,7 +92,6 @@ const Header = () => {
 
             const { data, error } = await dbQuery
 
-            // Köhnə sorğunun cavabı yeni nəticəni əzməsin
             if (cancelled) return
 
             if (!error) {
@@ -135,7 +131,6 @@ const Header = () => {
         setShowDropdown(false)
         navigate(`/shop?${params.toString()}`)
 
-        // Axtarış icra olunduqdan sonra inputu və seçilmiş kateqoriyanı sıfırlayırıq
         setQuery("")
         setSelectedCategory("all")
     }
@@ -145,10 +140,14 @@ const Header = () => {
         if (e.key === "Escape") setShowDropdown(false)
     }
 
+    // DƏYİŞİKLİK: Əgər App.jsx routing-də `/shop/:id` və ya `/product/:slug` yazılıbsa bura uyğunlaşdırın.
     const handleSuggestionClick = (product) => {
         setShowDropdown(false)
         setQuery("")
-        navigate(`/shop/${product.id}`)
+
+        // Əgər router dəqiq ID gözləyirsə product.id, slug gözləyirsə product.slug istifadə edin:
+        const targetParam = product.slug || product.id
+        navigate(`/shop/${targetParam}`)
     }
 
     const handleLogout = async () => {
@@ -156,13 +155,51 @@ const Header = () => {
         toast.warning("You logged out from your account", {
             position: "top-right",
             autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
             transition: Bounce,
         })
         navigate("/")
+    }
+
+    // İstifadəçi bloku (username / login) — həm desktop ikon sırasında,
+    // həm də min-320px-də toggle menyunun içində eyni məzmunla göstərilir.
+    const renderUserBlock = (isMobile = false) => {
+        if (authLoading || profileResolving) {
+            return <div className="navbar-user-skeleton" />
+        }
+
+        if (user) {
+            return (
+                <div className="navbar-user">
+                    <div className="navbar-user-info">
+                        <span className="navbar-username" title={username}>{username}</span>
+                    </div>
+                    <button
+                        type="button"
+                        className="navbar-logout-btn"
+                        onClick={() => {
+                            if (isMobile) closeMenu()
+                            handleLogout()
+                        }}
+                        aria-label={t('user.logout')}
+                        title={t('user.logout')}
+                    >
+                        <CiLogout />
+                    </button>
+                </div>
+            )
+        }
+
+        return (
+            <NavLink
+                to="/login"
+                className="nav-link user-login-icon"
+                aria-label={t('user.login')}
+                onClick={closeMenu}
+            >
+                <CiUser />
+                {isMobile && <span>{t('user.login')}</span>}
+            </NavLink>
+        )
     }
 
     return (
@@ -211,7 +248,9 @@ const Header = () => {
                                                     <div
                                                         key={product.id}
                                                         className="navbar-search-dropdown-item"
-                                                        onClick={() => handleSuggestionClick(product)}
+                                                        // onMouseDown onClick-dən daha tez tətiklənir və blur probleminin qarşısını alır
+                                                        onMouseDown={() => handleSuggestionClick(product)}
+                                                        style={{ cursor: "pointer" }}
                                                     >
                                                         <img
                                                             src={product.image_url}
@@ -230,7 +269,8 @@ const Header = () => {
                                                 ))}
                                                 <div
                                                     className="navbar-search-dropdown-item navbar-search-dropdown-viewall"
-                                                    onClick={goToFullResults}
+                                                    onMouseDown={goToFullResults}
+                                                    style={{ cursor: "pointer" }}
                                                 >
                                                     {t('search.viewAll')}
                                                 </div>
@@ -263,29 +303,10 @@ const Header = () => {
                             </div>
 
                             <div className="navbar-user-actions">
+                                {/* min-320px-də bu blok gizlənir, əvəzinə toggle menyunun içindəki
+                                    .navbar-user-mobile göstərilir (aşağıya bax) */}
                                 <div className="navbar-icon navbar-user-wrapper">
-                                    {authLoading || profileResolving ? (
-                                        <div className="navbar-user-skeleton" />
-                                    ) : user ? (
-                                        <div className="navbar-user">
-                                            <div className="navbar-user-info">
-                                                <span className="navbar-username" title={username}>{username}</span>
-                                            </div>
-                                            <button
-                                                type="button"
-                                                className="navbar-logout-btn"
-                                                onClick={handleLogout}
-                                                aria-label={t('user.logout')}
-                                                title={t('user.logout')}
-                                            >
-                                                <CiLogout />
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <NavLink to="/login" className="nav-link user-login-icon" aria-label={t('user.login')} onClick={closeMenu}>
-                                            <CiUser />
-                                        </NavLink>
-                                    )}
+                                    {renderUserBlock(false)}
                                 </div>
 
                                 <div className="navbar-icon">
@@ -323,6 +344,11 @@ const Header = () => {
                 <div className="navbar-bottom container-fluid">
                     <div className="navbar-bottom-right">
                         <div className={`navbar-nav-collapse${menuOpen ? " navbar-nav-collapse--open" : ""}`}>
+                            {/* min-320px üçün username/login bloku toggle menyunun içində */}
+                            <div className="navbar-user-mobile">
+                                {renderUserBlock(true)}
+                            </div>
+
                             <ul className="navbar-nav-list">
                                 <li className="navbar-nav-item">
                                     <NavLink to="/" className="nav-link" onClick={closeMenu}><span>{t('nav.home')}</span></NavLink>
