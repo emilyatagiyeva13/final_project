@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient.js';
 import { useAuthStore } from './authStore.js';
 
 export const useWishlistStore = create((set, get) => ({
-  wishlist: [], // product_id-lərin siyahısı
+  wishlist: [],
   loading: false,
 
   fetchWishlist: async () => {

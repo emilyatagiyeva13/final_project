@@ -8,7 +8,7 @@ import "../assets/scss/BlogDetails.scss";
 import { useLocalize } from "../components/hooks/useLocalise.jsx";
 
 const BlogDetails = () => {
-    const { id } = useParams(); // URL-dən slug gəlir
+    const { id } = useParams();
     const { t } = useTranslation("blog");
     const { localize } = useLocalize();
     const [rawPost, setRawPost] = useState(null);
@@ -17,7 +17,6 @@ const BlogDetails = () => {
     useEffect(() => {
         const fetchPostDetails = async () => {
             setLoading(true);
-            // select("*") title_az, content_az, read_time_az sütunlarını da gətirir
             const { data, error } = await supabase
                 .from("blog_cards")
                 .select("*")
@@ -35,10 +34,6 @@ const BlogDetails = () => {
         fetchPostDetails();
         window.scrollTo(0, 0);
     }, [id]);
-
-    // Dil dəyişəndə yenidən sorğu göndərmədən mətnlər dilə görə hazırlanır.
-    // Aşağıdakı kod post.title, post.content, post.read_time oxumağa davam edir.
-    // Hook-lar şərti return-lərdən əvvəl çağırılmalıdır.
     const post = useMemo(() => {
         if (!rawPost) return null;
         return {

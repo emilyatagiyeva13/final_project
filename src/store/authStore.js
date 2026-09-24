@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { supabase } from '../supabaseClient.js';
 import { useWishlistStore } from './useWishlistStore.js';
-import useCartStore from './useCartStore.js'; // Səbət store-unu da import edirik
+import useCartStore from './useCartStore.js';
 
 let initStarted = false;
 
@@ -33,9 +33,8 @@ export const useAuthStore = create((set) => ({
     const { data: { session } } = await supabase.auth.getSession();
     
     if (session?.user) {
-      set({ user: session.user, loading: false }); // Loading-i dərhal söndürürük ki, səhifə donmasın
+      set({ user: session.user, loading: false }); 
 
-      // Bütün məlumatları paralel şəkildə arxa planda eyni anda çəkirik
       Promise.all([
         useAuthStore.getState().fetchProfile(session.user.id),
         useWishlistStore.getState().fetchWishlist(),

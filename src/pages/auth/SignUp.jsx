@@ -3,10 +3,10 @@ import { supabase } from "../../supabaseClient.js";
 import "../../assets/scss/SignUp.scss";
 import { NavLink, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
-import { useTranslation } from "react-i18next"; // i18n əlavə olundu
+import { useTranslation } from "react-i18next";
 
 const SignUp = () => {
-  const { t } = useTranslation('auth'); // t funksiyası çağırıldı
+  const { t } = useTranslation('auth');
   const [pageLoading, setPageLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -32,7 +32,7 @@ const SignUp = () => {
     setSubmitting(true);
     setError("");
 
-    const { data, error } = await supabase.auth.signUp({
+    const {  error } = await supabase.auth.signUp({
       email: form.email,
       password: form.password,
       options: {

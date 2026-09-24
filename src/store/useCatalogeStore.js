@@ -35,7 +35,6 @@ export const useCatalogStore = create((set, get) => ({
         });
     },
 
-    // ---------- products ----------
     fetchProducts: async () => {
         const { data, error } = await supabase
             .from('products')

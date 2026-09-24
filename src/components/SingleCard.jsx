@@ -1,7 +1,6 @@
 import "../assets/scss/SingleCard.scss";
 import { MdAddShoppingCart } from "react-icons/md";
 import { FaHeart, FaRegHeart, FaStar } from "react-icons/fa";
-import { GrView } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useWishlistStore } from "../store/useWishlistStore";

@@ -8,7 +8,6 @@ import { supabase } from "../supabaseClient";
 import "../assets/scss/ProductDetails.scss";
 import Loader from "../components/Loader.jsx";
 import useCartStore from "../store/useCartStore.js";
-import { useAuthStore } from "../store/authStore.js";
 import ReviewList from "../components/Feedback/ReviewList.jsx";
 import RecommendedProducts from "./RecommendedProducts.jsx";
 
@@ -23,20 +22,21 @@ const ProductDetails = () => {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
 
-  const user = useAuthStore((state) => state.user);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quantity, setQuantity] = useState(1);
 
-  // Rəy göndəriləndə ReviewList-i yenidən çəkmək üçün
-  const [reviewsRefreshKey, setReviewsRefreshKey] = useState(0);
+  // İstifadəçinin +/- ilə seçdiyi say. null olsa, səbətdəki say (yoxdursa 1) göstərilir
+  const [selectedQty, setSelectedQty] = useState(null);
+
+  const [reviewsRefreshKey] = useState(0);
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       setError(null);
+      setSelectedQty(null);
 
       const { data, error } = await supabase
         .from("products")
@@ -61,18 +61,15 @@ const ProductDetails = () => {
     fetchProduct();
   }, [slug]);
 
-  // Məhsul (və ya səbət) dəyişəndə quantity-ni səbətdəki mövcud say ilə sinxronlaşdır
-  useEffect(() => {
-    if (!product) return;
-    const existing = cartItems.find((i) => i.id === product.id);
-    setQuantity(existing ? existing.quantity : 1);
-  }, [product, cartItems]);
+  // Effect əvəzinə render zamanı hesablanır
+  const inCart = product ? cartItems.find((i) => i.id === product.id) : undefined;
+  const quantity = selectedQty ?? inCart?.quantity ?? 1;
 
   const handleQuantityChange = (type) => {
     if (type === "decrease" && quantity > 1) {
-      setQuantity((prev) => prev - 1);
+      setSelectedQty(quantity - 1);
     } else if (type === "increase" && quantity < (product?.stock || 1)) {
-      setQuantity((prev) => prev + 1);
+      setSelectedQty(quantity + 1);
     }
   };
 
@@ -120,9 +117,9 @@ const ProductDetails = () => {
   if (error || !product) {
     return (
       <div className="product-status-wrapper error">
-        <h3>{t("product.notFound", "Axtardığınız kitab tapılmadı")}</h3>
+        <h3>{t("product.notFound")}</h3>
         <button onClick={() => navigate("/")} className="btn-back">
-          {t("product.backHome", "Ana Səhifəyə Qayıt")}
+          {t("product.backHome")}
         </button>
       </div>
     );
@@ -141,8 +138,6 @@ const ProductDetails = () => {
   const language = lang === "en"
     ? (product.language_en || product.language_az)
     : (product.language_az || product.language_en);
-
-  const inCart = cartItems.find((i) => i.id === product.id);
 
   const formattedPublishedDate = product.published_date
     ? new Date(product.published_date).toLocaleDateString(lang === "en" ? "en-GB" : "az-AZ")
