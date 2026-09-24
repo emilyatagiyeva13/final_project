@@ -51,37 +51,37 @@ const AuthorsPage = () => {
 
             if (editingAuthor?.id) {
                 await updateAuthor(editingAuthor.id, payload);
-                toast.success(t('authors.successUpdate') || 'Uğurla yeniləndi!');
+                toast.success(t('authors.successUpdate') );
             } else {
                 await addAuthor(payload);
-                toast.success(t('authors.successAdd') || 'Uğurla əlavə olundu!');
+                toast.success(t('authors.successAdd') );
             }
 
             closeForm();
         } catch (error) {
             console.error(error);
-            toast.error(t('authors.errorOccurred') || 'Xəta baş verdi!');
+            toast.error(t('authors.errorOccurred'));
         }
     };
 
     const handleDelete = async (id) => {
         const result = await Swal.fire({
-            title: t('authors.confirmDelete') || 'Silmək istədiyinizə əminsiniz?',
+            title: t('authors.confirmDelete'),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: t('authors.yesDelete') || 'Bəli, sil!',
-            cancelButtonText: t('authors.cancel') || 'Ləğv et'
+            confirmButtonText: t('authors.yesDelete'),
+            cancelButtonText: t('authors.cancel') 
         });
 
         if (result.isConfirmed) {
             try {
                 await deleteAuthor(id);
-                toast.success(t('authors.successDelete') || 'Uğurla silindi!');
+                toast.success(t('authors.successDelete'));
             } catch (error) {
                 console.error(error);
-                toast.error(t('authors.errorOccurred') || 'Xəta baş verdi!');
+                toast.error(t('authors.errorOccurred'));
             }
         }
     };
@@ -95,7 +95,6 @@ const AuthorsPage = () => {
                 <button className="btn-primary" onClick={openNew}>{t('authors.newAuthor')}</button>
             </div>
 
-            {/* Responsiv cədvəl qabı */}
             <div className="table-responsive">
                 <table className="products-table">
                     <thead>
