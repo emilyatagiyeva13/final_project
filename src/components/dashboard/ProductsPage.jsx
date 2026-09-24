@@ -75,45 +75,45 @@ const ProductsPage = () => {
 
             if (editingProduct?.id) {
                 await updateProduct(editingProduct.id, payload);
-                toast.success(t('products.successUpdate') || 'Uğurla yeniləndi!');
+                toast.success(t('products.successUpdate') );
             } else {
                 await addProduct(payload);
-                toast.success(t('products.successAdd') || 'Uğurla əlavə olundu!');
+                toast.success(t('products.successAdd'));
             }
 
             closeForm();
         } catch (error) {
-                console.error(error)
+            console.error(error)
 
-            toast.error(t('products.errorOccurred') || 'Xəta baş verdi!');
+            toast.error(t('products.errorOccurred'));
         }
     };
 
     const handleDelete = async (id) => {
         const result = await Swal.fire({
-            title: t('products.confirmDelete') || 'Silmək istədiyinizə əminsiniz?',
+            title: t('products.confirmDelete'),
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: t('products.yesDelete') || 'Bəli, sil!',
-            cancelButtonText: t('products.cancel') || 'Ləğv et'
+            confirmButtonText: t('products.yesDelete') ,
+            cancelButtonText: t('products.cancel')
         });
 
         if (result.isConfirmed) {
             try {
                 await deleteProduct(id);
-                toast.success(t('products.successDelete') || 'Uğurla silindi!');
+                toast.success(t('products.successDelete') );
             } catch (error) {
                 console.error(error)
 
-                toast.error(t('products.errorOccurred') || 'Xəta baş verdi!');
+                toast.error(t('products.errorOccurred') );
             }
         }
     };
 
     if (loading) return <Loader />;
-    
+
 
     return (
         <div className="products-page">
@@ -137,24 +137,24 @@ const ProductsPage = () => {
                         </tr>
                     </thead>
                     <tbody className="products-tbody">
-    {products.map((p) => (
-        <tr key={p.id}>
-            <td data-label={t('products.image')}>
-                <img src={p.image_url} alt="" className="product-thumb" />
-            </td>
-            <td data-label={t('products.tableTitle')}>{productTranslate(p, 'title')}</td>
-            <td data-label={t('products.category')}>{categoryTranslate(p.categories) || '—'}</td>
-            <td data-label={t('products.author')}>{authorTranslate(p.authors) || '—'}</td>
-            <td data-label={t('products.price')}>{p.price} $</td>
-            <td data-label={t('products.stock')}>{p.stock}</td>
-            <td data-label={t('products.active')}>{p.is_active ? 'Active' : 'Deactive'}</td>
-            <td className="actions-cell">
-                <button className="btn-edit" onClick={() => openEdit(p)}>{t('products.edit')}</button>
-                <button className="btn-delete" onClick={() => handleDelete(p.id)}>{t('products.delete')}</button>
-            </td>
-        </tr>
-    ))}
-</tbody>
+                        {products.map((p) => (
+                            <tr key={p.id}>
+                                <td data-label={t('products.image')}>
+                                    <img src={p.image_url} alt="" className="product-thumb" />
+                                </td>
+                                <td data-label={t('products.tableTitle')}>{productTranslate(p, 'title')}</td>
+                                <td data-label={t('products.category')}>{categoryTranslate(p.categories) || '—'}</td>
+                                <td data-label={t('products.author')}>{authorTranslate(p.authors) || '—'}</td>
+                                <td data-label={t('products.price')}>{p.price} $</td>
+                                <td data-label={t('products.stock')}>{p.stock}</td>
+                                <td data-label={t('products.active')}>{p.is_active ? 'Active' : 'Deactive'}</td>
+                                <td className="actions-cell">
+                                    <button className="btn-edit" onClick={() => openEdit(p)}>{t('products.edit')}</button>
+                                    <button className="btn-delete" onClick={() => handleDelete(p.id)}>{t('products.delete')}</button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </table>
             </div>
 
@@ -190,10 +190,10 @@ const ProductsPage = () => {
 
                         <input name="total_pages" type="number" min="0" placeholder={t('products.totalPages') || 'Səhifə sayı'} value={form.total_pages ?? ''} onChange={handleChange} />
 
-                        <input name="country_az" placeholder={t('products.countryAz') || 'Ölkə (AZ)'} value={form.country_az || ''} onChange={handleChange} />
-                        <input name="country_en" placeholder={t('products.countryEn') || 'Ölkə (EN)'} value={form.country_en || ''} onChange={handleChange} />
-                        <input name="language_az" placeholder={t('products.languageAz') || 'Dil (AZ)'} value={form.language_az || ''} onChange={handleChange} />
-                        <input name="language_en" placeholder={t('products.languageEn') || 'Dil (EN)'} value={form.language_en || ''} onChange={handleChange} />
+                        <input name="country_az" placeholder={t('products.countryAz') } value={form.country_az || ''} onChange={handleChange} />
+                        <input name="country_en" placeholder={t('products.countryEn') } value={form.country_en || ''} onChange={handleChange} />
+                        <input name="language_az" placeholder={t('products.languageAz')} value={form.language_az || ''} onChange={handleChange} />
+                        <input name="language_en" placeholder={t('products.languageEn')} value={form.language_en || ''} onChange={handleChange} />
 
                         <div className="checkbox-group">
                             <label><input type="checkbox" name="is_active" checked={!!form.is_active} onChange={handleChange} /> {t('products.activeLabel')}</label>
