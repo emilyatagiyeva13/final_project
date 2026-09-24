@@ -31,11 +31,11 @@ const SingleCard = ({
     description,
     description_az,
     viewMode = "grid",
+    stock
 }) => {
-    const { t } = useTranslation("common","shop");
+    const { t } = useTranslation("common", "shop");
     const navigate = useNavigate();
     const fullStars = Math.round(rating);
-    
 
     const displayTitle = title ?? title_az;
     const displayDescription = description ?? description_az;
@@ -47,6 +47,8 @@ const SingleCard = ({
 
     const handleAddToCart = async (e) => {
         e.stopPropagation();
+        if (stock === 0) return;
+
         if (!user) {
             toast.error(t("card.loginRequired"), toastOptions);
             navigate("/login");
@@ -88,16 +90,16 @@ const SingleCard = ({
                     {isInWishlist ? <FaHeart color="red" /> : <FaRegHeart />}
                 </button>
 
-                <button
-                    className="quick-view"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <GrView />
-                </button>
+                
             </div>
 
             <div className="book-card-image-wrapper">
                 <img src={image_url} alt={displayTitle} className="book-card-image" />
+                {stock === 0 && (
+                    <div className="out-of-stock-badge">
+                        {t("product.outOfStock", "Tükəndi")}
+                    </div>
+                )}
             </div>
 
             <div className="book-card-info">
@@ -125,9 +127,17 @@ const SingleCard = ({
             </div>
 
             <div className="add-to-cart">
-                <button className="button" onClick={handleAddToCart} >
+                <button 
+                    className="button" 
+                    onClick={handleAddToCart}
+                    disabled={stock === 0}
+                >
                     <MdAddShoppingCart className="icon-shop" />
-                    <span>{t("card.addToCart")}</span>
+                    <span>
+                        {stock === 0 
+                            ? t("product.noStock", "Stokda yoxdur") 
+                            : t("card.addToCart", "Səbətə əlavə et")}
+                    </span>
                 </button>
             </div>
         </div>

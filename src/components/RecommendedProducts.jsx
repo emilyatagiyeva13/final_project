@@ -8,7 +8,6 @@ import { supabase } from '../supabaseClient';
 import { useLanguage } from '../context/LangContext';
 import SingleCard from './SingleCard';
 
-// Fisher-Yates qarışdırma
 const shuffle = (arr) => {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
@@ -23,7 +22,6 @@ const RecommendedProducts = ({ limit = 8 }) => {
   const { currentLang } = useLanguage();
   const [picked, setPicked] = useState([]);
 
-  // Məhsullar bir dəfə çəkilir və bir dəfə random seçilir (dil dəyişəndə yenidən qarışmır)
   useEffect(() => {
     let cancelled = false;
 
@@ -64,7 +62,6 @@ const RecommendedProducts = ({ limit = 8 }) => {
     };
   }, [limit]);
 
-  // Dil dəyişəndə yalnız formatlama yenilənir, siyahı eyni qalır
   const books = useMemo(
     () =>
       picked.map((book) => ({
@@ -96,7 +93,7 @@ const RecommendedProducts = ({ limit = 8 }) => {
               576: { slidesPerView: 2, spaceBetween: 20 },
               992: { slidesPerView: 3, spaceBetween: 25 },
               1200: { slidesPerView: 4, spaceBetween: 20 },
-              1440: { slidesPerView: 4, spaceBetween: 20 },
+              1440: { slidesPerView: 3, spaceBetween: 20 },
             }}
           >
             {books.map((book) => (

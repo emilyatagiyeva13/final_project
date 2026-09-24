@@ -9,12 +9,13 @@ import "../assets/scss/ProductDetails.scss";
 import Loader from "../components/Loader.jsx";
 import useCartStore from "../store/useCartStore.js";
 import { useAuthStore } from "../store/authStore.js";
-import ReviewList from "../components/Feedback/ReviewList.jsx"; // öz path-inizə uyğunlaşdırın
+import ReviewList from "../components/Feedback/ReviewList.jsx";
+import RecommendedProducts from "./RecommendedProducts.jsx";
 
 const ProductDetails = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { t } = useTranslation('shop');
+  const { t } = useTranslation("shop");
   const { currentLang } = useLanguage();
   const lang = currentLang?.split("-")[0] === "en" ? "en" : "az";
 
@@ -111,8 +112,7 @@ const ProductDetails = () => {
   if (loading) {
     return (
       <div className="product-status-wrapper">
-        <div className="spinner"></div>
-        <p><Loader /></p>
+        <Loader />
       </div>
     );
   }
@@ -166,7 +166,6 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* Sağ: Məhsul Məlumatları */}
           <div className="col-12 col-lg-7">
             <div className="product-info">
               {categoryName && (
@@ -180,13 +179,7 @@ const ProductDetails = () => {
                   className="author-card"
                   onClick={() => navigate(`/author/${product.authors.slug}`)}
                 >
-                  {product.authors.img_url && (
-                    <img
-                      src={product.authors.img_url}
-                      alt={product.authors.name}
-                      className="author-avatar"
-                    />
-                  )}
+                  
                   <span className="author-name">{product.authors.name}</span>
                 </div>
               )}
@@ -203,43 +196,45 @@ const ProductDetails = () => {
 
               <p className="description">{description}</p>
 
-              <div className="meta-info">
-                <div className={`meta-item ${product.stock > 0 ? "in-stock" : "no-stock"}`}>
-                  <span className="dot"></span>
-                  <span>
-                    {product.stock > 0
-                      ? `${t("product.inStock", "Stokda var")} (${product.stock} ${t("product.pcs", "ədəd")})`
-                      : t("product.noStock", "Stokda yoxdur")}
-                  </span>
+              <div className={`stock-status ${product.stock > 0 ? "in-stock" : "no-stock"}`}>
+                <span className="dot"></span>
+                <span>
+                  {product.stock > 0
+                    ? `${t("product.inStock", "Stokda var")}`
+                    : t("product.noStock", "Stokda yoxdur")}
+                </span>
+              </div>
+
+              <div className="specs-table-wrapper">
+                <div className="specs-grid">
+                  {formattedPublishedDate && (
+                    <div className="spec-item">
+                      <span className="spec-label">{t("product.publishedDate", "Nəşr tarixi")}</span>
+                      <span className="spec-value">{formattedPublishedDate}</span>
+                    </div>
+                  )}
+
+                  {product.total_pages != null && (
+                    <div className="spec-item">
+                      <span className="spec-label">{t("product.totalPages", "Səhifə sayı")}</span>
+                      <span className="spec-value">{product.total_pages}</span>
+                    </div>
+                  )}
+
+                  {country && (
+                    <div className="spec-item">
+                      <span className="spec-label">{t("product.country", "Ölkə")}</span>
+                      <span className="spec-value">{country}</span>
+                    </div>
+                  )}
+
+                  {language && (
+                    <div className="spec-item">
+                      <span className="spec-label">{t("product.language", "Dil")}</span>
+                      <span className="spec-value">{language}</span>
+                    </div>
+                  )}
                 </div>
-
-                {formattedPublishedDate && (
-                  <div className="meta-item">
-                    <span className="label">{t("product.publishedDate", "Nəşr tarixi")}:</span>
-                    <span className="value">{formattedPublishedDate}</span>
-                  </div>
-                )}
-
-                {product.total_pages != null && (
-                  <div className="meta-item">
-                    <span className="label">{t("product.totalPages", "Səhifə sayı")}:</span>
-                    <span className="value">{product.total_pages}</span>
-                  </div>
-                )}
-
-                {country && (
-                  <div className="meta-item">
-                    <span className="label">{t("product.country", "Ölkə")}:</span>
-                    <span className="value">{country}</span>
-                  </div>
-                )}
-
-                {language && (
-                  <div className="meta-item">
-                    <span className="label">{t("product.language", "Dil")}:</span>
-                    <span className="value">{language}</span>
-                  </div>
-                )}
               </div>
 
               {/* Miqdar və Əməliyyatlar */}
@@ -278,8 +273,7 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        {/* ---- Rəylər bölməsi ---- */}
-        <div className="row">
+        <div className="row mt-5">
           <div className="col-12">
             <div className="product-reviews">
               <h2 className="product-reviews__title">
@@ -289,6 +283,8 @@ const ProductDetails = () => {
             </div>
           </div>
         </div>
+
+        <RecommendedProducts/>
       </div>
     </section>
   );

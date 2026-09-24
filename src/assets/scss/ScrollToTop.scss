@@ -1,0 +1,63 @@
+$leather-dark: #012e15;
+$leather: #024d23;
+$leather-light: #027a36;
+$gold: #c9a24b;
+$gold-bright: #e6c877;
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s ease-in-out;
+
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, $leather-dark 0%, $leather 100%);
+    border: 1px solid $gold;
+    color: $gold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: linear-gradient(135deg, $leather 0%, $leather-light 100%);
+      border-color: $gold-bright;
+      color: $gold-bright;
+      transform: translateY(-4px);
+      box-shadow: 0 6px 20px rgba(2, 122, 54, 0.4);
+    }
+
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top {
+    bottom: 20px;
+    right: 20px;
+
+    button {
+      width: 42px;
+      height: 42px;
+      font-size: 16px;
+    }
+  }
+}

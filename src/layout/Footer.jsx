@@ -2,21 +2,23 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { FaInstagram, FaTwitter, FaGithub, FaYoutube } from "react-icons/fa"
-import { toast } from "react-toastify"
 import logo from "../assets/Images/logo-bokifa.svg"
 import "../assets/scss/Footer.scss"
 import { supabase } from "../supabaseClient.js"
 import { useLocalize } from "../components/hooks/useLocalise.jsx"
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const SOCIAL_LINKS = [
+  { label: "Instagram", icon: <FaInstagram />, href: "https://instagram.com" },
+  { label: "Twitter", icon: <FaTwitter />, href: "https://twitter.com" },
+  { label: "GitHub", icon: <FaGithub />, href: "https://github.com" },
+  { label: "YouTube", icon: <FaYoutube />, href: "https://youtube.com" },
+]
 
 const Footer = () => {
   const { t } = useTranslation("footer")
   const { localize } = useLocalize()
 
   const [categories, setCategories] = useState([])
-  const [email, setEmail] = useState("")
-  const [subscribing, setSubscribing] = useState(false)
 
   useEffect(() => {
     let isMounted = true
@@ -41,42 +43,6 @@ const Footer = () => {
     }
   }, [])
 
-  const handleSubscribe = async (e) => {
-    e.preventDefault()
-    const cleanEmail = email.trim().toLowerCase()
-
-    if (!EMAIL_REGEX.test(cleanEmail)) {
-      toast.error(t("subscribe.invalid", "Zəhmət olmasa düzgün email daxil edin"))
-      return
-    }
-
-    setSubscribing(true)
-    const { error } = await supabase
-      .from("newsletter_subscribers")
-      .insert({ email: cleanEmail })
-    setSubscribing(false)
-
-    if (error) {
-      if (error.code === "23505") {
-        toast.info(t("subscribe.exists", "Bu email artıq abunə olub"))
-      } else {
-        console.error("Subscribe error:", error)
-        toast.error(t("subscribe.error", "Xəta baş verdi, bir az sonra yenidən cəhd edin"))
-      }
-      return
-    }
-
-    toast.success(t("subscribe.success", "Abunə olduğunuz üçün təşəkkürlər!"))
-    setEmail("")
-  }
-
-  const socials = [
-    { label: "Instagram", icon: <FaInstagram />, href: "https://instagram.com" },
-    { label: "Twitter", icon: <FaTwitter />, href: "https://twitter.com" },
-    { label: "GitHub", icon: <FaGithub />, href: "https://github.com" },
-    { label: "YouTube", icon: <FaYoutube />, href: "https://youtube.com" },
-  ]
-
   return (
     <footer className="main-footer">
       <div className="footer-top">
@@ -85,7 +51,10 @@ const Footer = () => {
             <img src={logo} alt="Bokifa" />
           </div>
           <p className="brand-text">
-            {t("brandText", "Bokifa draws book lovers of all ages into a community, engage with booklovers and meet their favourite literary personalities.")}
+            {t(
+              "brandText",
+              "Bokifa draws book lovers of all ages into a community, engage with booklovers and meet their favourite literary personalities."
+            )}
           </p>
           <div className="contact-info">
             <div className="phone">
@@ -97,7 +66,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* CATEGORIES */}
         <div className="footer-col">
           <h4>{t("categories", "Categories")}</h4>
           <ul>
@@ -109,24 +77,36 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* CUSTOMER SUPPORT */}
         <div className="footer-col">
           <h4>{t("support.title", "Customer Support")}</h4>
           <ul>
-            <li><Link to="/shop">{t("support.storeList", "Store List")}</Link></li>
-            <li><Link to="/contact">{t("support.openingHours", "Opening Hours")}</Link></li>
-            <li><Link to="/contact">{t("support.contactUs", "Contact Us")}</Link></li>
-            <li><Link to="/contact">{t("support.returnPolicy", "Return Policy")}</Link></li>
+            <li>
+              <Link to="/shop">{t("support.storeList", "Store List")}</Link>
+            </li>
+            <li>
+              <Link to="/contact">{t("support.openingHours", "Opening Hours")}</Link>
+            </li>
+            <li>
+              <Link to="/contact">{t("support.contactUs", "Contact Us")}</Link>
+            </li>
+            <li>
+              <Link to="/contact">{t("support.returnPolicy", "Return Policy")}</Link>
+            </li>
           </ul>
         </div>
 
-        {/* EXPLORE */}
         <div className="footer-col">
           <h4>{t("explore.title", "Explore")}</h4>
           <ul>
-            <li><Link to="/about">{t("explore.aboutUs", "About us")}</Link></li>
-            <li><Link to="/contact">{t("explore.storeLocator", "Store Locator")}</Link></li>
-            <li><Link to="/blog">{t("explore.blogs", "Blogs")}</Link></li>
+            <li>
+              <Link to="/about">{t("explore.aboutUs", "About us")}</Link>
+            </li>
+            <li>
+              <Link to="/contact">{t("explore.storeLocator", "Store Locator")}</Link>
+            </li>
+            <li>
+              <Link to="/blog">{t("explore.blogs", "Blogs")}</Link>
+            </li>
           </ul>
         </div>
       </div>
@@ -138,25 +118,10 @@ const Footer = () => {
           </p>
 
           <div className="bottom-right">
-            <form className="subscribe-form" onSubmit={handleSubscribe} noValidate>
-              <input
-                type="email"
-                className="subscribe-input"
-                placeholder={t("subscribe.placeholder", "Email ünvanınız")}
-                aria-label="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={subscribing}
-              />
-              <button type="submit" className="subscribe-btn" disabled={subscribing}>
-                {subscribing ? "..." : t("subscribe.button", "Subscribe")}
-              </button>
-            </form>
-
             <div className="payment-methods">
-              <div className="payment-placeholder">Cards</div>
+              <div className="payment-placeholder">Social :</div>
               <div className="button-container">
-                {socials.map(({ label, icon, href }) => (
+                {SOCIAL_LINKS.map(({ label, icon, href }) => (
                   <a
                     key={label}
                     href={href}

@@ -1,5 +1,3 @@
-
-
 :root {
   --bg-primary: #f4f6f5;
   --bg-card: #ffffff;
@@ -51,35 +49,39 @@
   }
 }
 
+/* Sol Tərəf: Şəkil Qalereyası (Kiçildilmiş və Balanslaşdırılmış) */
 .product-img-wrapper {
   position: relative;
   background-color: var(--bg-card);
-  border-radius: 24px;
-  padding: 30px;
+  border-radius: 20px;
+  padding: 20px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border-color);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  width: 90%;
+  max-width: 380px;
+  width: 100%;
+  margin: 0 auto;
+  
 
   .product-img {
-    width: 100%;
-    max-height: 480px;
-    object-fit: cover;
-    border-radius: 18px; /* Şəkil üçün səliqəli kənar yuvarlaqlığı */
-    transition: transform 0.5s ease;
+    max-height: 360px;
+    object-fit: contain;
+    border-radius: 12px;
+    transition: transform 0.4s ease;
+    
 
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.04);
     }
   }
 
   .out-of-stock-badge {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 16px;
+    left: 16px;
     background-color: var(--danger-color);
     color: #ffffff;
     padding: 6px 14px;
@@ -168,11 +170,10 @@
     }
   }
 
-  /* Qiymət və Reytinq (Səliqəli ulduz dizaynı) */
+  /* Qiymət və Reytinq */
   .price-rating-wrapper {
     display: flex;
     align-items: center;
-    justify-content: space-wrap;
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 20px;
@@ -192,7 +193,7 @@
       background-color: rgba(245, 158, 11, 0.12);
       color: #d97706;
       padding: 6px 14px;
-      border-radius: 50px; /* Daha incə və səliqəli kapsul görünüşü */
+      border-radius: 50px;
       font-weight: 700;
       font-size: 0.95rem;
       border: 1px solid rgba(245, 158, 11, 0.2);
@@ -212,57 +213,109 @@
     margin-bottom: 20px;
   }
 
-  /* Yeni əlavə olunan məlumatlar üçün Grid/Flex sistemi */
-  .meta-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 12px;
+  /* Stok Statusu */
+  .stock-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    &.in-stock {
+      color: var(--success-color);
+      .dot {
+        background-color: var(--success-color);
+      }
+    }
+
+    &.no-stock {
+      color: var(--danger-color);
+      .dot {
+        background-color: var(--danger-color);
+      }
+    }
+  }
+
+  /* Xüsusi Göstəricilər Cədvəli (Specs Table) */
+  .specs-table-wrapper {
     margin-bottom: 24px;
     background-color: var(--bg-primary);
-    padding: 16px;
-    border-radius: 16px;
+    border-radius: 18px;
     border: 1px solid var(--border-color);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
 
-    .meta-item {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.88rem;
-      color: var(--text-muted);
+    &:hover {
+      box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.08);
+      border-color: var(--primary-light);
+    }
 
-      &.in-stock {
-        grid-column: 1 / -1; /* Stok statusu həmişə tam sətrə yayılsın */
-        border-bottom: 1px dashed var(--border-color);
-        padding-bottom: 10px;
-        margin-bottom: 4px;
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
 
+      @media (max-width: 576px) {
+        grid-template-columns: 1fr;
       }
 
-      &.no-stock {
-        grid-column: 1 / -1;
-        border-bottom: 1px dashed var(--border-color);
-        padding-bottom: 10px;
-        margin-bottom: 4px;
+      .spec-item {
+        display: flex;
+        flex-direction: column;
+        padding: 14px 18px;
+        border-bottom: 1px solid var(--border-color);
+        border-right: 1px solid var(--border-color);
+        transition: background-color 0.2s ease;
 
-        .dot {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background-color: var(--danger-color);
-          flex-shrink: 0;
+        &:nth-child(2n) {
+          border-right: none;
         }
-      }
 
-      .label {
-        color: var(--text-muted);
-        font-weight: 500;
-      }
+        &:nth-last-child(1),
+        &:nth-last-child(2) {
+          @media (min-width: 577px) {
+            border-bottom: none;
+          }
+        }
 
-      .value {
-        font-weight: 700;
-        color: var(--text-main);
-        text-transform: uppercase;
+        @media (max-width: 576px) {
+          border-right: none;
+          &:last-child {
+            border-bottom: none;
+          }
+        }
 
+        &:hover {
+          background-color: var(--primary-light);
+
+          .spec-value {
+            color: var(--primary);
+          }
+        }
+
+        .spec-label {
+          font-size: 0.78rem;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          color: var(--text-muted);
+          font-weight: 600;
+          margin-bottom: 4px;
+        }
+
+        .spec-value {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: var(--text-main);
+          transition: color 0.2s ease;
+        }
       }
     }
   }
@@ -302,7 +355,7 @@
         align-items: center;
         justify-content: center;
         transition: all 0.2s ease;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
 
         &:hover:not(:disabled) {
           background-color: var(--primary);

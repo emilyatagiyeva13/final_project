@@ -8,6 +8,7 @@ import Loader from '../components/Loader';
 import EmptyBasket from '../components/EmptyBasket';
 import { useLocalize } from '../components/hooks/useLocalise';
 import { useTranslation } from 'react-i18next';
+import RecommendedProducts from '../components/RecommendedProducts';
 
 const Basket = () => {
   const { t } = useTranslation("common");
@@ -158,6 +159,7 @@ const Basket = () => {
           </button>
         </div>
       </div>
+      <RecommendedProducts/>
     </div>
   );
 };
