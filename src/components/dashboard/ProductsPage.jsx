@@ -136,23 +136,25 @@ const ProductsPage = () => {
                             <th className="actions-th"></th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {products.map((p) => (
-                            <tr key={p.id}>
-                                <td><img src={p.image_url} alt="" className="product-thumb" /></td>
-                                <td>{productTranslate(p, 'title')}</td>
-                                <td>{categoryTranslate(p.categories) || '—'}</td>
-                                <td>{authorTranslate(p.authors) || '—'}</td>
-                                <td>{p.price} $</td>
-                                <td>{p.stock}</td>
-                                <td>{p.is_active ? 'Active' : 'Deacctive'}</td>
-                                <td className="actions-cell">
-                                    <button className="btn-edit" onClick={() => openEdit(p)}>{t('products.edit')}</button>
-                                    <button className="btn-delete" onClick={() => handleDelete(p.id)}>{t('products.delete')}</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
+                    <tbody className="products-tbody">
+    {products.map((p) => (
+        <tr key={p.id}>
+            <td data-label={t('products.image')}>
+                <img src={p.image_url} alt="" className="product-thumb" />
+            </td>
+            <td data-label={t('products.tableTitle')}>{productTranslate(p, 'title')}</td>
+            <td data-label={t('products.category')}>{categoryTranslate(p.categories) || '—'}</td>
+            <td data-label={t('products.author')}>{authorTranslate(p.authors) || '—'}</td>
+            <td data-label={t('products.price')}>{p.price} $</td>
+            <td data-label={t('products.stock')}>{p.stock}</td>
+            <td data-label={t('products.active')}>{p.is_active ? 'Active' : 'Deactive'}</td>
+            <td className="actions-cell">
+                <button className="btn-edit" onClick={() => openEdit(p)}>{t('products.edit')}</button>
+                <button className="btn-delete" onClick={() => handleDelete(p.id)}>{t('products.delete')}</button>
+            </td>
+        </tr>
+    ))}
+</tbody>
                 </table>
             </div>
 

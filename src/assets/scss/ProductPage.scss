@@ -93,8 +93,17 @@
     }
   }
 
+  /* Cədvəlin mobil ekranlarda daşmaması üçün xüsusi konteyner */
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-radius: 14px;
+  }
+
   .products-table {
     width: 100%;
+    min-width: 750px; /* Kiçik ekranlarda sütunların bir-birinə keçməsinin qarşısını alır */
     border-collapse: separate;
     border-spacing: 0;
     background: var(--bg-card);
@@ -136,6 +145,10 @@
 
     tr:hover td {
       background-color: var(--hover-tr);
+    }
+
+    .actions-cell {
+      white-space: nowrap;
     }
 
     td button {
@@ -194,7 +207,7 @@
     border-radius: 16px;
     padding: 2.2rem;
     width: 100%;
-    max-width: 550px;
+    max-width: 650px;
     max-height: 90vh;
     overflow-y: auto;
     display: flex;
@@ -213,6 +226,7 @@
     }
 
     input, select, textarea {
+      width: 100%;
       padding: 0.75rem 1rem;
       border: 1px solid var(--input-border);
       border-radius: 10px;
@@ -221,6 +235,7 @@
       background: var(--input-bg);
       color: var(--text-main);
       transition: all 0.2s;
+      box-sizing: border-box;
 
       &:focus {
         outline: none;
@@ -235,20 +250,36 @@
       min-height: 80px;
     }
 
-    label {
+    .field-label {
       display: flex;
-      align-items: center;
-      gap: 0.7rem;
+      flex-direction: column;
+      gap: 0.4rem;
       font-size: 0.91rem;
       color: var(--text-main);
-      cursor: pointer;
-      user-select: none;
+      font-weight: 500;
+    }
 
-      input[type="checkbox"] {
-        width: 18px;
-        height: 18px;
-        accent-color: var(--btn-bg);
+    .checkbox-group {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+
+      label {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        font-size: 0.91rem;
+        color: var(--text-main);
         cursor: pointer;
+        user-select: none;
+
+        input[type="checkbox"] {
+          width: 18px;
+          height: 18px;
+          accent-color: var(--btn-bg);
+          cursor: pointer;
+        }
       }
     }
   }
@@ -292,6 +323,44 @@
   }
 }
 
+/* RESPONSIVE MEDIA QUERIES */
+@media (max-width: 768px) {
+  .products-page {
+    padding: 1.2rem;
+
+    .products-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+
+      button {
+        width: 100%;
+      }
+    }
+
+    .modal-overlay {
+      padding: 0.8rem;
+    }
+
+    .form-modal {
+      padding: 1.5rem;
+
+      .checkbox-group {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+    }
+
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -300,4 +369,103 @@
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 768px) {
+  .products-page {
+    padding: 1rem;
+
+    .products-header {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+
+      button {
+        width: 100%;
+      }
+    }
+
+    /* Cədvəli kart dizaynına çeviririk */
+    .products-table {
+      min-width: 100% !important;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+
+      thead {
+        display: none; /* Mobil ekranda ana cədvəl başlığını gizlədirik */
+      }
+
+      tbody tr {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-card);
+        border: 1px solid var(--border-main);
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        padding: 0.8rem 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      }
+
+      td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border-subtle);
+        text-align: right;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        /* React-da verdiyimiz data-label atributunu sol tərəfə başlıq kimi çıxarırıq */
+        &::before {
+          content: attr(data-label);
+          font-weight: 600;
+          font-size: 0.8rem;
+          color: var(--text-muted);
+          text-transform: uppercase;
+          text-align: left;
+          padding-right: 10px;
+        }
+      }
+
+      .actions-cell {
+        justify-content: flex-end;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+
+        &::before {
+          display: none; /* Düymələr olan xanada başlıq göstərmirik */
+        }
+
+        button {
+          margin-left: 0;
+          flex: 1; /* Düymələr yan-yana bərabər paylansın */
+        }
+      }
+    }
+
+    /* Modalı da tam mobilə uyğunlaşdırırıq */
+    .modal-overlay {
+      padding: 0.8rem;
+    }
+
+    .form-modal {
+      padding: 1.2rem;
+      
+      .checkbox-group {
+        flex-direction: column;
+        gap: 0.8rem;
+      }
+    }
+
+    .form-actions {
+      flex-direction: column;
+
+      button {
+        width: 100%;
+      }
+    }
+  }
 }
