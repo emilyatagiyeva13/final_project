@@ -51,39 +51,39 @@ const CategoriesPage = () => {
 
             if (editingCategory?.id) {
                 await updateCategory(editingCategory.id, payload);
-                toast.success(t('categories.successUpdate') || 'Uğurla yeniləndi!');
+                toast.success(t('categories.successUpdate') );
             } else {
                 await addCategory(payload);
-                toast.success(t('categories.successAdd') || 'Uğurla əlavə olundu!');
+                toast.success(t('categories.successAdd'));
             }
 
             closeForm();
         } catch (error) {
             console.error(error)
 
-            toast.error(t('categories.errorOccurred') || 'Xəta baş verdi!');
+            toast.error(t('categories.errorOccurred'));
         }
     };
 
     const handleDelete = async (id) => {
         const result = await Swal.fire({
-            title: t('categories.confirmDelete') || 'Silmək istədiyinizə əminsiniz?',
+            title: t('categories.confirmDelete') ,
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: t('categories.yesDelete') || 'Bəli, sil!',
-            cancelButtonText: t('categories.cancel') || 'Ləğv et'
+            confirmButtonText: t('categories.yesDelete') ,
+            cancelButtonText: t('categories.cancel') 
         });
 
         if (result.isConfirmed) {
             try {
                 await deleteCategory(id);
-                toast.success(t('categories.successDelete') || 'Uğurla silindi!');
+                toast.success(t('categories.successDelete') );
             } catch (error) {
                 console.error(error)
 
-                toast.error(t('categories.errorOccurred') || 'Xəta baş verdi!');
+                toast.error(t('categories.errorOccurred'));
             }
         }
     };
@@ -98,7 +98,6 @@ const CategoriesPage = () => {
                 <button className="btn-primary" onClick={openNew}>{t('categories.newCategory')}</button>
             </div>
 
-            {/* Responsiv cədvəl qabı */}
             <div className="table-responsive">
                 <table className="products-table">
                     <thead>
