@@ -1,4 +1,3 @@
-// ─── THEME VARIABLES (Xüsusiyyətlər bölməsi üçün) ───────────────────────────
 :root[data-theme="light"] {
     --feat-bg: #ffffff;
     --feat-title: #000000;
@@ -12,10 +11,9 @@
     --feat-title: #f0f0f0;
     --feat-desc: #9ca3af;
     --feat-icon: #e0e0e0;
-    --feat-hover-color: #3fae56; // Tünd rejimdə uyğun yaşıl və ya qırmızı/burgundy saxlaya bilərsən
+    --feat-hover-color: #3fae56; 
 }
 
-// ─── FEATURES SECTION ───────────────────────────────────────────────────────
 .features-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);

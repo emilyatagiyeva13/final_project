@@ -1,10 +1,5 @@
-// ============================================
-// LanguageSwitchButton.scss
-// Dark/Light tema + Responsive
-// ============================================
 
 .lang-switch {
-  // Light tema (default) dəyişənləri
   --lang-primary: #027a36;
   --lang-primary-hover: #02592a;
   --lang-primary-text: #ffffff;
@@ -26,7 +21,6 @@
   font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   transition: background 0.25s ease, border-color 0.25s ease;
 
-  // ---- Dark tema: manual override (data-theme="dark") ----
   [data-theme="dark"] & {
     --lang-primary: #05a34a;
     --lang-primary-hover: #06c25a;
@@ -40,8 +34,6 @@
     --lang-shadow-soft: rgba(5, 163, 74, 0.18);
   }
 
-  // ---- Dark tema: sistem üstünlüyünə görə avtomatik ----
-  // (yalnız data-theme təyin olunmayıbsa işə düşür)
   @media (prefers-color-scheme: dark) {
     &:not([data-theme="light"]) {
       --lang-primary: #05a34a;

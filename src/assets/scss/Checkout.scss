@@ -1,4 +1,3 @@
-// CSS Dəyişənləri (Əgər global vars faylınızda yoxdursa, burada və ya global app.scss-də təyin edə bilərsiniz)
 :root {
   --bg-checkout-card: #ffffff;
   --bg-checkout-summary: #f9fafb;
@@ -15,7 +14,6 @@
   --badge-text: #16a34a;
 }
 
-/* Dark Mode Dəyişənləri (Sizin layihənizin dark klassı body və ya html-də ola bilər) */
 [data-theme="dark"], body.dark-mode, body.dark {
   --bg-checkout-card:#0F1215;
   --bg-checkout-summary: #0F1215;
@@ -79,7 +77,6 @@
   }
 }
 
-/* İnteraktiv Bank Kartı (Sabit bank kartı stili) */
 .card-wrapper {
   perspective: 1000px;
   margin: 20px 0 30px 0;
@@ -195,7 +192,6 @@
   }
 }
 
-/* Form Sahələri - Temaya Uyğun */
 .checkout-form {
   background: var(--bg-checkout-card);
   padding: 30px;
@@ -279,7 +275,6 @@
   }
 }
 
-/* Sağ tərəf Xülasə - Temaya Uyğun */
 .checkout-summary {
   background: var(--bg-checkout-summary);
   padding: 24px;

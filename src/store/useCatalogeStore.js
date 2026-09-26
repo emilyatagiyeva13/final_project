@@ -163,10 +163,6 @@ export const useCatalogStore = create((set, get) => ({
         return { success: true };
     },
 
-    // ---------- orders ----------
-    // customer: { fullName, email, phone, address }
-    // items: [{ id (product_id), title_az, title_en, price, quantity, image }]
-    // totals: { subtotal, shippingCost, total }
     confirmOrder: async (userId, customer, items, totals) => {
         set({ error: null });
 

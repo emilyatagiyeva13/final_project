@@ -1,4 +1,3 @@
-// ─── THEME VARIABLES (Mağaza və Filter Səhifəsi üçün) ──────────────────────
 :root[data-theme="light"] {
     --shop-bg: #ffffff;
     --shop-text: #333333;
@@ -27,7 +26,6 @@ $text-color: #333;
 $muted-color: #777;
 $spacing: 20px;
 
-// Əsas Responsive Konteyner (Mobile-First: 320px-dən başlayır)
 .shop-container {
     display: flex;
     flex-direction: column;
@@ -326,7 +324,6 @@ $spacing: 20px;
                 }
             }
 
-            // focus-within: telefonda toxunuşla da menyu açılsın
             &:hover,
             &:focus-within {
                 .dropdown-content {
@@ -576,17 +573,12 @@ $spacing: 20px;
 }
 
 
-// ═══════════════════════════════════════════════════════════════════════
-// ─── RESPONSIVE DÜZƏLİŞLƏR (yalnız layout: ölçü, boşluq, sütun sayı) ────
-// ═══════════════════════════════════════════════════════════════════════
 
-// Uzun siyahılar (müəlliflər/kateqoriyalar) kəsilməsin, öz daxilində scroll olsun
 .filter-card .filter-list.open {
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
 }
 
-// Məhsul sütunları flex daxilində taşmasın (kartın içi sütundan geniş ola bilməz)
 .main-shop .product-box {
     >[class*="col-"] {
         min-width: 0;
@@ -597,7 +589,6 @@ $spacing: 20px;
     }
 }
 
-// ── Tablet və aşağısı: filterlər məhsulların üstündə ─────────────────────
 @media (max-width: 991.98px) {
     .filter-card .filter-list.open {
         max-height: 240px;
@@ -613,11 +604,10 @@ $spacing: 20px;
     }
 }
 
-// ── Tablet (768px – 991px): 3 filter kartı yan-yana, hündürlük qənaəti ───
 @media (min-width: 768px) and (max-width: 991.98px) {
     .shop-container .filter-box {
         
-        flex-direction: row !important; // Bootstrap .flex-column !important olduğu üçün
+        flex-direction: row !important; 
         align-items: flex-start;
 
         >* {
@@ -627,8 +617,6 @@ $spacing: 20px;
     }
 }
 
-// ── Kiçik desktop / böyük tablet (992px – 1199px): yan panel daralır,
-//    grid görünüşündə 3 əvəzinə 2 sütun (kartlar sıxılmasın) ──────────────
 @media (min-width: 992px) and (max-width: 1199.98px) {
     .shop-container .filter-box {
         width: 280px;
@@ -643,32 +631,26 @@ $spacing: 20px;
     }
 }
 
-// ── Mobil və kiçik tablet (< 768px) ──────────────────────────────────────
 @media (max-width: 767.98px) {
 
-    // iOS-da input-a toxunanda səhifənin zoom olmasının qarşısı (16px)
     .price-range .price-input {
         font-size: 16px;
 
     }
 
-    // Kart sütunları arası boşluq (Bootstrap 5 gutter)
     .main-shop .product-box {
         --bs-gutter-x: 0.75rem;
     }
 }
 
-// ── Telefon (< 576px) ────────────────────────────────────────────────────
-/* Mobil ekranlar üçün tam mərkəzləşdirmə tənzimləmələri */
+
 @media (max-width: 576px) {
-  /* Row-un mənfi margin-lərini sıfırlayırıq ki, sağa/sola sürüşmə olmasın */
   .product-box {
     margin-left: 0 !important;
     margin-right: 0 !important;
     width: 100% !important;
   }
 
-  /* Kartın yerləşdiyi sütunu (col-12) mərkəzləşdiririk */
   .product-box > div {
     display: flex !important;
     justify-content: center !important;
@@ -677,17 +659,14 @@ $spacing: 20px;
     padding-right: 0 !important;
   }
 
-  /* SingleCard komponentinin özünü mərkəzləşdiririk */
   .product-box .single-card, 
   .product-box > div > * {
     margin-left: auto !important;
     margin-right: auto !important;
-    /* Əgər kart çox genişdirsə, ekran sərhədindən kənara çıxmasın */
     max-width: 100% !important; 
   }
 }
 
-// ── Çox kiçik telefonlar (< 360px): grid tək sütun ───────────────────────
 @media (max-width: 359.98px) {
     .main-shop .product-box>.col-6 {
         flex: 0 0 auto;
@@ -701,20 +680,18 @@ $spacing: 20px;
 
 }
 
-/* Mobil ekranlarda List/Grid ikonlarını gizlət */
-/* Mobile Responsiveness Rules */
+
 @media (max-width: 768px) {
   .sorting {
-    /* İkonlar gizləndikdə sıralama və nəticə sayını balanslaşdırmaq üçün */
     justify-content: space-between; 
 
     .sort-grid-books {
-      display: none !important; /* Mobil görünüşdə List və Grid ikonlarını gizlədir */
+      display: none !important; 
     }
   }
 
   .shop-container {
-    flex-direction: column; /* Filtrlər və Məhsullar üst-üstə düşsün */
+    flex-direction: column; 
   }
 }
 

@@ -1,4 +1,3 @@
-// ─── THEME VARIABLES (Shop Card üçün) ──────────────────────────────────────
 :root {
     --shopcard-overlay-dark: rgba(5, 30, 10, 0.85);
     --shopcard-overlay-mid: rgba(5, 30, 10, 0.5);
@@ -14,7 +13,6 @@
     --shopcard-btn-shadow: rgba(0, 0, 0, 0.3);
 }
 
-// Sistem tənzimləməsinə görə (əl ilə seçilmiş data-theme yoxdursa)
 @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
         --shopcard-overlay-dark: rgba(0, 0, 0, 0.92);
@@ -32,7 +30,6 @@
     }
 }
 
-// Əl ilə seçilmiş tema (istifadəçinin tema düyməsi)
 :root[data-theme="light"] {
     --shopcard-overlay-dark: rgba(5, 30, 10, 0.85);
     --shopcard-overlay-mid: rgba(5, 30, 10, 0.5);

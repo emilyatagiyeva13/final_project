@@ -32,21 +32,20 @@
     text-align: center;
 
     .icon-wrapper {
-      width: 90px; // Dairə böyüdüldü
+      width: 90px; 
       height: 90px;
       border-radius: 50%;
-      background-color: #fbf5ec; // Şəkildəki açiq kremi fon
+      background-color: #fbf5ec; 
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 24px;
 
-      // React Icons (SVG) üçün dəqiq tənzimləmə
       svg {
-        width: 42px; // İkonun öz ölçüsü böyüdüldü
+        width: 42px; 
         height: 42px;
-        color: #cca473; // Şəkildəki incə qızılı/qəhvəyi ton
-        stroke-width: 1px; // Xətlərin incə qalması üçün
+        color: #cca473; 
+        stroke-width: 1px; 
       }
     }
 
@@ -54,7 +53,7 @@
       font-family: "Playfair Display", Georgia, serif;
       font-size: 56px;
       font-weight: 500;
-      color: #1e6d3b; // Tünd meşə yaşılı
+      color: #1e6d3b; 
       line-height: 1;
       margin-bottom: 12px;
       font-variant-numeric: tabular-nums;

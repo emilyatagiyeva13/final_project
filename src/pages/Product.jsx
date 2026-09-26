@@ -47,7 +47,6 @@ const Product = () => {
   const [viewMode, setViewMode] = useState("grid");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // ---- URL-dən birbaşa hesablanan dəyərlər (ayrıca state və useEffect lazım deyil) ----
   const categoryParam = searchParams.get("category");
   const selectedCategories = useMemo(
     () => (categoryParam ? categoryParam.split(",") : []),
@@ -70,14 +69,12 @@ const Product = () => {
   const pageParam = searchParams.get("page");
   const currentPage = Number(pageParam) || 1;
 
-  // ---- Qiymət inputları: Apply basılana qədər "qaralama" dəyərdir, ona görə state qalır ----
   const minPriceParam = searchParams.get("minPrice");
   const maxPriceParam = searchParams.get("maxPrice");
   const [minPrice, setMinPrice] = useState(minPriceParam || "");
   const [maxPrice, setMaxPrice] = useState(maxPriceParam || "");
 
-  // URL dəyişəndə (məs. brauzerin "geri" düyməsi) inputları yenilə.
-  // useEffect əvəzinə render zamanı sinxronlaşdırma (React-ın rəsmi tövsiyə etdiyi üsul).
+
   const [prevPriceParams, setPrevPriceParams] = useState([
     minPriceParam,
     maxPriceParam,
@@ -307,7 +304,6 @@ const Product = () => {
         </p>
       </section>
 
-      {/* Burada orijinal d-flex gap-3 p-3 əvəzinə yeni shop-container istifadə olundu */}
       <section className="shop-container">
         <div className="filter-box d-flex flex-column gap-3">
 
@@ -465,27 +461,26 @@ const Product = () => {
             </div>
           </div>
 
-          {/* Əvvəlki: <div className="product-box row justify-content-center g-3 my-3 w-100"> */}
-<div className="product-box row justify-content-center align-items-center g-3 my-3">
-  {paginatedBooks.length > 0 ? (
-    paginatedBooks.map((i) => (
-      <div
-        key={i.id}
-        className={
-          viewMode === "grid"
-            ? "col-12 col-sm-6 col-md-4 col-lg-4 d-flex justify-content-center"
-            : "col-12 my-2"
-        }
-      >
-        <SingleCard {...i} viewMode={viewMode} />
-      </div>
-    ))
-  ) : (
-    <div className="text-center my-5 w-100">
-      <h5>No product in this category.</h5>
-    </div>
-  )}
-</div>
+          <div className="product-box row justify-content-center align-items-center g-3 my-3">
+            {paginatedBooks.length > 0 ? (
+              paginatedBooks.map((i) => (
+                <div
+                  key={i.id}
+                  className={
+                    viewMode === "grid"
+                      ? "col-12 col-sm-6 col-md-4 col-lg-4 d-flex justify-content-center"
+                      : "col-12 my-2"
+                  }
+                >
+                  <SingleCard {...i} viewMode={viewMode} />
+                </div>
+              ))
+            ) : (
+              <div className="text-center my-5 w-100">
+                <h5>No product in this category.</h5>
+              </div>
+            )}
+          </div>
 
           {totalPages > 1 && (
             <nav className="pagination-box d-flex justify-content-center gap-2 my-3">

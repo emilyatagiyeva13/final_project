@@ -93,7 +93,6 @@
   }
 }
 
-/* Sağ Tərəf: Məhsul Məlumatları */
 .product-info {
   background-color: var(--bg-card);
   padding: 35px;
@@ -133,7 +132,6 @@
     }
   }
 
-  /* Müəllif Kartı */
   .author-card {
     display: inline-flex;
     align-items: center;
@@ -170,7 +168,6 @@
     }
   }
 
-  /* Qiymət və Reytinq */
   .price-rating-wrapper {
     display: flex;
     align-items: center;
@@ -244,7 +241,6 @@
     }
   }
 
-  /* Xüsusi Göstəricilər Cədvəli (Specs Table) */
   .specs-table-wrapper {
     margin-bottom: 24px;
     background-color: var(--bg-primary);

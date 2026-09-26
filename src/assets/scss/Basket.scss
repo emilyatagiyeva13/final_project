@@ -129,7 +129,6 @@
     }
   }
 
-  /* Grid Layout: Siyahı və Sağdakı Xülasə kartı */
   &__content-grid {
     display: grid;
     grid-template-columns: 1fr 360px;
@@ -147,7 +146,6 @@
     gap: 16px;
   }
 
-  /* Sağdakı Xülasə Kartının Dizaynı */
   .basket-summary-card {
     background-color: var(--bg-primary, #ffffff);
     border: 1px solid var(--border-color, #e5e7eb);
@@ -241,7 +239,6 @@
   border: 1px solid var(--border-color);
   border-radius: 12px;
   box-shadow: 0 2px 8px var(--shadow-color, rgba(0, 0, 0, 0.02));
-  /* İstədiyiniz yumşaq böyümə və keçid effekti */
   transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.3s ease, border-color 0.3s ease;
 
   &:hover {

@@ -32,7 +32,6 @@ const Header = () => {
 
     const closeMenu = () => setMenuOpen(false)
 
-    // --- Search state ---
     const [categories, setCategories] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("all")
     const [query, setQuery] = useState("")
@@ -40,6 +39,9 @@ const Header = () => {
     const [showDropdown, setShowDropdown] = useState(false)
     const [searchLoading, setSearchLoading] = useState(false)
     const searchWrapperRef = useRef(null)
+
+    const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false)
+    const categoryDropdownRef = useRef(null)
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -56,7 +58,6 @@ const Header = () => {
     useEffect(() => {
         const trimmed = query.trim().replace(/[,()%]/g, " ").trim()
 
-        // 2 hərfə çatmayıbsa nəticələri sıfırla və dropdown-u bağla
         if (trimmed.length < 2) {
             setSuggestions([])
             setShowDropdown(false)
@@ -120,6 +121,16 @@ const Header = () => {
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
 
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (categoryDropdownRef.current && !categoryDropdownRef.current.contains(e.target)) {
+                setCategoryDropdownOpen(false)
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => document.removeEventListener("mousedown", handleClickOutside)
+    }, [])
+
     const goToFullResults = () => {
         const trimmed = query.trim()
         if (!trimmed) return
@@ -140,12 +151,10 @@ const Header = () => {
         if (e.key === "Escape") setShowDropdown(false)
     }
 
-    // DƏYİŞİKLİK: Əgər App.jsx routing-də `/shop/:id` və ya `/product/:slug` yazılıbsa bura uyğunlaşdırın.
     const handleSuggestionClick = (product) => {
         setShowDropdown(false)
         setQuery("")
 
-        // Əgər router dəqiq ID gözləyirsə product.id, slug gözləyirsə product.slug istifadə edin:
         const targetParam = product.slug || product.id
         navigate(`/shop/${targetParam}`)
     }
@@ -160,8 +169,19 @@ const Header = () => {
         navigate("/")
     }
 
-    // İstifadəçi bloku (username / login) — həm desktop ikon sırasında,
-    // həm də min-320px-də toggle menyunun içində eyni məzmunla göstərilir.
+    const selectedCategoryLabel = selectedCategory === "all"
+        ? t('search.categories.all')
+        : (categories.find((c) => c.slug === selectedCategory)
+            ? (i18n.language === 'az'
+                ? categories.find((c) => c.slug === selectedCategory).name_az
+                : categories.find((c) => c.slug === selectedCategory).name_en)
+            : t('search.categories.all'))
+
+    const handleCategorySelect = (slug) => {
+        setSelectedCategory(slug)
+        setCategoryDropdownOpen(false)
+    }
+
     const renderUserBlock = (isMobile = false) => {
         if (authLoading || profileResolving) {
             return <div className="navbar-user-skeleton" />
@@ -212,18 +232,40 @@ const Header = () => {
                         </Link>
 
                         <div className="navbar-search" ref={searchWrapperRef}>
-                            <select
-                                className="navbar-search-select"
-                                value={selectedCategory}
-                                onChange={(e) => setSelectedCategory(e.target.value)}
+                            <div
+                                className={`navbar-search-category ${categoryDropdownOpen ? "open" : ""}`}
+                                ref={categoryDropdownRef}
+                                onMouseEnter={() => setCategoryDropdownOpen(true)}
+                                onMouseLeave={() => setCategoryDropdownOpen(false)}
                             >
-                                <option value="all">{t('search.categories.all')}</option>
-                                {categories.map((cat) => (
-                                    <option key={cat.id} value={cat.slug}>
-                                        {i18n.language === 'az' ? cat.name_az : cat.name_en}
-                                    </option>
-                                ))}
-                            </select>
+                                <button
+                                    type="button"
+                                    className="navbar-search-category-btn"
+                                    onClick={() => setCategoryDropdownOpen((prev) => !prev)}
+                                >
+                                    <span>{selectedCategoryLabel}</span>
+                                </button>
+
+                                {categoryDropdownOpen && (
+                                    <ul className="navbar-search-category-dropdown">
+                                        <li
+                                            className={`navbar-search-category-item ${selectedCategory === "all" ? "active" : ""}`}
+                                            onClick={() => handleCategorySelect("all")}
+                                        >
+                                            {t('search.categories.all')}
+                                        </li>
+                                        {categories.map((cat) => (
+                                            <li
+                                                key={cat.id}
+                                                className={`navbar-search-category-item ${selectedCategory === cat.slug ? "active" : ""}`}
+                                                onClick={() => handleCategorySelect(cat.slug)}
+                                            >
+                                                {i18n.language === 'az' ? cat.name_az : cat.name_en}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
+                            </div>
 
                             <div className="navbar-search-input-wrapper">
                                 <input
@@ -248,7 +290,6 @@ const Header = () => {
                                                     <div
                                                         key={product.id}
                                                         className="navbar-search-dropdown-item"
-                                                        // onMouseDown onClick-dən daha tez tətiklənir və blur probleminin qarşısını alır
                                                         onMouseDown={() => handleSuggestionClick(product)}
                                                         style={{ cursor: "pointer" }}
                                                     >
@@ -303,8 +344,7 @@ const Header = () => {
                             </div>
 
                             <div className="navbar-user-actions">
-                                {/* min-320px-də bu blok gizlənir, əvəzinə toggle menyunun içindəki
-                                    .navbar-user-mobile göstərilir (aşağıya bax) */}
+
                                 <div className="navbar-icon navbar-user-wrapper">
                                     {renderUserBlock(false)}
                                 </div>
@@ -344,7 +384,6 @@ const Header = () => {
                 <div className="navbar-bottom container-fluid">
                     <div className="navbar-bottom-right">
                         <div className={`navbar-nav-collapse${menuOpen ? " navbar-nav-collapse--open" : ""}`}>
-                            {/* min-320px üçün username/login bloku toggle menyunun içində */}
                             <div className="navbar-user-mobile">
                                 {renderUserBlock(true)}
                             </div>
