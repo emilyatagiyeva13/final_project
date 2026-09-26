@@ -230,3 +230,50 @@ $font: "Josefin Sans", "Segoe UI", sans-serif;
     }
   }
 }
+
+@media (max-width: 860px) {
+  .signup-page {
+    .form-container {
+      padding: 32px 24px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-page {
+    .brand-panel {
+      padding: 32px 20px;
+      min-height: 220px;
+
+      .brand-mark {
+        margin-bottom: 32px;
+      }
+
+      .brand-quote p {
+        font-size: 18px;
+      }
+
+      .brand-shelf {
+        span {
+          width: 18px;
+
+          &:nth-child(1) { height: 48px; }
+          &:nth-child(2) { height: 70px; }
+          &:nth-child(3) { height: 38px; }
+          &:nth-child(4) { height: 80px; }
+          &:nth-child(5) { height: 54px; }
+        }
+      }
+    }
+
+    .form-container {
+      padding: 24px 16px;
+
+      .signup-form {
+        .form-title {
+          font-size: 26px;
+        }
+      }
+    }
+  }
+}

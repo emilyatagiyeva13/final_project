@@ -284,3 +284,48 @@ $font: "Josefin Sans", "Segoe UI", sans-serif;
     }
   }
 }
+
+@media (max-width: 860px) {
+  .login-page {
+    .form-container {
+      padding: 32px 24px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .login-page {
+    .brand-panel {
+      padding: 32px 20px;
+      min-height: 220px;
+
+      .brand-mark {
+        margin-bottom: 32px;
+      }
+
+      .brand-quote p {
+        font-size: 18px;
+      }
+
+      .brand-pages {
+        width: 160px;
+        height: 160px;
+      }
+    }
+
+    .form-container {
+      padding: 24px 16px;
+
+      .login-form {
+        .form-title {
+          font-size: 26px;
+        }
+
+        .form-row {
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+      }
+    }
+  }
+}

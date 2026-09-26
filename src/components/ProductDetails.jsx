@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useLanguage } from "../context/LangContext.jsx";
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import Swal from "sweetalert2";
 import { supabase } from "../supabaseClient";
 import "../assets/scss/ProductDetails.scss";
@@ -10,6 +10,9 @@ import Loader from "../components/Loader.jsx";
 import useCartStore from "../store/useCartStore.js";
 import ReviewList from "../components/Feedback/ReviewList.jsx";
 import RecommendedProducts from "./RecommendedProducts.jsx";
+import { useAuthStore } from "../store/authStore.js";
+import { useWishlistStore } from "../store/useWishlistStore.js";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 const ProductDetails = () => {
   const { slug } = useParams();
@@ -22,15 +25,26 @@ const ProductDetails = () => {
   const addItem = useCartStore((state) => state.addItem);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
 
-
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const user = useAuthStore((state) => state.user);
+  const toggleWishlist = useWishlistStore((state) => state.toggleWishlist);
+  const wishlist = useWishlistStore((state) => state.wishlist);
+  const isInWishlist = product ? wishlist.includes(product.id) : false;
 
-  // İstifadəçinin +/- ilə seçdiyi say. null olsa, səbətdəki say (yoxdursa 1) göstərilir
   const [selectedQty, setSelectedQty] = useState(null);
-
   const [reviewsRefreshKey] = useState(0);
+
+  const toastOptions = {
+    position: "top-right",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    transition: Bounce,
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -61,7 +75,6 @@ const ProductDetails = () => {
     fetchProduct();
   }, [slug]);
 
-  // Effect əvəzinə render zamanı hesablanır
   const inCart = product ? cartItems.find((i) => i.id === product.id) : undefined;
   const quantity = selectedQty ?? inCart?.quantity ?? 1;
 
@@ -106,6 +119,26 @@ const ProductDetails = () => {
     }
   };
 
+  const handleWishlistClick = async (e) => {
+    e.stopPropagation();
+    if (!product) return;
+
+    if (!user) {
+      toast.error(t("card.loginRequired"), toastOptions);
+      navigate("/login");
+      return;
+    }
+
+    const wasInWishlist = isInWishlist;
+    await toggleWishlist(product.id);
+
+    if (wasInWishlist) {
+      toast.info(t("card.removedFromWishlist"), toastOptions);
+    } else {
+      toast.success(t("card.addedToWishlist"), toastOptions);
+    }
+  };
+
   if (loading) {
     return (
       <div className="product-status-wrapper">
@@ -147,7 +180,6 @@ const ProductDetails = () => {
     <section className="product-details">
       <div className="container">
         <div className="row g-5 align-items-center">
-          {/* Sol: Şəkil Qalereyası */}
           <div className="col-12 col-lg-5">
             <div className="product-img-wrapper">
               <img
@@ -174,7 +206,6 @@ const ProductDetails = () => {
                   className="author-card"
                   onClick={() => navigate(`/author/${product.authors.slug}`)}
                 >
-                  
                   <span className="author-name">{product.authors.name}</span>
                 </div>
               )}
@@ -232,7 +263,6 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              {/* Miqdar və Əməliyyatlar */}
               <div className="actions-wrapper">
                 {product.stock > 0 && (
                   <div className="quantity-selector">
@@ -263,6 +293,12 @@ const ProductDetails = () => {
                       ? t("product.updateCart", "Səbəti yenilə")
                       : t("product.addToCart", "Səbətə əlavə et")}
                 </button>
+                <button
+                  className="card-hover-heart"
+                  onClick={handleWishlistClick}
+                >
+                  {isInWishlist ? <FaHeart color="red" /> : <FaRegHeart />}
+                </button>
               </div>
             </div>
           </div>
@@ -279,10 +315,9 @@ const ProductDetails = () => {
           </div>
         </div>
 
-        <RecommendedProducts/>
+        <RecommendedProducts />
       </div>
     </section>
   );
 };
-
 export default ProductDetails;

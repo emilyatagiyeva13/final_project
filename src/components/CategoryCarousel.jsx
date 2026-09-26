@@ -48,7 +48,7 @@ const CategoryCarousel = () => {
                 modules={[FreeMode, Pagination]}
                 breakpoints={{
                     0: {
-                        slidesPerView: 2,
+                        slidesPerView: 1,
                         spaceBetween: 15,
                     },
                     576: {

@@ -37,7 +37,8 @@
     "addedToCart": "Səbətə əlavə olundu",
     "addedToWishlist": "İstək siyahısına əlavə olundu",
     "removedFromWishlist": "İstək siyahısından silindi",
-    "addToCart": "Səbətə əlavə et"
+    "addToCart": "Səbətə əlavə et",
+    "loginRequired":"Giriş etməlisiz!"
   },
   "checkout": {
     "header": "Ödəniş və Çatdırılma",

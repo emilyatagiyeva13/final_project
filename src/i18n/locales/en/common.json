@@ -37,7 +37,8 @@
     "addedToCart": "Added to cart",
     "addedToWishlist": "Added to wishlist",
     "removedFromWishlist": "Removed from wishlist",
-    "addToCart": "Add to Cart"
+    "addToCart": "Add to Cart",
+    "loginRequired":"You must log in!"
   },
   "checkout": {
     "header": "Payment and Delivery",

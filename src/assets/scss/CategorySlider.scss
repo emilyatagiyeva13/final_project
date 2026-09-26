@@ -1,4 +1,3 @@
-// ─── THEME VARIABLES (Kateqoriya bölməsi üçün) ────────────────────────────────
 :root[data-theme="light"] {
     --cat-bg: #ffffff;
     --cat-border: #f0f0f0;
@@ -25,7 +24,6 @@
     --cat-pagination-bg: #4a5568;
 }
 
-// ─── CATEGORY CAROUSEL & CARDS ──────────────────────────────────────────────
 .category-carousel-container {
     padding: 80px 0;
     margin: 0 auto;
@@ -125,7 +123,6 @@
     }
 }
 
-// ─── RESPONSIVE (KATEQORIYA KARUSELI) ───────────────────────────────────────
 
 @media (max-width: 1200px) {
     .category-carousel-container {
@@ -192,6 +189,7 @@
 
         .category-card {
             height: 220px;
+            width: 100%;
             padding: 20px 10px;
             border-radius: 16px;
 

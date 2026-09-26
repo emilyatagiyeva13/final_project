@@ -8,7 +8,9 @@ import EmptyWishlist from "../components/EmptyWishList.jsx";
 import { useTranslation } from "react-i18next";
 
 const Wishlist = () => {
-  const { t } = useTranslation("common")
+  const { t, i18n } = useTranslation("common");
+  const lang = i18n.language;
+
   const wishlist = useWishlistStore((state) => state.wishlist);
   const wishlistLoading = useWishlistStore((state) => state.loading);
   const fetchWishlist = useWishlistStore((state) => state.fetchWishlist);
@@ -35,7 +37,9 @@ const Wishlist = () => {
                     id,
                     slug,
                     title_az,
+                    title_en,
                     description_az,
+                    description_en,
                     price,
                     stock,
                     image_url,
@@ -51,6 +55,9 @@ const Wishlist = () => {
       } else {
         const formatted = data.map((book) => ({
           ...book,
+          title: lang === "en" ? book.title_en : book.title_az,
+          description: lang === "en" ? book.description_en : book.description_az,
+          category: lang === "en" ? book.categories?.name_en : book.categories?.name_az,
           author: book.authors?.name,
         }));
         setProducts(formatted);
@@ -59,7 +66,7 @@ const Wishlist = () => {
     };
 
     fetchProducts();
-  }, [wishlist]);
+  }, [wishlist, lang]);
 
   if (wishlistLoading || productsLoading) {
     return (

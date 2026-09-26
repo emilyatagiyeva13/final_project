@@ -1,6 +1,9 @@
 {
     "card": {
-        "addToCart": "Add to cart"
+        "addToCart": "Add to cart",
+        "removedFromWishlist": "Removed from wishlit",
+        "addedToWishlist":"Added to wislist"
+
     },
     "showing": "Showing:",
     "of": "of",

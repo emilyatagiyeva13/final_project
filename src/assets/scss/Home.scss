@@ -99,7 +99,6 @@ h1 {
 
         .discover-btn {
             background: var(--btn-bg);
-            /* Hardcode #2A7A3B yerinə dəyişən */
             color: var(--btn-text);
             border: none;
             padding: 12px 28px;
@@ -116,7 +115,6 @@ h1 {
 
             &:hover {
                 background: var(--btn-hover);
-                /* Artıq :root-da tanımlıdır */
                 transform: scale(1.05);
                 box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
             }

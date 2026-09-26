@@ -49,7 +49,7 @@
   }
 }
 
-/* Sol Tərəf: Şəkil Qalereyası (Kiçildilmiş və Balanslaşdırılmış) */
+
 .product-img-wrapper {
   position: relative;
   background-color: var(--bg-card);
@@ -320,15 +320,15 @@
     }
   }
 
-  /* Miqdar və Səbət Düyməsi */
-  .actions-wrapper {
+   .actions-wrapper {
     display: flex;
     gap: 14px;
     align-items: center;
+    flex-wrap: wrap;
 
     @media (max-width: 576px) {
-      flex-direction: column;
-      align-items: stretch;
+      flex-wrap: wrap;
+      justify-content: center;
     }
 
     .quantity-selector {
@@ -340,6 +340,10 @@
       padding: 4px;
       height: 50px;
       gap: 4px;
+
+      @media (max-width: 576px) {
+        order: 1;
+      }
 
       button {
         background-color: var(--bg-card);
@@ -386,6 +390,7 @@
 
     .add-to-cart-btn {
       flex: 1;
+      min-width: 160px;
       height: 50px;
       background-color: var(--primary);
       color: #ffffff;
@@ -398,6 +403,12 @@
       box-shadow: 0 8px 16px -4px rgba(2, 122, 54, 0.35);
       padding: 0 20px;
       white-space: nowrap;
+
+      @media (max-width: 576px) {
+        order: 2;
+        width: 100%;
+        flex: none;
+      }
 
       &:hover:not(:disabled) {
         background-color: var(--primary-hover);
@@ -415,10 +426,36 @@
         opacity: 0.5;
       }
     }
+
+    .card-hover-heart {
+      width: 35px;
+      height: 35px;
+      flex-shrink: 0;
+      background: var(--card-icon-bg);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      color: var(--card-icon-color);
+      transition: 0.3s, background-color 0.4s ease, color 0.4s ease;
+      z-index: 5;
+      border: 1px solid var(--card-icon-border);
+      cursor: pointer;
+
+      @media (max-width: 576px) {
+        order: 3;
+      }
+
+      &:hover {
+        color: var(--card-icon-hover);
+        transform: scale(1.1);
+      }
+    }
   }
 }
 
-/* Yüklənmə və Xəta Vəziyyətləri */
+
 .product-status-wrapper {
   min-height: 60vh;
   display: flex;

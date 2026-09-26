@@ -1,6 +1,9 @@
 {
     "card": {
-        "addToCart": "Səbətə əlavə et"
+        "addToCart": "Səbətə əlavə et",
+        "removedFromWishlist": "İstək siyahısından silindi",
+        "addedToWishlist":"İstək siyahısına əlavə olunu"
+
     },
     "showing": "Göstərilir:",
     "of": "-i",
@@ -23,11 +26,11 @@
         "updateCart": "Səbəti yenilə",
         "addToCart": "Səbətə əlavə et"
     },
-    "reviews":{
-        "sectionTitle":"Rəylər"
+    "reviews": {
+        "sectionTitle": "Rəylər"
     },
-    "pagination":{
-        "prev":"Geri",
-        "next":"İrəli"
+    "pagination": {
+        "prev": "Geri",
+        "next": "İrəli"
     }
 }
