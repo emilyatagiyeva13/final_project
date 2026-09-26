@@ -26,6 +26,8 @@
   },
   "user": {
     "logout": "Çıxış",
-    "login": "Giriş"
+    "login": "Giriş",
+    "loggedOut": "Hesabınızdan çıxış etdiniz"
+
   }
 }

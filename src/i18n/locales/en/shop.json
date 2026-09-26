@@ -2,8 +2,7 @@
     "card": {
         "addToCart": "Add to cart",
         "removedFromWishlist": "Removed from wishlit",
-        "addedToWishlist":"Added to wislist"
-
+        "addedToWishlist": "Added to wislist"
     },
     "showing": "Showing:",
     "of": "of",
@@ -32,5 +31,8 @@
     "pagination": {
         "prev": "Back",
         "next": "Next"
+    },
+    "filters": {
+        "price_clear": "Clear"
     }
 }

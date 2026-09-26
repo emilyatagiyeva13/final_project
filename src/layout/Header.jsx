@@ -160,14 +160,14 @@ const Header = () => {
     }
 
     const handleLogout = async () => {
-        await logout()
-        toast.warning("You logged out from your account", {
-            position: "top-right",
-            autoClose: 3000,
-            transition: Bounce,
-        })
-        navigate("/")
-    }
+    await logout()
+    toast.warning(t('user.loggedOut'), {
+        position: "top-right",
+        autoClose: 3000,
+        transition: Bounce,
+    })
+    navigate("/")
+}
 
     const selectedCategoryLabel = selectedCategory === "all"
         ? t('search.categories.all')

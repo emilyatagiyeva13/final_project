@@ -84,7 +84,7 @@ const Home = () => {
     .sort((a, b) => b[1].total - a[1].total)
     .slice(0, 3);
 
-  const topBooksByCategory = topCategories.map(([categoryName, data]) => {
+  const topBooksByCategory = topCategories.map(([, data]) => {
     return [...data.books].sort((a, b) => (b.sold_count ?? 0) - (a.sold_count ?? 0))[0];
   });
 

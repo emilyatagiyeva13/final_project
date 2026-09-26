@@ -3,7 +3,7 @@
     "placeholder": "Search products...",
     "button": "Search",
     "viewAll": "See all results",
-    "noResults":"No results",
+    "noResults": "No results",
     "categories": {
       "all": "All",
       "books": "Books",
@@ -26,6 +26,7 @@
   },
   "user": {
     "logout": "Logout",
-    "login": "Login"
+    "login": "Login",
+    "loggedOut": "You logged from your account"
   }
 }

@@ -61,7 +61,7 @@ const Footer = () => {
               <span>+(84) - 1800 - 4635</span>
             </div>
             <div className="email">
-              <span>contact@example.com</span>
+              <span>contact@bokifa.com</span>
             </div>
           </div>
         </div>

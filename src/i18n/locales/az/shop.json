@@ -2,8 +2,7 @@
     "card": {
         "addToCart": "Səbətə əlavə et",
         "removedFromWishlist": "İstək siyahısından silindi",
-        "addedToWishlist":"İstək siyahısına əlavə olunu"
-
+        "addedToWishlist": "İstək siyahısına əlavə olunu"
     },
     "showing": "Göstərilir:",
     "of": "-i",
@@ -32,5 +31,8 @@
     "pagination": {
         "prev": "Geri",
         "next": "İrəli"
+    },
+    "filters": {
+        "price_clear": "Təmizlə"
     }
 }

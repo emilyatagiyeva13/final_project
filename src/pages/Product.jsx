@@ -88,6 +88,17 @@ const Product = () => {
     setMaxPrice(maxPriceParam || "");
   }
 
+
+  // clear price 
+  const handleClearPrice = () => {
+    setMinPrice("");
+    setMaxPrice("");
+    searchParams.delete("minPrice");
+    searchParams.delete("maxPrice");
+    searchParams.delete("page");
+    setSearchParams(searchParams);
+  };
+
   const content = useMemo(
     () => buildContentMap(contentRows, localize),
     [contentRows, localize]
@@ -400,9 +411,22 @@ const Product = () => {
                     onChange={(e) => setMaxPrice(e.target.value)}
                   />
                 </div>
-                <button className="price-apply-btn" onClick={applyPriceRange}>
-                  {content.filters?.price_apply}
-                </button>
+
+                <div className="price-actions d-flex gap-2">
+                  <button className="price-apply-btn" onClick={applyPriceRange}>
+                    {content.filters?.price_apply}
+                  </button>
+
+                  {(minPrice || maxPrice) && (
+                    <button
+                      type="button"
+                      className="price-clear-btn"
+                      onClick={handleClearPrice}
+                    >
+                      {t("filters.price_clear")}
+                    </button>
+                  )}
+                </div>
               </div>
             </div>
           </div>
